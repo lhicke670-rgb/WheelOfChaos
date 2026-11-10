@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Roulette</title>
+<style>
+:root{color-scheme:dark;--bg:#10111b;--panel:#191b29;--panel2:#202337;--text:#f5f3ff;--muted:#aaa9c0;--accent:#b49aff;--line:#34364c;--good:#8fe0b4}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% -15%,#30264b 0%,#171827 42%,var(--bg) 78%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+header{max-width:1180px;margin:auto;padding:34px 22px 18px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#b99aff,#6e8bff);display:grid;place-items:center;font-size:23px;box-shadow:0 8px 30px #8b73ff44}
+h1{font-size:clamp(25px,4vw,36px);line-height:1.1;margin:0;letter-spacing:-1px} .subtitle{color:var(--muted);margin:6px 0 0}
+main{max-width:1180px;margin:auto;padding:10px 22px 60px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 22px}
+button{border:1px solid var(--line);background:#292b40;color:var(--text);border-radius:12px;padding:11px 16px;font:inherit;font-weight:650;cursor:pointer;transition:.18s}
+button:hover{transform:translateY(-1px);border-color:#8170ba;background:#333550}
+button:disabled{opacity:.55;cursor:wait;transform:none}
+.primary{background:linear-gradient(135deg,#9675ef,#6e80e8);border:0;color:white;box-shadow:0 8px 24px #8066e544}
+.secondary{background:transparent}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:18px;align-items:start}
+.panel{background:linear-gradient(160deg,#1d2031ee,#171927ee);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:0 14px 40px #0002}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+h2{font-size:18px;margin:0;letter-spacing:-.3px}.hint{font-size:12px;color:var(--muted)}
+.wheel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.wheel-card{background:#222539;border:1px solid #373951;border-radius:17px;padding:13px;min-width:0}
+.wheel-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.wheel-name{font-weight:750}.tag{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#c4b5fd;background:#5b4b872b;border:1px solid #66558f66;border-radius:20px;padding:3px 7px}
+.wheel-wrap{position:relative;width:min(100%,220px);aspect-ratio:1;margin:5px auto 10px;display:grid;place-items:center}
+.wheel{width:100%;height:100%;border-radius:50%;border:6px solid #e9e4ff;box-shadow:0 0 0 4px #ffffff14,0 9px 24px #0007;position:relative;overflow:hidden;transform:rotate(0deg);transition:transform 3.2s cubic-bezier(.12,.72,.12,1)}
+.wheel:after{content:"";position:absolute;inset:40%;border-radius:50%;background:#f6f2ff;border:5px solid #29233c;box-shadow:0 2px 9px #0007}
+.pointer{position:absolute;z-index:3;top:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:25px solid #fff;filter:drop-shadow(0 2px 3px #0009)}
+.wheel-label{position:absolute;left:50%;top:50%;width:44%;height:20px;margin-top:-10px;transform-origin:0 50%;font-size:10px;font-weight:800;text-align:right;padding-right:8px;color:#171523;text-shadow:0 1px 0 #ffffff55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result{min-height:24px;text-align:center;font-weight:750;color:#e8dcff;margin-bottom:8px}
+.wheel-actions{display:flex;justify-content:center;gap:8px}.wheel-actions button{padding:8px 13px;font-size:13px}
+.sheet{position:sticky;top:16px}.character-name{width:100%;background:#111321;border:1px solid #41445e;color:white;border-radius:11px;padding:11px 12px;font:inherit;margin:12px 0 15px}
+.sheet-group{margin-top:15px}.sheet-group h3{font-size:11px;color:#b9aedb;text-transform:uppercase;letter-spacing:1.2px;margin:0 0 8px}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{background:#222539;border:1px solid #363950;border-radius:12px;padding:10px 11px;min-width:0}
+.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:16px;display:block;overflow-wrap:anywhere}
+.result-list{display:grid;gap:7px}.result-row{display:flex;justify-content:space-between;gap:12px;background:#222539;border:1px solid #363950;border-radius:11px;padding:9px 11px}.result-row span:first-child{color:var(--muted);font-size:12px}.result-row strong{text-align:right;font-size:13px;overflow-wrap:anywhere}
+.sheet-actions{display:flex;gap:8px;margin-top:16px}.sheet-actions button{flex:1;padding:9px 10px;font-size:13px}
+.saved{margin-top:16px}.saved-list{display:grid;gap:7px;margin-top:9px}.saved-item{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#222539;border-radius:10px;padding:8px 10px;font-size:13px}
+.saved-item button{padding:5px 8px;font-size:11px}
+.notice{color:var(--muted);font-size:12px;margin:15px 2px 0}
+footer{text-align:center;color:#77788f;font-size:12px;padding:0 20px 28px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sheet{position:static}.wheel-wrap{width:min(100%,190px)}}
+@media(max-width:480px){header{padding:24px 16px 12px}main{padding:8px 14px 40px}.wheel-grid{grid-template-columns:1fr}.wheel-wrap{width:min(100%,220px)}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">🎲</div><div><h1>Character Roulette</h1><p class="subtitle">Spin the wheels. Discover your character.</p></div></div>
+</header>
+<main>
+ <div class="toolbar">
+  <button class="primary" id="spinAll">✦ Spin all unlocked</button>
+  <button class="secondary" id="reset">Reset character</button>
+  <button class="secondary" id="editOptions">Edit wheel options</button>
+ </div>
+ <div class="layout">
+  <section class="panel">
+   <div class="section-head"><h2>Character wheels</h2><span class="hint">Tap a wheel to roll that attribute</span></div>
+   <div class="wheel-grid" id="wheelGrid"></div>
+   <p class="notice">The numbered stats use a weighted roll: 4 is most likely, while 8 and 9 have equal odds. Independent powers and equipment have a 25% chance of nothing.</p>
+  </section>
+  <aside class="panel sheet">
+   <div class="section-head"><h2>Your character</h2><span class="tag">Character sheet</span></div>
+   <input class="character-name" id="characterName" placeholder="Give your character a name…" maxlength="40">
+   <div class="sheet-group"><h3>Core attributes</h3><div class="stat-grid" id="statGrid"></div></div>
+   <div class="sheet-group"><h3>Abilities & equipment</h3><div class="result-list" id="detailList"></div></div>
+   <div class="sheet-actions"><button class="primary" id="saveCharacter">Save character</button><button id="exportCharacter">Export</button></div>
+   <div class="saved"><h3>Saved characters</h3><div class="saved-list" id="savedList"><span class="hint">No saved characters yet.</span></div></div>
+  </aside>
+ </div>
+</main>
+<footer>Character Roulette · A first prototype — your characters stay in this browser.</footer>
+<script>
+const palette=["#f7a8b8","#ffd27f","#a9e6c5","#8fd5e8","#b6a7f8","#f5a6e3","#c9df8a","#f5b18e","#9bb8f5","#d5b1ff"];
+const statWeights=[1,2,3,5,4,3,2,1,1]; // 4 peaks; 8 and 9 are equally weighted
+const wheelDefs=[
+ {id:"race",name:"Race",type:"choice",tag:"Identity",items:["Human","Elf","Dwarf","Orc","Giant","Angel","Demon","God","Hybrid","Vampire","Schleeb"]},
+ {id:"class",name:"Class",type:"choice",tag:"Identity",items:["Warrior","Mage","Rogue","Ranger","Paladin","Monk","Bard","Cleric","Artificer","Druid"]},
+ {id:"strength",name:"Strength",type:"stat",tag:"Stat"},
+ {id:"speed",name:"Speed",type:"stat",tag:"Stat"},
+ {id:"durability",name:"Durability",type:"stat",tag:"Stat"},
+ {id:"iq",name:"IQ",type:"stat",tag:"Stat"},
+ {id:"powers",name:"Powers",type:"power",tag:"Ability",items:["Super strength","Flight","Telekinesis","Elemental control","Invisibility","Healing","Super speed","Energy blast","Shapeshifting","Nothing"]},
+ {id:"powerLevel",name:"Power Level",type:"stat",tag:"Stat"},
+ {id:"weapons",name:"Weapons",type:"weapon",tag:"Equipment",items:["Sword","Bow","Staff","Daggers","Axe","Spear","Hammer","Whip","Nothing"]},
+ {id:"weaponMastery",name:"Weapon Mastery",type:"stat",tag:"Stat"},
+ {id:"enchantments",name:"Enchantments",type:"enchantment",tag:"Bonus",items:["Flaming","Frost","Lightning","Poisoned","Holy","Cursed","Vampiric","Nothing"]}
+];
+const raceBonuses={
+ Human:{},Elf:{powers:["Flight"]},Dwarf:{weapons:["Warhammer"]},Orc:{strength:1,iq:-1},
+ Giant:{strength:2},Angel:{powers:["Flight"]},Demon:{powers:["Pyrokinesis"]},God:{powers:["Random godly power"]},
+ Vampire:{powers:["Flight","Soul-sucking fangs"]},Schleeb:{}
+};
+let values={},rawStats={},locked=new Set(),spinning=new Set(),saved=[];
+const grid=document.getElementById("wheelGrid");
+const statGrid=document.getElementById("statGrid");
+const detailList=document.getElementById("detailList");
+const savedList=document.getElementById("savedList");
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function weightedStat(){let total=statWeights.reduce((a,b)=>a+b,0),r=Math.random()*total;for(let i=0;i<statWeights.length;i++){r-=statWeights[i];if(r<0)return i+1;}return 9}
+function pick(items){return items[Math.floor(Math.random()*items.length)]}
+function weightedPick(def){if(def.type==="stat")return String(weightedStat());let items=[...def.items];if(["power","weapon","enchantment"].includes(def.type)){if(Math.random()<.25)return "Nothing";items=items.filter(x=>x!=="Nothing")}return pick(items)}
+function renderWheels(){
+ grid.innerHTML="";
+ wheelDefs.forEach(def=>{
+  let card=document.createElement("div");card.className="wheel-card";card.innerHTML=`
+   <div class="wheel-top"><span class="wheel-name">${def.name}</span><span class="tag">${def.tag}</span></div>
+   <div class="wheel-wrap"><div class="pointer"></div><div class="wheel" id="wheel-${def.id}"></div></div>
+   <div class="result" id="result-${def.id}">${values[def.id]??"Ready to spin"}</div>
+   <div class="wheel-actions"><button class="spin-one" data-id="${def.id}">↻ Spin</button><button class="lock-one" data-id="${def.id}">${locked.has(def.id)?"🔒 Locked":"◇ Lock"}</button></div>`;
+  grid.appendChild(card);drawWheel(def);
+ });
+}
+function drawWheel(def){
+ const el=document.getElementById("wheel-"+def.id);if(!el)return;
+ let items=def.type==="stat"?["1","2","3","4","5","6","7","8","9"]:def.items;
+ let n=items.length,step=360/n;
+ el.style.background=`conic-gradient(${items.map((_,i)=>`${palette[i%palette.length]} ${i*step}deg ${(i+1)*step}deg`).join(",")})`;
+ el.innerHTML=items.map((item,i)=>`<span class="wheel-label" style="transform:rotate(${i*step+step/2}deg) translateX(-100%)">${escapeHTML(item)}</span>`).join("");
+}
+function updateSheet(){
+ const statDefs=wheelDefs.filter(d=>d.type==="stat"||["race","class"].includes(d.id));
+ statGrid.innerHTML=statDefs.map(d=>`<div class="stat"><small>${d.name}</small><strong>${escapeHTML(values[d.id]??"—")}</strong></div>`).join("");
+ const detailDefs=wheelDefs.filter(d=>["power","weapon","enchantment"].includes(d.type));
+ detailList.innerHTML=detailDefs.map(d=>`<div class="result-row"><span>${d.name}</span><strong>${escapeHTML(values[d.id]??"—")}</strong></div>`).join("");
+}
+function updateResult(id,value){values[id]=value;let el=document.getElementById("result-"+id);if(el)el.textContent=value;updateSheet()}
+function applyBonuses(){
+ ["strength","speed","durability","iq","powerLevel","weaponMastery"].forEach(k=>{if(rawStats[k]!==undefined)values[k]=rawStats[k]});
+ const race=values.race,bonus=raceBonuses[race];if(!bonus)return;
+ if(bonus.strength&&values.strength!==undefined)values.strength=String(Math.max(1,Math.min(9,Number(values.strength)+bonus.strength)));
+ if(bonus.iq&&values.iq!==undefined)values.iq=String(Math.max(1,Math.min(9,Number(values.iq)+bonus.iq)));
+ if(bonus.powers){let current=values.powers&&values.powers!=="Nothing"?values.powers+" + ":"";values.powers=current+bonus.powers.join(", ")}
+ if(bonus.weapons){let current=values.weapons&&values.weapons!=="Nothing"?values.weapons+" + ":"";values.weapons=current+bonus.weapons.join(", ")}
+}
+function spin(id){
+ if(spinning.has(id)||locked.has(id))return;
+ const def=wheelDefs.find(d=>d.id===id);if(!def)return;
+ spinning.add(id);const btn=document.querySelector(`.spin-one[data-id="${id}"]`);if(btn)btn.disabled=true;
+ const value=weightedPick(def),wheel=document.getElementById("wheel-"+id);
+ const segments=def.type==="stat"?["1","2","3","4","5","6","7","8","9"]:def.items;
+ const index=Math.max(0,segments.indexOf(value)),step=360/segments.length;
+ const turns=5+Math.floor(Math.random()*4),angle=turns*360+360-(index+.5)*step;
+ wheel.style.transition="none";wheel.style.transform="rotate(0deg)";void wheel.offsetWidth;
+ wheel.style.transition="transform 3.2s cubic-bezier(.12,.72,.12,1)";
+ wheel.style.transform=`rotate(${angle}deg)`;
+ setTimeout(()=>{
+  if(def.type==="stat")rawStats[id]=value;else values[id]=value;
+  applyBonuses();updateSheet();
+  wheelDefs.forEach(d=>{if(values[d.id]!==undefined){let r=document.getElementById("result-"+d.id);if(r)r.textContent=values[d.id]}});
+  spinning.delete(id);if(btn)btn.disabled=false;
+ },3250);
+}
+document.addEventListener("click",e=>{
+ const spinBtn=e.target.closest(".spin-one");if(spinBtn)spin(spinBtn.dataset.id);
+ const lockBtn=e.target.closest(".lock-one");if(lockBtn){let id=lockBtn.dataset.id;if(locked.has(id))locked.delete(id);else locked.add(id);lockBtn.textContent=locked.has(id)?"🔒 Locked":"◇ Lock"}
+});
+document.getElementById("spinAll").addEventListener("click",()=>{
+ wheelDefs.forEach(d=>{if(!locked.has(d.id))spin(d.id)});
+});
+document.getElementById("reset").addEventListener("click",()=>{
+ values={};rawStats={};locked.clear();wheelDefs.forEach(d=>{let w=document.getElementById("wheel-"+d.id);if(w){w.style.transition="transform .4s";w.style.transform="rotate(0deg)"}});
+ document.getElementById("characterName").value="";renderWheels();updateSheet();
+});
+document.getElementById("editOptions").addEventListener("click",()=>{
+ const lines=wheelDefs.filter(d=>d.items).map(d=>`${d.name}: ${d.items.join(", ")}`).join("\n\n");
+ const edited=prompt("Edit wheel options below. Keep one option per line, using the format Attribute: option, option.\n\n"+lines);
+ if(edited===null)return;
+ edited.split("\n").forEach(line=>{let i=line.indexOf(":");if(i<0)return;let name=line.slice(0,i).trim().toLowerCase(),def=wheelDefs.find(d=>d.name.toLowerCase()===name);if(def&&def.items){let arr=line.slice(i+1).split(",").map(x=>x.trim()).filter(Boolean);if(arr.length)def.items=arr}});
+ renderWheels();
+});
+function characterObject(){return {name:document.getElementById("characterName").value.trim()||"Unnamed character",created:new Date().toISOString(),attributes:{...values}}}
+document.getElementById("saveCharacter").addEventListener("click",()=>{
+ if(!Object.keys(values).length){alert("Spin at least one wheel before saving a character.");return}
+ let c=characterObject();saved.unshift(c);try{localStorage.setItem("characterRoulette.saved",JSON.stringify(saved))}catch(e){}renderSaved();
+});
+function renderSaved(){savedList.innerHTML=saved.length?saved.map((c,i)=>`<div class="saved-item"><span>${escapeHTML(c.name)}</span><button data-load="${i}">Load</button></div>`).join(""):'<span class="hint">No saved characters yet.</span>'}
+savedList.addEventListener("click",e=>{let b=e.target.closest("[data-load]");if(!b)return;let c=saved[Number(b.dataset.load)];values={...c.attributes};rawStats={};wheelDefs.filter(d=>d.type==="stat").forEach(d=>{if(values[d.id]!==undefined)rawStats[d.id]=values[d.id]});document.getElementById("characterName").value=c.name;wheelDefs.forEach(d=>{let r=document.getElementById("result-"+d.id);if(r)r.textContent=values[d.id]??"Ready to spin"});updateSheet()});
+document.getElementById("exportCharacter").addEventListener("click",()=>{
+ if(!Object.keys(values).length){alert("Spin at least one wheel before exporting.");return}
+ let blob=new Blob([JSON.stringify(characterObject(),null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="character.json";a.click();URL.revokeObjectURL(url);
+});
+try{saved=JSON.parse(localStorage.getItem("characterRoulette.saved")||"[]")}catch(e){saved=[]}
+renderWheels();updateSheet();renderSaved();
+</script>
+</body>
+</html>
