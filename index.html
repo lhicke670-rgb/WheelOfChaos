@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Character Roulette V6 — Guided Wheels & Championships</title>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wheel of Destiny — Character Creator & Tournaments</title>
 <style>
 :root{color-scheme:dark;--bg:#10111b;--panel:#1b1d2d;--panel2:#25273b;--line:#3b3d57;--text:#f4f1ff;--muted:#adaac3;--accent:#b8a1ff;--gold:#f8da9b;--good:#90e0bd}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 55% -10%,#31244d,transparent 50%),#10111b;color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;color:var(--text);padding:10px 14px;border:1px solid var(--line);background:#303148;border-radius:11px;font-weight:700}button:hover:not(:disabled){background:#3c3b59;border-color:#9b86d9}button:disabled{opacity:.43;cursor:not-allowed}.primary{background:linear-gradient(130deg,#9b77e9,#6585df);border:0;color:#fff}.primary:hover:not(:disabled){filter:brightness(1.09)}.subtle{background:transparent}.danger{background:#4a2938;border-color:#7e4f60;color:#ffc6d1}input,select{background:#111420;color:#fff;border:1px solid #474b65;border-radius:10px;padding:10px 12px;max-width:100%}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(26px,4vw,38px);letter-spacing:-1px;margin:0;line-height:1.1}h2{font-size:19px;margin:0 0 12px}h3{font-size:14px;margin:0 0 9px}p{margin-bottom:12px}.muted,.help{color:var(--muted)}.help{font-size:12px}.eyebrow{color:#b9a5fb;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}
@@ -16,20 +16,38 @@ header{max-width:1210px;margin:auto;padding:28px 20px 6px;display:flex;gap:12px;
 .unlock-notice .unlock-title{font-size:12px;font-weight:900;letter-spacing:.4px;color:#efe4ff}.unlock-notice .unlock-detail{font-size:13px;color:#e0d4fa;margin-top:3px}.unlock-notice small{font-size:11px;color:#b8abcf}
 .bonus-step{color:#f0d5ff;font-weight:850!important}.arena-box{border:1px solid #75619e;border-radius:13px;padding:12px;background:#35294766;margin:10px 0 12px}.arena-box select{width:100%;margin-top:7px}.arena-reroll{width:100%;margin:8px 0 0}
 @keyframes chainIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+
+.combat-result{margin-top:15px;border-top:1px solid #4c4967;padding-top:12px}.combat-result h3{margin-bottom:8px}.combat-hp{display:flex;gap:9px;flex-wrap:wrap}.combat-hp>div{flex:1;min-width:130px;border:1px solid #51496e;border-radius:9px;padding:8px;background:#363249}.combat-log{margin:8px 0 0;padding-left:22px;max-height:300px;overflow-y:auto;font-size:12px}.combat-log li{margin:5px 0;border-bottom:1px solid #3b3851;padding-bottom:4px}
+/* Original colourful spinner icon, inspired by the spinning-wheel aesthetic. */
+.logo{position:relative;isolation:isolate;overflow:hidden;border-radius:15px;background:#f2eeff;width:52px;height:52px;box-shadow:0 5px 17px #0005;}
+.logo-wheel{position:absolute;inset:6px;border-radius:50%;border:2px solid #303052;background:conic-gradient(from -18deg,#f593b5 0 45deg,#ffe17d 45deg 90deg,#89e7b3 90deg 135deg,#83c9fa 135deg 180deg,#bda3ff 180deg 225deg,#ffb9d7 225deg 270deg,#a0f3dc 270deg 315deg,#ffb879 315deg 360deg);transform:rotate(10deg);box-shadow:0 1px 4px #0004;}
+.logo-center{position:absolute;width:11px;height:11px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:#fff;border:2px solid #323052;}
+.logo-arrow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:15px solid #33304e;filter:drop-shadow(0 1px 1px #0004)}
+.wheel-hub{position:absolute;z-index:5;top:50%;left:50%;transform:translate(-50%,-50%);width:19%;min-width:70px;max-width:100px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 34% 25%,#fff,#ede3ff 75%);border:5px solid #302845;box-shadow:0 2px 14px #0008,0 0 0 4px #ffffff77;color:#30234d;font-weight:1000;letter-spacing:.8px;font-size:clamp(12px,2vw,18px);padding:0;transition:filter .15s,box-shadow .15s,transform .15s}
+.wheel-hub:hover:not(:disabled){background:#fff;filter:brightness(1.05);box-shadow:0 3px 20px #000a,0 0 0 7px #cdbaff99;transform:translate(-50%,-50%) scale(1.055)}
+.wheel-hub:focus-visible{outline:4px solid #ffdc97;outline-offset:4px}
+.wheel-hub:disabled{opacity:.87;background:#d9d0ed;color:#655e76;cursor:not-allowed}
+#nameHint{margin-top:-7px;margin-bottom:5px;min-height:17px}
+.name-input:invalid{border-color:#927a9c}
+.library-controls{display:flex;justify-content:flex-end;gap:7px;margin-bottom:12px}.library-controls button{font-size:12px;padding:7px 11px}
+.library-block{margin:0;align-self:start;padding:0}.library-block summary{list-style:none;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800;color:#ede5ff;cursor:pointer;user-select:none}.library-block summary::-webkit-details-marker{display:none}.library-block summary:before{content:'▸';color:#b7a3ef;margin-right:3px}.library-block[open] summary:before{content:'▾'}
+.library-block summary:hover{background:#6d5d9825}.library-block[open] summary{border-bottom:1px solid #403c58;margin-bottom:0}.library-items{padding:10px 14px 14px;max-height:65vh;overflow:auto}.library-items p{margin:5px 0}.rule-count{font-size:11px;font-weight:500;color:#b5a8ca;white-space:nowrap;margin-left:auto}
+@media(max-width:500px){.wheel-hub{min-width:62px;border-width:4px}.library-grid{grid-template-columns:1fr}}
+.automatic-grants{margin:8px auto 0;max-width:530px;text-align:left;background:#222b35;border:1px solid #638e86;border-radius:10px;padding:9px 12px;font-size:12px}.automatic-grants strong{color:#a6ebcf;display:block;margin-bottom:4px}.automatic-grants span{display:block;color:#d7e9e2;padding:2px 0}
 </style></head><body>
-<header><div class="logo">🎲</div><div><h1>Character Roulette</h1><p class="subtitle">One spin at a time. One champion at the end.</p></div></header>
+<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><p class="subtitle">One spin at a time. One champion at the end.</p></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
 <section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp">Conditional sub-race wheels appear automatically.</div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
-<div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div id="unlockNotice" class="unlock-notice" hidden></div></div>
-<div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div></div>
+<div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div id="unlockNotice" class="unlock-notice" hidden></div><div id="autoGrants" class="automatic-grants" hidden></div></div>
+<div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div>
 <div class="controls"><button class="primary" id="spin">↻ Spin this wheel</button><button id="advance" disabled>Next wheel →</button><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote">Spin each wheel and continue to the next step.</p></div>
-<aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><input id="characterName" class="name-input" maxlength="50" placeholder="Name your character">
+<aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name <strong>(required to save)</strong></label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
 <div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button></div>
-<div class="group"><div class="panel-header"><h3>Saved roster (<span id="savedCount">0</span>)</h3><button id="exportRoster" class="subtle" style="font-size:11px;padding:6px 8px">Export all</button></div><div class="saved-list" id="savedList"></div><details><summary class="help">Import saved characters</summary><input id="importRoster" type="file" accept=".json,application/json"><p class="help">Imports characters from a Character Roulette roster JSON file.</p></details></div></aside></div></section>
-<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Start a round-robin league or a single-elimination bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="fields"><label class="help" for="format">Season format</label><select id="format"><option value="league">Round robin — everyone fights everyone</option><option value="knockout">Knockout — tournament bracket</option></select></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Clear season</button></div><p class="notice">Each matchup takes place in a randomly chosen arena with temporary effects, alongside stat, power, weapon and weakness comparisons. Results use an evolving simulation ruleset.</p></div>
+<div class="group"><div class="panel-header"><h3>Saved roster (<span id="savedCount">0</span>)</h3><button id="exportRoster" class="subtle" style="font-size:11px;padding:6px 8px">Export all</button></div><div class="saved-list" id="savedList"></div><details><summary class="help">Import saved characters</summary><input id="importRoster" type="file" accept=".json,application/json"><p class="help">Imports characters from an earlier Character Roulette or Wheel of Destiny roster JSON file.</p></details></div></aside></div></section>
+<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Start a round-robin league or a single-elimination bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="fields"><label class="help" for="format">Season format</label><select id="format"><option value="league">Round robin — everyone fights everyone</option><option value="knockout">Knockout — tournament bracket</option></select></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Clear season</button></div><p class="notice">Each battle uses health, attacks, defence, powers, equipment and weaknesses. If an attack is lethal, Spare the Dying or Reanimation may intervene. Match reports explain what happened; saved original characters remain unchanged.</p></div>
 <div class="panel"><div class="panel-header"><h2>Season arena</h2><span class="tag" id="seasonStatus">No season</span></div><div id="seasonContent" class="empty">Save two or more characters, select them, and create a season to see your matchups.</div></div></div></section>
-<section id="libraryPage" hidden><div class="panel"><h2>Complete option library</h2><p class="help">Includes races and sub-races, classes, alignments, powers, destiny interventions, weapon enchantments, arenas and special rules.</p><div id="libraryContents" class="library-grid"></div></div></section></main>
+<section id="libraryPage" hidden><div class="panel"><h2>Complete option library</h2><p class="help">Includes races and sub-races, classes, alignments, powers, destiny interventions, weapon enchantments, arenas and special rules.</p><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div></div></section></main>
 <footer>Saved locally in this browser. Export your roster to keep a backup or move it to another device.</footer>
 <script>
 'use strict';
@@ -246,10 +264,10 @@ Flyrokinesis
 Animalism
 Portals
 Reanimation`);
-const POWER_DESC=Object.fromEntries(split(`Super Strength|+2 Strength
-Super Speed|+2 Speed
-Super Genius|+2 IQ
-Regeneration|+2 Durability
+const POWER_DESC=Object.fromEntries(split(`Super Strength|Effective Strength 10 (cannot be rolled naturally)
+Super Speed|Effective Speed 10 (cannot be rolled naturally)
+Super Genius|Effective IQ 10 (cannot be rolled naturally)
+Regeneration|Effective Durability 10 (cannot be rolled naturally); also heals during combat
 Hydrokinesis|Control over Water
 Pyrokinesis|Control over Fire
 Cryokinesis|Control over Ice
@@ -329,17 +347,46 @@ Transforming|Can Transform into Another Weapon
 Proficient|+1 Weapon Mastery
 Channeling|+1 Power Level
 Unbreaking|Cannot be broken`).map(line=>{let i=line.indexOf('|');return [line.slice(0,i),line.slice(i+1)]}));
-const WEAPONS=split(`Power Ring
-Infinity Gauntlet
-Sword
-Axe
-Hammer
+const WEAPONS=split(`No Weapon
 Bow
-Katana
+Axe
+Sling
+Lance
 Shuriken
-Instrument`);
+Shield
+Hammer
+Mace
+Pencil
+Instrument
+Pet Animal
+Scythe
+Pitchfork
+Musket
+Pistol
+Machine Gun
+Sniper
+Stick
+Brass Knuckles
+Lasso
+Chains
+Chair
+Water Gun
+Snowball
+Nunchucks
+Sai
+Katana
+Trident
+Dagger
+Rock
+Armour
+Sword
+Power Ring
+Infinity Gauntlet`);
+// Existing legendary equipment remains available alongside the newly supplied weapons.
+const SPECIAL_WEAPONS=['Power Ring','Infinity Gauntlet'];
 // Enchantments are attached to weapons after the weapon step; they are never weapon-wheel choices.
-const PLAIN_WEAPONS=WEAPONS.filter(x=>!['Power Ring','Infinity Gauntlet'].includes(x));
+const PLAIN_WEAPONS=WEAPONS.filter(x=>x!=='No Weapon'&&!SPECIAL_WEAPONS.includes(x));
+const BONUS_WEAPONS=WEAPONS.filter(x=>x!=='No Weapon');
 const STONES=['Power','Space','Time','Reality','Soul','Mind'];
 const STONE_DESC={'Power':'+2 Strength','Space':'Teleportation','Time':'Chronomancy','Reality':'Every Kinesis','Soul':'Soul Sucker','Mind':'Mind Control'};
 const ALIGNMENTS=['Hero','Villain','Anti-Hero','Neutral'];
@@ -389,9 +436,23 @@ const initialSteps=()=>[
  {id:'weapon',label:'Weapon',type:'weapon'},
  {id:'destiny',label:'Destiny’s Intervention',type:'destiny'}
 ];
-let state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false};
+let state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false,autoGrants:[]};
 let roster=[],picked=new Set(),season=null,viewedSaved=null;
 function current(){return state.steps[state.index]}
+// Fixed grants are recorded in the character sheet but do not need a wheel or a Continue click.
+function skipAutomaticGrants(){
+ const notices=[];
+ while(state.index<state.steps.length){
+  const granted=state.steps[state.index];
+  if(!['grantWeapon','grantEnchant'].includes(granted.type))break;
+  state.results[granted.id]=granted.type==='grantWeapon'?granted.fixedWeapon:granted.fixedEnchant;
+  notices.push((granted.type==='grantWeapon'?'⚔ Granted ':'✨ Guaranteed enchantment: ')+(granted.fixedWeapon||granted.fixedEnchant)+' · '+(granted.source||'Bonus'));
+  if(state.index===state.steps.length-1){state.final=true;break;}
+  state.index++;
+ }
+ if(notices.length){state.autoGrants=[...(state.autoGrants||[]),...notices].slice(-8);}
+}
+
 function raceFor(id){return state.results[id]}
 function includesSchleeb(){return false} // No Schleeb race remains in this roster.
 function candidates(s){
@@ -409,11 +470,10 @@ function candidates(s){
  case 'stat':return Array.from({length:9},(_,i)=>String(i+1));
  case 'power':case 'bonusPower':return POWERS;
  case 'weapon':return WEAPONS;
- case 'bonusWeapon':return s.plainOnly?PLAIN_WEAPONS:WEAPONS;
- case 'enchantment':return ENCHANTMENTS;
+ case 'bonusWeapon':return s.plainOnly?PLAIN_WEAPONS:BONUS_WEAPONS;
+ case 'enchantment':return s.guaranteed?ENCHANTMENTS:['No Enchantment',...ENCHANTMENTS];
  case 'grantEnchant':return [s.fixedEnchant];
  case 'grantWeapon':return [s.fixedWeapon];
- case 'enchantChance':return ['No enchantment','Enchant this weapon'];
  case 'destiny':return DESTINY_INTERVENTIONS;
  case 'weakness':return WEAKNESS_OPTIONS;
  case 'sidekickKind':return ['Power','Weapon'];
@@ -423,7 +483,7 @@ function candidates(s){
   const kind=state.results[s.kindId];
   if(kind==='Stat')return STATS;
   if(kind==='Power')return POWERS;
-  if(kind==='Weapon')return WEAPONS;
+  if(kind==='Weapon')return PLAIN_WEAPONS;
   if(kind==='Race')return SECONDARY_RACES;
   if(kind==='Class')return CLASSES.filter(x=>x!=='Dual Class');
   if(kind==='Alignment')return ALIGNMENTS;
@@ -444,14 +504,15 @@ function candidates(s){
 }
 function wheelOptions(s){let arr=candidates(s);
  if(s&&s.type==='stat'&&includesSchleeb())arr=['Schleeb',...arr];
- if(s&&['power','weapon'].includes(s.type))arr=['Nothing',...arr];
+ if(s&&s.type==='power')arr=['No Power',...arr];
  return arr;
 }
 function wheelSegments(s){
  const arr=wheelOptions(s);const weights=arr.map(v=>{
-  if(s.type==='enchantChance')return v==='Enchant this weapon'?ENCHANT_CHANCE:1-ENCHANT_CHANCE;
+  if(s.type==='enchantment'&&!s.guaranteed)return v==='No Enchantment'?ENCHANTMENTS.length*(1-ENCHANT_CHANCE)/ENCHANT_CHANCE:1;
   if(s.type==='stat')return v==='Schleeb'?STAT_WEIGHTS.reduce((a,b)=>a+b,0):STAT_WEIGHTS[Number(v)-1]||1;
-  if(['power','weapon'].includes(s.type))return v==='Nothing'?arr.length/3:1; // 25% Nothing, remaining outcomes uniform
+  if(s.type==='power')return v==='No Power'?POWERS.length/3:1; // 25% No Power
+  if(s.type==='weapon')return v==='No Weapon'?(WEAPONS.length-1)/3:1; // 25% No Weapon
   return 1;
  });
  if(s.type==='stat'&&includesSchleeb()){
@@ -486,7 +547,7 @@ function addDestinyAfter(s,val,after){
  if(val==='Achilles “Blessing”')after.push(step(s.id+'_weakness','⚠ Achilles Blessing — weakness','weakness',{source:'Destiny: Achilles Blessing'}));
  if(val==='Bardic Inspiration'){
   const id=s.id+'_instrument';state.results[id]='Instrument';
-  after.push(step(id,'🎻 Granted instrument','grantWeapon',{fixedWeapon:'Instrument',source:'Destiny: Bardic Inspiration'}),step(id+'_chance','Enchant Instrument?','enchantChance',{weaponId:id,source:'Destiny: Bardic Inspiration'}));
+  after.push(step(id,'🎻 Granted instrument','grantWeapon',{fixedWeapon:'Instrument',source:'Destiny: Bardic Inspiration'}),step(id+'_enchantment','Enchant Instrument','enchantment',{weaponId:id,source:'Destiny: Bardic Inspiration'}));
  }
  if(val==='Shape Change')after.push(step(s.id+'_race','🦎 Shape Change — new race','destinyRace',{source:'Destiny: Shape Change'}));
  if(val==='Sidekick')after.push(step(s.id+'_stat','🛡 Sidekick — stat','statChoice',{manual:true,sidekick:true}),step(s.id+'_value','🛡 Sidekick — stat value','stat',{sidekick:true}),step(s.id+'_kind','🛡 Sidekick — power or weapon?','sidekickKind'),step(s.id+'_gift','🛡 Sidekick — roll','sidekickGift',{kindId:s.id+'_kind'}));
@@ -558,14 +619,14 @@ function queuedBonusSteps(){
   if(req.kind==='grantWeapon'){
    const fixed=step(id,'Granted weapon — '+req.source,'grantWeapon',{source:req.source,fixedWeapon:req.fixedWeapon});
    state.results[id]=req.fixedWeapon;
-   added.push(fixed,step(id+'_chance','Enchant '+req.fixedWeapon+'?','enchantChance',{weaponId:id,source:req.source}));
+   added.push(fixed,step(id+'_enchantment','Enchant '+req.fixedWeapon,'enchantment',{weaponId:id,source:req.source}));
   }
  }
  return added;
 }
 function weaponFollowups(s,value){
  const after=[];
- if(value==='Nothing'||!value)return after;
+ if(value==='Nothing'||value==='No Weapon'||!value)return after;
  // Enchant rolls only occur on an already-created weapon, as the immediate next step.
  const pending=state.pendingEnchantments||[];
  if(s.presetEnchant){
@@ -573,9 +634,9 @@ function weaponFollowups(s,value){
   after.push(step(s.id+'_preset','Guaranteed '+s.presetEnchant+' enchantment','grantEnchant',{weaponId:s.id,source:s.source||s.label, fixedEnchant:s.presetEnchant}));
  } else if(s.forcedEnchant||pending.length){
   const source=pending.length?pending.shift().source:s.source;
-  after.push(step(s.id+'_enchantment','Enchantment for '+value,'enchantment',{weaponId:s.id,source:source||s.label}));
+  after.push(step(s.id+'_enchantment','Guaranteed enchantment for '+value,'enchantment',{weaponId:s.id,source:source||s.label,guaranteed:true}));
  } else {
-  after.push(step(s.id+'_chance','Enchant '+value+'?','enchantChance',{weaponId:s.id,source:s.source||s.label}));
+  after.push(step(s.id+'_enchantment','Enchant '+value,'enchantment',{weaponId:s.id,source:s.source||s.label}));
  }
  return after;
 }
@@ -604,7 +665,6 @@ function onStepResult(s,value){
   if(value==='Power Ring')after.push(step(s.id+'_ring','Power Ring — god domain','ringDomain',{weaponId:s.id}));
   if(value==='Infinity Gauntlet')after.push(step(s.id+'_stoneCount','Infinity Gauntlet — stone count','stoneCount',{gauntlet:s.id}));
  }
- if(s.type==='enchantChance'&&value==='Enchant this weapon')after.push(step(s.id+'_enchantment','Enchantment for '+state.results[s.weaponId],'enchantment',{weaponId:s.weaponId,source:s.source}));
  if(s.type==='enchantment'&&value==='God Touched')after.push(step(s.id+'_god','God Touched — divine domain','ringDomain',{weaponId:s.weaponId,source:'God Touched enchantment'}));
  if(s.type==='stoneCount')after.push(...Array.from({length:Number(value)},(_,i)=>step(s.gauntlet+'_stone'+i,'Infinity Stone '+(i+1),'stone',{gauntlet:s.gauntlet})));
  if((s.type==='destiny'||s.type==='extraPick'&&state.results[s.kindId]==='Destiny Intervention')&&value)addDestinyAfter(s,value,after);
@@ -624,7 +684,7 @@ function shortenWheelLabel(name,max){const arr=Array.from(String(name));return a
 function displayWheel(s){
  const segs=wheelSegments(s),el=$('wheel');
  el.style.transition='none';el.style.transform='rotate(0deg)';rollingAngle=0;
- el.style.background='conic-gradient('+segs.map((v,i)=>COLORS[i%COLORS.length]+' '+v.start.toFixed(4)+'deg '+v.end.toFixed(4)+'deg').join(',')+')';
+ el.style.background='conic-gradient('+segs.map((v,i)=>(['No Power','No Weapon','No Enchantment'].includes(v.value)?'#050508':COLORS[i%COLORS.length])+' '+v.start.toFixed(4)+'deg '+v.end.toFixed(4)+'deg').join(',')+')';
  const n=segs.length, font=n>44?9:n>28?10:n>18?11:n>10?12:13;
  const maxChars=n>44?10:n>28?16:n>18?19:n>10?20:23;
  const x=n>44?350:n>28?330:318;
@@ -632,7 +692,7 @@ function displayWheel(s){
   // Each label sits along its own radial slice, outside the hub and inside the rim.
   const flip=v.center>=180, rotation=v.center-90;
   const label=shortenWheelLabel(v.value,maxChars);
-  return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="#21172e" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}><title>${safe(v.value)}</title>${safe(label)}</text></g>`;
+  return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="${['No Power','No Weapon','No Enchantment'].includes(v.value)?'#ffffff':'#21172e'}" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}><title>${safe(v.value)}</title>${safe(label)}</text></g>`;
  }).join('');
  el.innerHTML=`<svg class="wheel-svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${markup}</svg>`;
 }
@@ -645,14 +705,15 @@ function renderStep(redraw=true){const s=current();if(!s)return;
  $('resultLabel').textContent=done?'Result':s.source?'Unlocked by '+s.source:'Current wheel';
  $('featureText').textContent=state.final?'Character complete!':done?state.results[s.id]:s.label;
  $('nextStep').textContent=state.final?'Save your character and start a tournament.':done?(next?'Next wheel: '+next.label:'Final character sheet'):'Spin to discover your '+s.label.toLowerCase()+'.';
- $('spin').disabled=done||state.rolling||state.final;$('advance').disabled=!done||state.rolling||state.final;
+ $('spin').disabled=done||state.rolling||state.final;$('wheelHub').disabled=done||state.rolling||state.final;$('advance').disabled=!done||state.rolling||state.final;
  $('advance').textContent=next?((next.source||!['race','class','alignment','stat','power','weapon','destiny'].includes(next.type))?'Next bonus →':'Continue →'):'Finish →';
  $('stageNote').textContent=state.final?'Save your completed character or move to the tournament.':done?'Continue when you are ready.':'Spin the wheel to reveal your next result.';
  const box=$('unlockNotice');const bonus=next&&(!['race','class','alignment','stat','power','weapon','destiny'].includes(next.type)||next.source||next.type==='subrace');
  box.hidden=!(done&&bonus&&!state.final);
- if(!box.hidden){const origin=(next.source||s.source||s.label).replace(/^Bonus [^—]+ — /,'');const title=['enchantChance','enchantment','grantEnchant'].includes(next.type)?'🔮 ENCHANTMENT UNLOCKED':next.type==='bonusPower'?'✨ BONUS POWER UNLOCKED':next.type==='bonusWeapon'?'⚔️ BONUS WEAPON UNLOCKED':next.type==='subrace'?'🌿 SUB-RACE UNLOCKED':next.type==='destinyRace'?'🦎 NEW RACE UNLOCKED':'🔗 CONDITIONAL ROLL UNLOCKED';
+ if(!box.hidden){const origin=(next.source||s.source||s.label).replace(/^Bonus [^—]+ — /,'');const title=['enchantment','grantEnchant'].includes(next.type)?'🔮 ENCHANTMENT UNLOCKED':next.type==='bonusPower'?'✨ BONUS POWER UNLOCKED':next.type==='bonusWeapon'?'⚔️ BONUS WEAPON UNLOCKED':next.type==='subrace'?'🌿 SUB-RACE UNLOCKED':next.type==='destinyRace'?'🦎 NEW RACE UNLOCKED':'🔗 CONDITIONAL ROLL UNLOCKED';
   box.innerHTML='<div class="unlock-title">'+safe(title)+'</div><div class="unlock-detail">'+safe(next.label)+'</div><small>Triggered by: '+safe(s.label)+' → '+safe(state.results[s.id])+'</small>';
  }
+ const auto=$('autoGrants');auto.hidden=!(state.autoGrants||[]).length; if(!auto.hidden)auto.innerHTML='<strong>Automatically received</strong><div>'+state.autoGrants.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div>';
  $('stepHeading').classList.toggle('bonus-step',!!s.source||!['race','class','alignment','stat','power','weapon','destiny','subrace'].includes(s.type));
 
  if(redraw)displayWheel(s);
@@ -667,7 +728,7 @@ function renderChoice(s,done){
  choiceWrap.append(sel,btn);
 }
 function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasOwn(state.results,s.id))return;
- state.rolling=true;$('spin').disabled=true;$('advance').disabled=true;renderChoice(s,false);
+ state.rolling=true;$('spin').disabled=true;$('wheelHub').disabled=true;$('advance').disabled=true;renderChoice(s,false);
  const lucky=!s.manual&&!['grantWeapon','grantEnchant'].includes(s.type)&&buildCharacter().powers.includes('Luck');
  const segs=wheelSegments(s);
  function animateOnce(result,label,done){
@@ -703,12 +764,17 @@ function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasO
  });
 }
 $('spin').addEventListener('click',spin);
+$('wheelHub').addEventListener('click',spin);
+$('characterName').addEventListener('input',()=>{
+ $('nameHint').textContent=$('characterName').value.trim()?'Name ready — finish the wheels to save.':'Enter a name before saving.';
+ renderPreview();
+});
 $('advance').addEventListener('click',()=>{const s=current();if(!s||!Object.hasOwn(state.results,s.id)||state.rolling)return;
 
- if(state.index<state.steps.length-1){state.index++;renderStep();renderPreview()}
+ if(state.index<state.steps.length-1){state.index++;skipAutomaticGrants();renderStep();renderPreview()}
  else{state.final=true;renderStep();renderPreview()}
 });
-$('newCharacter').addEventListener('click',()=>{if(state.rolling)return;viewedSaved=null;state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false};$('characterName').value='';renderStep();renderPreview()});
+$('newCharacter').addEventListener('click',()=>{if(state.rolling)return;viewedSaved=null;state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false,autoGrants:[]};$('characterName').value='';$('nameHint').textContent='Enter a name before saving.';renderStep();renderPreview()});
 // Turn all explicitly listed traits into reproducible, numeric and qualitative sheet effects.
 function buildCharacter(){
  const r=state.results,mods=Object.fromEntries(STATS.map(k=>[k,0]));
@@ -719,10 +785,10 @@ function buildCharacter(){
  const isDiscardedRaceStep=s=>raceChanged&&/^(Race:|Dragon type:|Bonus race:)/.test(s.source||'');
  const addedWeaponById=new Map();
  const addMod=(k,n,origin)=>{if(!Object.hasOwn(mods,k))return;mods[k]+=n;provenance.stats[k].push((n>=0?'+':'')+n+' · '+origin)};
- const addPower=(name,origin)=>{if(!name||name==='Nothing')return;c.powers.push(name);provenance.powers.push({name,source:origin||'Unknown source'})};
+ const addPower=(name,origin)=>{ if(!name||name==='Nothing'||name==='No Power')return;c.powers.push(name);provenance.powers.push({name,source:origin||'Unknown source'})};
  const addPet=(name,origin)=>{if(!name)return;c.pets.push(name);provenance.pets.push({name,source:origin||'Unknown source'})};
  function addWeapon(name,source='Trait',spinId=''){
-  if(!name||name==='Nothing')return;
+  if(!name||name==='Nothing'||name==='No Weapon')return;
   const obj={base:name,name,enchantments:[],enchantSources:[],source,spinId};c.weaponDetails.push(obj);
   if(spinId)addedWeaponById.set(spinId,obj);
   return obj;
@@ -730,7 +796,7 @@ function buildCharacter(){
  function attachEnchant(name,source='',weaponId=''){
   const target=addedWeaponById.get(weaponId);
   // Never invent a fallback weapon: an enchantment only belongs to the weapon that unlocked it.
-  if(!target){c.notes.push('Unattached enchantment skipped: '+name);return}
+  if(!target||name==='No Enchantment'){return}
   if(!target.enchantments.includes(name)){target.enchantments.push(name);target.enchantSources.push(name+' · '+(source||'Enchantment wheel'))}
  }
  function apply({text:t,source}){
@@ -758,7 +824,7 @@ function buildCharacter(){
  }
  getTraits().forEach(apply);
  for(const s of state.steps.filter(s=>s.type==='statChoice'&&!s.sidekick)){const chosen=r[s.id];if(chosen)addMod(chosen,1,s.label)}
- for(const s of state.steps){const v=r[s.id];if(v===undefined||v==='Nothing'||isDiscardedRaceStep(s))continue;
+ for(const s of state.steps){const v=r[s.id];if(v===undefined||v==='Nothing'||v==='No Power'||v==='No Weapon'||v==='No Enchantment'||isDiscardedRaceStep(s))continue;
   const source=s.source||s.label;
   if(['power','bonusPower'].includes(s.type))addPower(v,source);
   if(['weapon','bonusWeapon','grantWeapon'].includes(s.type)&&!(s.id||'').includes('_sidekick'))addWeapon(v,source,s.id);
@@ -789,7 +855,8 @@ function buildCharacter(){
   const n=Number(r[s.id]||0),stones=state.steps.filter(x=>x.type==='stone'&&x.gauntlet===s.gauntlet).map(x=>r[x.id]).filter(Boolean);
   if(n===6&&stones.length===6){c.instantWin50=true;c.special.push('All six Infinity Stones: 50% chance of instant victory at combat start')}
  }
- const powerModifiers={'Super Strength':{Strength:2},'Super Speed':{Speed:2},'Super Genius':{IQ:2},'Regeneration':{Durability:2},'Elasticity':{Durability:1},'Bulletproof':{Durability:1}};
+ const powerModifiers={'Elasticity':{Durability:1},'Bulletproof':{Durability:1}};
+ const superPowerStats={'Super Strength':'Strength','Super Speed':'Speed','Super Genius':'IQ','Regeneration':'Durability'};
  provenance.powers.slice().forEach(p=>{
   const change=powerModifiers[p.name];if(change)Object.entries(change).forEach(([k,n])=>addMod(k,n,'Power: '+p.name+' ('+p.source+')'));
 
@@ -841,7 +908,7 @@ function buildCharacter(){
   }
   if(effect==='Achilles “Blessing”'){const weakness=r[id+'_weakness'];if(weakness)c.weaknesses.push(weakness)}
   if(effect==='Destiny’s Favour')c.special.push('Destiny’s Favour: win all tied matchups');
-  if(effect==='Spare the Dying')c.special.push('Spare the Dying: one resurrection from death (not a normal points loss)');
+  if(effect==='Spare the Dying')c.special.push('Spare the Dying: one resurrection after a lethal blow (once per season)');
   if(effect==='Werebeast')c.special.push('Werebeast: 50% chance of temporary beast abilities each tournament round');
   if(effect==='Shape Change')c.notes.push('Original race: '+(r.race||'Unknown')+'; new race: '+c.race);
   if(effect==='Sidekick'){
@@ -853,6 +920,14 @@ function buildCharacter(){
   if(effect==='Celestial Touch')c.notes.push('Celestial Touch god domain: '+(r[id+'_god']||'—'));
  }
  for(const s of state.steps.filter(s=>(s.type==='destiny'||s.type==='extraPick'&&r[s.kindId]==='Destiny Intervention')&&r[s.id]))destiny(r[s.id],s.id);
+ // Super powers establish an effective stat of exactly 10, above the native wheel's 1–9.
+ // Apply after ordinary modifiers; a Destiny curse that removes the power also removes its 10.
+ for(const [power,stat] of Object.entries(superPowerStats)){
+  if(c.powers.includes(power)){
+   c.stats[stat]=10;
+   provenance.stats[stat].push('Effective 10 · '+power+' (super power; overrides the ordinary rolled stat and modifiers)');
+  }
+ }
  c.weapons=c.weaponDetails.map(w=>w.name);
  c.weaknesses=[...new Set(c.weaknesses)];c.tags=[...new Set(c.tags)];c.attributes={...c.stats};
  if(c.stones.length)c.notes.push('Infinity Stones: '+c.stones.join(', '));
@@ -862,7 +937,7 @@ function buildCharacter(){
 }
 function originTag(label,origin,extra=''){
  const tip=origin||'Source not recorded (imported character)';
- return `<span class="origin equip-chip ${extra}" tabindex="0" title="${safe(tip)}" data-origin="${safe(tip)}">${safe(label)}</span>`;
+ return `<span class="origin equip-chip ${extra}" tabindex="0" aria-label="${safe(label)} — ${safe(tip)}" data-origin="${safe(tip)}">${safe(label)}</span>`;
 }
 function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.final;
  $('sheetStatus').textContent=viewedSaved?'Saved character':rolled?'Complete':'Building';
@@ -872,7 +947,7 @@ function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.fina
  $('identity').innerHTML=identity.map(([k,v])=>`<div class="result-row"><span>${safe(k)}</span><strong>${safe(v)}</strong></div>`).join('');
  $('stats').innerHTML=STATS.map(k=>{
   const sources=c.provenance?.stats?.[k]?.join('\n')||'Rolled stat / imported character';
-  return `<div class="stat origin" tabindex="0" title="${safe(sources)}" data-origin="${safe(sources)}"><small>${safe(k)} <span style="opacity:.7">ⓘ</span></small><strong>${safe(c.stats?.[k]??'—')}</strong></div>`;
+  return `<div class="stat origin" tabindex="0" aria-label="${safe(k)}: ${safe(sources)}" data-origin="${safe(sources)}"><small>${safe(k)} <span style="opacity:.7">ⓘ</span></small><strong>${safe(c.stats?.[k]??'—')}</strong></div>`;
  }).join('');
  const powerEntries=(c.provenance?.powers?.length?c.provenance.powers:(c.powers||[]).map(name=>({name,source:'Earlier version / imported character'}))).map(x=>({...x,source:x.source+(POWER_DESC[x.name]?'\nEffect: '+POWER_DESC[x.name]:'')}));
  const weaponEntries=c.weaponDetails?.length?c.weaponDetails.map(w=>({name:w.name,source:[w.source,...(w.enchantSources||[]),...(w.enchantments||[]).map(e=>ENCHANT_DESC[e]?'Effect · '+e+': '+ENCHANT_DESC[e]:'')].filter(Boolean).join('\n')})):(c.weapons||[]).map(name=>({name,source:'Earlier version / imported character'}));
@@ -883,7 +958,7 @@ function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.fina
  $('equipment').innerHTML=rows.map(([k,items])=>`<div class="result-row"><span>${safe(k)}</span><div class="equipment-chips">${items.length?items.map(x=>originTag(x.name,x.source)).join(''):'<strong>—</strong>'}</div></div>`).join('');
  const chips=[...(c.sidekick?['Sidekick: '+c.sidekick.stat+' '+c.sidekick.value+' · '+c.sidekick.kind+' '+c.sidekick.name]:[]),...(c.alignment&&ALIGN_DESC[c.alignment]?[c.alignment+': '+ALIGN_DESC[c.alignment]]:[]),...(c.tags||[]),...(c.weaknesses||[]).map(x=>'Weak to '+x+' — disadvantage on contact'),...(c.conditions||[]),...(c.special||[]),...(c.notes||[])];
  $('traits').innerHTML=chips.length?chips.map(x=>`<span class="pill" title="${safe(x)}">${safe(x)}</span>`).join(''):'<span class="help">Traits appear as you complete spins.</span>';
- $('save').disabled=!rolled||!!viewedSaved||!!state.savedId;$('save').textContent=state.savedId&&!viewedSaved?'Saved ✓':'Save character';$('exportChar').disabled=!rolled&&!viewedSaved;
+ $('save').disabled=!rolled||!!viewedSaved||!!state.savedId||!$('characterName').value.trim();$('save').textContent=state.savedId&&!viewedSaved?'Saved ✓':'Save character';$('exportChar').disabled=!rolled&&!viewedSaved;
 }
 
 // Saved character roster.
@@ -910,14 +985,15 @@ function renderSaved(){
 }
 $('save').addEventListener('click',()=>{
  if(!state.final||state.savedId||viewedSaved)return;
+ if(!$('characterName').value.trim()){$('nameHint').textContent='A name is required to save this character.';$('characterName').focus();return;}
  const c=buildCharacter();c.id=uid();c.completed=true;roster.unshift(c);state.savedId=c.id;
  storeRoster();renderSaved();renderRosterPicker();$('save').disabled=true;$('save').textContent='Saved ✓';
 });
 $('exportChar').addEventListener('click',()=>{if(!viewedSaved&&!state.final)return;const c=viewedSaved||buildCharacter();download(JSON.stringify(c,null,2),(c.name||'character').replace(/[^a-z0-9-_]/gi,'_')+'.json')});
-$('exportRoster').addEventListener('click',()=>download(JSON.stringify({app:'Character Roulette',version:6,characters:roster},null,2),'character-roulette-roster.json'));
+$('exportRoster').addEventListener('click',()=>download(JSON.stringify({app:'Wheel of Destiny',version:7,characters:roster},null,2),'wheel-of-destiny-roster.json'));
 $('savedList').addEventListener('click',e=>{
  const view=e.target.closest('[data-view]'),rem=e.target.closest('[data-remove]');
- if(view){viewedSaved=roster.find(x=>x.id===view.dataset.view)||null;if(viewedSaved){$('characterName').value=viewedSaved.name;renderPreview()}return}
+ if(view){viewedSaved=roster.find(x=>x.id===view.dataset.view)||null;if(viewedSaved){$('characterName').value=viewedSaved.name;$('nameHint').textContent='Viewing a saved character.';renderPreview()}return}
  if(rem){if(!confirm('Delete this saved character from your roster?'))return;roster=roster.filter(c=>c.id!==rem.dataset.remove);picked.delete(rem.dataset.remove);if(viewedSaved?.id===rem.dataset.remove)viewedSaved=null;storeRoster();renderSaved();renderRosterPicker();renderPreview()}
 });
 $('importRoster').addEventListener('change',async e=>{
@@ -960,7 +1036,7 @@ function count(arr){return Array.isArray(arr)?arr.length:0}
 function attackTags(c){const text=[c.race,...(c.tags||[]),...(c.powers||[]),...(c.weapons||[]),...(c.enchantments||[]),...(c.notes||[])].join(' ').toLowerCase(),out=new Set();
  if(/celestial|holy|angel|seraphim|saint/.test(text))out.add('Holy');
  if(/infernal|demonic|demon/.test(text))out.add('Demonic');
- if(/light|glowing|optic blasts|blindingly bald/.test(text))out.add('Light');
+ if(/light|glowing|optic blasts|blindingly bald|photokinesis|lumokinesis|laser eyes/.test(text))out.add('Light');
  if(/flame|fire|heat|pyrokinesis|meteoric|infernal/.test(text)){out.add('Heat');out.add('Fire')}
  if(/ice|frost|cryokinesis|cyrokinesis/.test(text))out.add('Ice');
  if(/darkness|shadow|umbrakinesis|necromancy/.test(text))out.add('Darkness');
@@ -1014,7 +1090,10 @@ function temporaryTrait(copy,trait){
 function temporaryPower(copy,power){
  copy.powers.push(power);
  const mods={'Super Strength':['Strength',2],'Super Speed':['Speed',2],'Super Genius':['IQ',2],'Regeneration':['Durability',2],'Elasticity':['Durability',1],'Bulletproof':['Durability',1]};
- if(mods[power]&&typeof copy.stats[mods[power][0]]==='number')copy.stats[mods[power][0]]+=mods[power][1];
+ if(['Super Strength','Super Speed','Super Genius','Regeneration'].includes(power)){
+   const stat={'Super Strength':'Strength','Super Speed':'Speed','Super Genius':'IQ','Regeneration':'Durability'}[power];
+   copy.stats[stat]=10;
+  }else if(mods[power]&&typeof copy.stats[mods[power][0]]==='number')copy.stats[mods[power][0]]+=mods[power][1];
 }
 function roundBeast(character,roundNumber,mode){
  season.roundBeasts=season.roundBeasts||{};const key=character.id+':'+roundNumber+':'+mode;
@@ -1036,6 +1115,17 @@ function applyArenaToCombatants(a,b,arena,notes){
  const aa=copy(a),bb=copy(b);
  notes.push('Arena: '+arena+' — '+ARENAS[arena]);
  for(const c of [aa,bb]){
+  // Power Rings and God Touched enchantments grant their rolled deity's effects while worn.
+  const ringDomains=(c.powers||[]).filter(p=>p.startsWith('Power Ring: ')).map(p=>p.slice('Power Ring: '.length));
+  const notesText=(c.notes||[]).join(' | ');
+  if((c.enchantments||[]).includes('God Touched')){
+   const named=notesText.match(/God Touched weapon grants God of ([A-Za-z ]+) abilities/);
+   if(named)ringDomains.push(named[1].trim());
+  }
+  for(const domain of ringDomains)if(SUB_TRAITS.God[domain]){
+   SUB_TRAITS.God[domain].forEach(t=>temporaryTrait(c,t));
+   notes.push(c.name+' channels God of '+domain+' through equipped gear.');
+  }
   if(arena==='Magic Forest'){const p=choose(POWERS);temporaryPower(c,p);notes.push(c.name+' found temporary '+p+'.')}
   if(arena==='Armoury'){const w=choose(PLAIN_WEAPONS);c.weapons.push(w);notes.push(c.name+' equipped temporary '+w+'.')}
   if(arena==='God Temple'){const g=choose(SUBRACES.God);(SUB_TRAITS.God[g]||[]).forEach(t=>temporaryTrait(c,t));notes.push(c.name+' received God of '+g+' powers temporarily.')}
@@ -1043,6 +1133,127 @@ function applyArenaToCombatants(a,b,arena,notes){
  }
  return [aa,bb];
 }
+
+// Tournament combat: a finite exchange of attacks with temporary, explained effects.
+// Saved roster characters are never changed: only copies inside the active season can evolve.
+function simulateDuel(a,b,arena){
+ const fightLog=[];
+ const has=(c,p)=>(c.powers||[]).includes(p)||((c.special||[]).includes(p));
+ const ench=(c,e)=>(c.enchantments||[]).includes(e)||(c.weapons||[]).some(w=>new RegExp('(^| )'+e+'( |$)','i').test(w));
+ const N=(c,k)=>Math.max(0,normalStat(c.stats?.[k])||0);
+ const isRanged=c=>(c.weapons||[]).some(w=>/Bow|Sling|Shuriken|Musket|Pistol|Machine Gun|Sniper|Water Gun|Snowball|Laser|Cannon/i.test(w));
+ const magicPowers=['Hydrokinesis','Pyrokinesis','Cryokinesis','Terrakinesis','Electrokinesis','Florakinesis','Mudkinesis','Photokinesis','Aerokinesis','Technomancy','Necromancy','Magnetism','Telekinesis','Umbrakinesis','Lumokinesis','Laser Eyes','Flyrokinesis','Portals','Chronomancy','Energy Conservation','Sonic Scream','Optic Blasts','Flaming Aura','Shadow Magic','Light Manipulation','Acid Spit'];
+ const hasMagic=c=>(c.powers||[]).some(p=>magicPowers.includes(p)||p.startsWith('Power Ring:'));
+ const tag=(c,t)=>attackTags(c).has(t);
+ const maxHP=c=>12+2*N(c,'Durability');
+ const hp=[maxHP(a),maxHP(b)],mx=[...hp],fighters=[a,b];
+ const ress=season.resurrectionUses||(season.resurrectionUses={});
+ const damageDone=[0,0];let rounds=0,decisive=null,deathEvent=false;
+ const add=(text)=>{if(fightLog.length<32)fightLog.push(text)};
+ function restore(i,lethal,attacker){
+  if(!lethal)return false;
+  const c=fighters[i],key=String(c.id||c.name);
+  if((c.special||[]).some(x=>x.startsWith('Spare the Dying'))&&!ress[key+':spare']){
+   ress[key+':spare']=true;hp[i]=Math.max(6,Math.ceil(mx[i]*.48));
+   add('✨ '+c.name+' uses Spare the Dying (once per season), returning with '+hp[i]+' health.');return true;
+  }
+  if(has(c,'Reanimation')&&!ress[key+':reanimate']){
+   ress[key+':reanimate']=true;
+   for(const k of ['Strength','Speed','IQ'])if(typeof c.stats[k]==='number')c.stats[k]=Math.max(0,c.stats[k]-1);
+   const persistent=season.roster?.find(x=>x.id===c.id);
+   if(persistent){
+    persistent.race='Undead ('+persistent.race+')';
+    for(const k of ['Strength','Speed','IQ'])if(typeof persistent.stats?.[k]==='number')persistent.stats[k]=Math.max(0,persistent.stats[k]-1);
+    persistent.notes=(persistent.notes||[]).concat(['Reanimated during the tournament; -1 Strength, Speed and IQ.']);
+   }
+   hp[i]=Math.max(5,Math.ceil(mx[i]*.5));
+   add('🦴 '+c.name+' reanimates as Undead with '+hp[i]+' health (-1 Strength, Speed and IQ for the rest of this season).');return true;
+  }
+  return false;
+ }
+ function powerCounter(att,def){
+  let bonus=0,reasons=[];
+  const rules=[
+   ['Hydrokinesis','Pyrokinesis','water counters fire'],
+   ['Cryokinesis','Pyrokinesis','ice suppresses flames'],
+   ['Photokinesis','Umbrakinesis','light counters shadow'],
+   ['Lumokinesis','Umbrakinesis','light counters shadow'],
+   ['Electrokinesis','Aquatic Affinity','electricity conducts in water']
+  ];
+  for(const [p,q,reason] of rules)if(has(att,p)&&has(def,q)){bonus+=2;reasons.push(reason)}
+  if(has(att,'True Sight')&&has(def,'Invisibility')){bonus+=1;reasons.push('True Sight exposes invisibility')}
+  return {bonus:Math.min(4,bonus),reasons};
+ }
+ function attack(i,j,round){
+  const att=fighters[i],def=fighters[j];
+  const physicalPower=N(att,'Strength')+N(att,'Weapon Mastery');
+  const magicalPower=N(att,'Power Level')+N(att,'IQ')*.5;
+  const magic=hasMagic(att)&&magicalPower>=physicalPower*.8;
+  const weapon=(att.weapons||[]).length>0||has(att,'Weapon Conjuring');
+  let raw=2+Math.floor((magic?N(att,'Power Level'):N(att,'Strength'))/2)+(magic?1:weapon?2:0);
+  if(magic&&has(att,'Laser Eyes'))raw++;
+  if(ench(att,'God Touched'))raw++;
+  if(ench(att,'Thundering')||ench(att,'Infernal')||ench(att,'Frost Touch'))raw++;
+  if(ench(att,'Duplicating'))raw++;
+  if(ench(att,'Giant'))raw+=N(att,'Strength')>=6?2:-1;
+  if(ench(att,'Tiny'))raw+=N(att,'Speed')>=6?1:-1;
+  if(has(att,'Weapon Conjuring'))raw++;
+  if(arena==='Concert Venue'&&((att.weapons||[]).some(w=>/Instrument|Guitar|Piano|Drum|Violin|Flute|Saxophone/i.test(w))||att.class==='Bard'))raw+=2;
+  if(arena==='Magic Forest'&&has(att,'Florakinesis'))raw+=2;
+  if(arena==='Armoury'&&weapon)raw++;
+  if(arena==='God Temple'&&(att.race||'').includes('God'))raw++;
+  const counter=powerCounter(att,def);raw+=counter.bonus;
+  let armor=Math.floor(N(def,'Durability')/4);
+  if(has(def,'Metal Skin'))armor++;
+  if(has(def,'Flyrokinesis'))armor+=2;
+  if(ench(def,'Unbreaking'))armor++;
+  if(ench(def,'Vibrating'))armor++;
+  if(has(def,'Regeneration'))armor++;
+  let dmg=Math.max(1,raw-armor);
+  const exposed=counterWeakness(att,def);
+  if(exposed.length)dmg+=2*exposed.length;
+  if(has(att,'Invisibility')&&!has(def,'True Sight')&&!has(def,'Blindsense'))dmg++;
+  if(has(def,'Intangibility')&&!magic){dmg=Math.max(0,Math.floor(dmg*.3));}
+  if(has(def,'Bulletproof')&&!magic&&isRanged(att))dmg=0;
+  if(has(def,'Energy Conservation')&&magic&&['Laser Eyes','Electrokinesis','Photokinesis','Lumokinesis','Pyrokinesis'].some(p=>has(att,p))){dmg=Math.max(0,dmg-2);hp[i]-=1;add(def.name+' redirects an energy blast (-2 damage, 1 reflected).')}
+  const speedDiff=N(def,'Speed')-N(att,'Speed');
+  if(speedDiff>=3&&!ench(att,'True Aim')&&Math.random()<.24){dmg=Math.max(0,dmg-2);add(def.name+' dodges part of an attack using superior Speed.')}
+  if(has(def,'Portals')||has(def,'Boogie Woogie'))dmg=Math.max(0,dmg-1);
+  if(has(def,'Flight')&&!has(att,'Flight')&&!magic)dmg=Math.max(0,dmg-1);
+  hp[j]-=dmg;damageDone[i]+=dmg;
+  add('Round '+round+': '+att.name+' '+(magic?'casts':'strikes')+' for '+dmg+' damage. '+def.name+' has '+Math.max(0,hp[j])+' HP.');
+  if(counter.reasons.length)add('  Counter: '+counter.reasons.join(', ')+'.');
+  if(exposed.length)add('  Weakness: '+def.name+' suffers extra damage from '+exposed.join(', ')+'.');
+  if(hp[j]>0)return false;
+  const odds=att.alignment==='Villain'?.70:att.alignment==='Anti-Hero'?(def.alignment==='Villain'?.65:.12):att.alignment==='Hero'?.05:.30;
+  const lethal=Math.random()<odds;
+  if(lethal){deathEvent=true;add('⚠️ '+att.name+' lands a lethal finishing blow ('+(att.alignment||'Neutral')+' alignment).')}
+  else add(def.name+' is defeated non-lethally; resurrection is not triggered.');
+  if(restore(j,lethal,att))return false;
+  decisive=att.id;return true;
+ }
+ // The quicker combatant attacks first; ties are a fair alternating order.
+ for(let round=1;round<=8&&!decisive;round++){
+  rounds=round;
+  const first=N(a,'Speed')>N(b,'Speed')?0:N(b,'Speed')>N(a,'Speed')?1:round%2===1?0:1;
+  for(const i of [first,1-first]){
+   const j=1-i;
+   if(attack(i,j,round))break;
+  }
+  if(decisive)break;
+  for(let i=0;i<2;i++)if(has(fighters[i],'Regeneration')){
+    const healed=Math.min(mx[i]-hp[i],2);
+    if(healed>0){hp[i]+=healed;add(fighters[i].name+' regenerates '+healed+' HP.')}
+  }
+ }
+ if(!decisive){
+  const relativeA=hp[0]/mx[0],relativeB=hp[1]/mx[1];
+  if(Math.abs(relativeA-relativeB)>.055)decisive=relativeA>relativeB?a.id:b.id;
+  add('Time limit: remaining health '+a.name+' '+Math.max(0,hp[0])+'/'+mx[0]+', '+b.name+' '+Math.max(0,hp[1])+'/'+mx[1]+'.');
+ }
+ return {winner:decisive,rounds,hp:hp.map(v=>Math.max(0,v)),maxHP:mx,damageDone,deathEvent,events:fightLog};
+}
+
 function battle(a,b,knockout,roundNumber=0,arena=''){
  const aa=godOfChaosForRound(a,roundNumber),bb=godOfChaosForRound(b,roundNumber);
  a=aa.character;b=bb.character;const notes=[...([aa.note,bb.note].filter(Boolean))];
@@ -1089,18 +1300,25 @@ function battle(a,b,knockout,roundNumber=0,arena=''){
  const aInstant=!!a.instantWin50&&Math.random()<.5,bInstant=!!b.instantWin50&&Math.random()<.5;
  if(aInstant&&!bInstant)instant='a';else if(bInstant&&!aInstant)instant='b';else if(aInstant&&bInstant){instant=Math.random()<.5?'a':'b';notes.push('Both six-stone Gauntlets triggered. A random clash resolved them.')}
  if(a.instantWin50||b.instantWin50)notes.push(instant?`${instant==='a'?a.name:b.name}'s Infinity Gauntlet triggered its instant-win effect.`:'The six-stone Gauntlet instant-win roll did not trigger.');
- let victor=instant==='a'?a.id:instant==='b'?b.id:scoreA>scoreB?a.id:scoreB>scoreA?b.id:null;
+ const combat=instant?null:simulateDuel({...a,stats:{...left}},{...b,stats:{...right}},arena);
+ if(combat)notes.push('Combat winner is determined by attacks and health; matchup points show statistical advantages.');
+ let victor=instant==='a'?a.id:instant==='b'?b.id:combat?.winner||null;
+ if(!victor)victor=scoreA>scoreB?a.id:scoreB>scoreA?b.id:null;
  if(!victor){const favourA=(a.special||[]).some(x=>x.startsWith('Destiny’s Favour')),favourB=(b.special||[]).some(x=>x.startsWith('Destiny’s Favour'));if(favourA!==favourB){victor=favourA?a.id:b.id;notes.push((favourA?a.name:b.name)+' wins the tied matchup via Destiny’s Favour.')}}
  if(knockout&&!victor){const pa=normalStat(a.stats['Power Level'])||0,pb=normalStat(b.stats['Power Level'])||0;
   victor=pa>pb?a.id:pb>pa?b.id:Math.random()<.5?a.id:b.id;
   notes.push('Knockout tiebreaker: '+(pa===pb?'coin flip':'higher Power Level')+'.');
  }
- for(const c of [a,b])if((c.powers||[]).includes('Reanimation')||(c.special||[]).some(x=>x.startsWith('Spare the Dying')))notes.push(c.name+' has a resurrection ability; this points-based match does not count as death.');
+ if(combat?.deathEvent)notes.push('Lethal blows can trigger one-time survival effects. Reanimation transformations persist only in this tournament.');
   notes.push(`${a.name}: ${a.alignment||'Unknown'} alignment; ${b.name}: ${b.alignment||'Unknown'} alignment.`);
  if(!notes.length)notes.push('No special weakness or equipment counter applied.');
- return {aId:a.id,bId:b.id,aScore:scoreA,bScore:scoreB,arena,rows,groups,notes,winner:victor,draw:!victor,instant,created:new Date().toISOString()};
+ return {aId:a.id,bId:b.id,aScore:scoreA,bScore:scoreB,arena,rows,groups,notes,winner:victor,draw:!victor,instant,combat,created:new Date().toISOString()};
 }
 function victoryRewards(report){if(!report.winner)return;const winner=fighter(report.winner),loser=fighter(report.winner===report.aId?report.bId:report.aId);if(!winner||!loser)return;
+ if(report.combat?.deathEvent&&(winner.enchantments||[]).includes('Soul Sucking')){
+  winner.stats['Weapon Mastery']=(normalStat(winner.stats['Weapon Mastery'])||0)+1;
+  report.notes.push(winner.name+' gains +1 Weapon Mastery from a Soul Sucking weapon after a lethal victory (season only).');
+ }
  if((winner.powers||[]).includes('Leech')){const power=(loser.powers||[]).find(p=>!(winner.powers||[]).includes(p));if(power){winner.powers.push(power);report.notes.push(`${winner.name}'s Leech copied ${power} for the rest of the season.`)}}
  if((winner.powers||[]).includes('Greed')||(winner.special||[]).includes('Steal a Weapon upon Defeating Opponent')){const eligible=(loser.weapons||[]).filter(x=>!(winner.weapons||[]).includes(x)&&!/(^| )Loyalty( |$)/i.test(x));const w=eligible.find(x=>/(^| )Golden( |$)/i.test(x))||eligible[0];if(w){winner.weapons.push(w);report.notes.push(`${winner.name} stole ${w} for the rest of the season.`)}}
 }
@@ -1124,7 +1342,7 @@ function standings(){if(!season)return [];
 }
 function isSeasonDone(){return season&&(season.format==='knockout'?!!season.championId:!nextFixture())}
 function matchupReport(r){const a=fighter(r.aId),b=fighter(r.bId),winner=r.winner?fighter(r.winner):null;
- return `<details open><summary>Most recent matchup — ${safe(r.arena||'Unknown arena')}</summary><div class="match"><div class="versus"><div><strong>${safe(a?.name)}</strong><small>${r.aScore} matchup points</small></div><b>VS</b><div><strong>${safe(b?.name)}</strong><small>${r.bScore} matchup points</small></div></div><h3 style="text-align:center;color:var(--good);margin-top:13px">${winner?safe(winner.name)+' wins':'Draw'}</h3><div class="breakdown">${r.rows.map(x=>`<div><span>${safe(x.name)}</span><strong>${safe(x.a)} vs ${safe(x.b)} ${x.winner==='a'?'· '+safe(a.name):x.winner==='b'?'· '+safe(b.name):''}</strong></div>`).join('')}${r.groups.map(x=>`<div><span>${safe(x[0])}</span><strong>${x[1]} vs ${x[2]}</strong></div>`).join('')}${r.notes.map(x=>`<div><span>Special rule</span><strong>${safe(x)}</strong></div>`).join('')}</div></div></details>`;
+ return `<details open><summary>Most recent matchup — ${safe(r.arena||'Unknown arena')}</summary><div class="match"><div class="versus"><div><strong>${safe(a?.name)}</strong><small>${r.aScore} matchup points</small></div><b>VS</b><div><strong>${safe(b?.name)}</strong><small>${r.bScore} matchup points</small></div></div><h3 style="text-align:center;color:var(--good);margin-top:13px">${winner?safe(winner.name)+' wins':'Draw'}</h3><div class="breakdown">${r.rows.map(x=>`<div><span>${safe(x.name)}</span><strong>${safe(x.a)} vs ${safe(x.b)} ${x.winner==='a'?'· '+safe(a.name):x.winner==='b'?'· '+safe(b.name):''}</strong></div>`).join('')}${r.groups.map(x=>`<div><span>${safe(x[0])}</span><strong>${x[1]} vs ${x[2]}</strong></div>`).join('')}${r.notes.map(x=>`<div><span>Special rule</span><strong>${safe(x)}</strong></div>`).join('')}</div>${r.combat?`<div class="combat-result"><h3>⚔ Combat simulation · ${r.combat.rounds} rounds</h3><div class="combat-hp"><div>${safe(a?.name)}: <b>${r.combat.hp[0]} / ${r.combat.maxHP[0]} HP</b></div><div>${safe(b?.name)}: <b>${r.combat.hp[1]} / ${r.combat.maxHP[1]} HP</b></div></div><details><summary>View attack-by-attack events (${r.combat.events.length})</summary><ol class="combat-log">${r.combat.events.map(t=>`<li>${safe(t)}</li>`).join('')}</ol></details></div>`:r.instant?'<p class="help">The Infinity Gauntlet ended the battle before combat began.</p>':''}</div></details>`;
 }
 function renderTournament(){if(!season){$('seasonStatus').textContent='No season';$('seasonContent').innerHTML='<p class="empty">Select saved characters and create a tournament to generate matchups.</p>';return}
  const done=isSeasonDone(),next=nextFixture(),total=season.rounds.flat().filter(x=>x.status!=='bye').length,played=season.rounds.flat().filter(x=>x.status==='done').length;
@@ -1160,13 +1378,16 @@ function renderLibrary(){const blocks=[
  ['Alignments',ALIGNMENTS.map(x=>`<strong>${safe(x)}</strong> — ${safe(ALIGN_DESC[x])}`)],
  ['Destiny’s Interventions',DESTINY_INTERVENTIONS.map(x=>`<strong>${safe(x)}</strong> — ${safe(DESTINY_DESC[x])}`)],
  ['Special arenas',Object.entries(ARENAS).map(([name,desc])=>`<strong>${safe(name)}</strong> — ${safe(desc)}`)],
- ['Weaknesses',['Disadvantage upon contact with the specified weakness, affecting head-to-head matchups.']],
+ ['Tournament battle rules',['Super Strength, Super Speed, Super Genius and Regeneration set their respective effective attributes to 10. Native stat wheels only roll 1–9.','Up to eight rounds of attack exchanges; Strength, Power Level, equipment and active powers influence damage, while Durability and defensive powers reduce it.','Speed determines who attacks first. Regeneration heals during the fight. Arena abilities only last for that match.','Alignment affects whether a finishing blow is lethal; Spare the Dying and Reanimation only activate after a lethal defeat. Spare is once per season. Reanimation transforms the fighter in that season only.','A knockout or the remaining-health ratio determines the battle winner. If neither is decisive, matchup points, Destiny’s Favour and knockout tiebreakers decide.','Everyone starts each match at full health. Season-specific rewards and reanimations do not change your original saved characters.']],
+ ['Weaknesses',['Disadvantage on contact: -2 matchup points and extra damage from an attacking power/weapon that matches the weakness.']],
  ['Weapons & special rules',WEAPONS.map(w=>`<strong>${safe(w)}</strong>${w==='Power Ring'?' — Grants the powers of its rolled god while worn':w==='Infinity Gauntlet'?' — Roll the stone count, then distinct stones. With all six, 50% instant win on combat start':''}`).concat(STONES.map(s=>`<strong>${safe(s)} Stone</strong> — ${safe(STONE_DESC[s])}`))],
- ['Weapon enchantments',ENCHANTMENTS.map(e=>`<strong>${safe(e)}</strong> — ${safe(ENCHANT_DESC[e])}`)],
+ ['Weapon enchantments',['No Enchantment — 75% chance on a standard weapon enchantment spin',...ENCHANTMENTS.map(e=>`<strong>${safe(e)}</strong> — ${safe(ENCHANT_DESC[e])}`)]],
  ['Powers',POWERS.map(p=>`<strong>${safe(p)}</strong> — ${safe(POWER_DESC[p])}`)]
  ];
- $('libraryContents').innerHTML=blocks.map(([name,entries])=>`<div class="library-block"><h3>${safe(name)} (${entries.length})</h3>${entries.map(x=>`<p>${x}</p>`).join('')}</div>`).join('');
+ $('libraryContents').innerHTML=blocks.map(([name,entries])=>`<details class="library-block"><summary><span>${safe(name)}</span><span class="rule-count">${entries.length} entries</span></summary><div class="library-items">${entries.map(x=>`<p>${x}</p>`).join('')}</div></details>`).join('');
 }
+$('expandRules').addEventListener('click',()=>document.querySelectorAll('#libraryContents details').forEach(d=>d.open=true));
+$('collapseRules').addEventListener('click',()=>document.querySelectorAll('#libraryContents details').forEach(d=>d.open=false));
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));
  for(const page of ['creator','tournaments','library'])$(page+'Page').hidden=page!==btn.dataset.page;
