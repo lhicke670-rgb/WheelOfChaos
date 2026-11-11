@@ -282,7 +282,7 @@ Technomancy|Control over Technology
 Necromancy|Control over the Dead
 Invisibility|Unseen by the Naked Eye
 Intangibility|Can Phase through Objects
-Elasticity|+1 Durability, Shape Change at Will
+Elasticity|+1 Durability, Shape Changing
 Leech|Steal a Power upon Victory
 Greed|Steal a Weapon upon Victory
 True Sight|Sight unobstructed by Dark, Light, Invisibility
@@ -336,7 +336,7 @@ Moist|Vaguely Wet at All Times
 Vibrating|Jitters Back and Forth, Phasing Capabilities
 God Touched|Grants the Powers of a God While in Possession
 Soul Sucking|+1 Weapon Mastery Per Kill
-Glass|50/50 chance to break after a Battle, See Through
+Glass|50/50 chance to break when used, See Through
 Giant|Really Big, Unwieldy for weak Human Sized Beings
 Tiny|Really Small, Unwieldy for Human Sized Beings
 Duplicating|Can Create Near Perfect Copies of Itself
@@ -674,7 +674,18 @@ function onStepResult(s,value){
  // They are inserted right here, not saved up until the main Weapon wheel.
  after.push(...queuedBonusSteps());
  if(after.length)insertAfter(after);
- state.final=false;renderPreview();renderStep(false);
+ state.final=false;renderPreview();
+ // Consecutive rolls with identical options reuse the wheel without a separate Advance click.
+ const next=state.steps[state.index+1];
+ const sameWheel=next&&JSON.stringify(wheelOptions(s))===JSON.stringify(wheelOptions(next))&&
+   !next.manual&&!s.manual&&next.type===s.type;
+ if(sameWheel){
+  state.index++;
+  renderStep(false);
+  $('resultLabel').textContent='↻ Another '+next.label+' — spin again';
+  $('nextStep').textContent='✓ Previous '+s.label+': '+value+' · Spin again on this wheel.';
+  $('stageNote').textContent='Same wheel, next roll! No need to press Continue.';
+ }else renderStep(false);
 }
 
 let wheelFrame=null,rollingAngle=0;
