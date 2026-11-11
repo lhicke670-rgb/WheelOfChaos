@@ -74,19 +74,32 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 @keyframes goldPulse{0%,100%{filter:drop-shadow(0 0 3px #ffd57b33)}50%{filter:drop-shadow(0 0 14px #ffd57b77)}}
 .wheel-area{animation:goldPulse 5s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.wheel-area{animation:none}button,.panel{transition:none}}
+
+#stepHelp:empty,.subtitle:empty,#stageNote:empty{display:none}
+.wheel-hub{cursor:pointer;z-index:5}
+.arena-bonus{background:linear-gradient(115deg,#76501e66,#c89d3a33);border:2px solid #f2c56d;border-radius:12px;padding:12px;margin:10px 0;color:#ffe6a5;box-shadow:0 0 22px #e8b75326}
+.arena-bonus strong{display:block;font-size:12px;letter-spacing:.08em;margin-bottom:5px}
+.history-list{display:grid;gap:10px;margin:10px 0}
+.season-history-item{border:1px solid #876d3b;border-radius:12px;background:#2c241b;padding:12px}
+.season-history-item>summary{cursor:pointer;font-size:16px}
+.history-content{padding:10px 2px}
+.history-content h4{margin:14px 0 7px;color:#f7d994}
+.history-content details{margin:5px 0}
+.history-rewards{padding:5px 12px;color:#f2d28d;font-size:12px}
 </style></head><body>
-<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><p class="subtitle">One spin at a time. One champion at the end.</p></div></header>
+<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
-<section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp">Conditional sub-race wheels appear automatically.</div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
+<section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp"></div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
 <div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div id="unlockNotice" class="unlock-notice" hidden></div><div id="autoGrants" class="automatic-grants" hidden></div></div>
 <div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div>
-<div class="controls"><button class="primary" id="spin">↻ Spin this wheel</button><button id="advance" disabled>Next wheel →</button><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote">Spin each wheel and continue to the next step.</p></div>
+<div class="controls"><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote">Spin each wheel and continue to the next step.</p></div>
 <aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name <strong>(required to save)</strong></label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
 <div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button></div>
 <div class="group"><div class="panel-header"><h3>Saved roster (<span id="savedCount">0</span>)</h3><button id="exportRoster" class="subtle" style="font-size:11px;padding:6px 8px">Export all</button></div><div class="saved-list" id="savedList"></div><details><summary class="help">Import saved characters</summary><input id="importRoster" type="file" accept=".json,application/json"><p class="help">Imports characters from an earlier Character Roulette or Wheel of Destiny roster JSON file.</p></details></div></aside></div></section>
-<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Create a single-elimination bracket, compare fighters, and decide each winner yourself.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Clear season</button></div><p class="notice">You decide who advances. Review each fighter’s stats, powers, equipment, weaknesses and optional matchup scores. Tournament results never change your original saved characters.</p></div>
-<div class="panel"><div class="panel-header"><h2>Season arena</h2><span class="tag" id="seasonStatus">No season</span></div><div id="seasonContent" class="empty">Save two or more characters, select them, and create a season to see your matchups.</div></div></div></section>
+<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Choose competitors and create a knockout bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Archive current season</button></div></div>
+<div class="panel"><div class="panel-header"><h2>Season history</h2><button id="exportSeasons" class="subtle">Export seasons</button></div><div id="seasonHistory" class="history-list"></div><details><summary>Import season archive</summary><input id="importSeasons" type="file" accept=".json,application/json"><p class="help">Import previously exported season histories. Existing seasons are retained.</p></details></div>
+<div class="panel"><div class="panel-header"><h2>Current tournament</h2><span class="tag" id="seasonStatus">No season</span></div><div id="seasonContent" class="empty">Save two or more characters, select them, and create a season to see your matchups.</div></div></div></section>
 <section id="libraryPage" hidden><div class="panel"><h2>Complete option library</h2><p class="help">Includes races and sub-races, classes, alignments, powers, destiny interventions, weapon enchantments, arenas and special rules.</p><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div></div></section></main>
 <footer>Saved locally in this browser. Export your roster to keep a backup or move it to another device.</footer>
 <script>
@@ -484,7 +497,7 @@ const initialSteps=()=>[
  {id:'destiny',label:'Destiny’s Intervention',type:'destiny'}
 ];
 let state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false,autoGrants:[]};
-let roster=[],picked=new Set(),season=null,viewedSaved=null;
+let roster=[],picked=new Set(),season=null,seasonHistory=[],viewedSaved=null;
 function current(){return state.steps[state.index]}
 // Fixed grants are recorded in the character sheet but do not need a wheel or a Continue click.
 function skipAutomaticGrants(){
@@ -731,7 +744,7 @@ function onStepResult(s,value){
   renderStep(false);
   $('resultLabel').textContent='↻ Another '+next.label+' — spin again';
   $('nextStep').textContent='✓ Previous '+s.label+': '+value+' · Spin again on this wheel.';
-  $('stageNote').textContent='Same wheel, next roll! No need to press Continue.';
+  $('stageNote').textContent='Spin again.';
  }else renderStep(false);
 }
 
@@ -763,9 +776,9 @@ function renderStep(redraw=true){const s=current();if(!s)return;
  $('resultLabel').textContent=done?'Result':s.source?'Unlocked by '+s.source:'Current wheel';
  $('featureText').textContent=state.final?'Character complete!':done?state.results[s.id]:s.label;
  $('nextStep').textContent=state.final?'Save your character and start a tournament.':done?(next?'Next wheel: '+next.label:'Final character sheet'):'Spin to discover your '+s.label.toLowerCase()+'.';
- $('spin').disabled=done||state.rolling||state.final;$('wheelHub').disabled=done||state.rolling||state.final;$('advance').disabled=!done||state.rolling||state.final;
- $('advance').textContent=next?((next.source||!['race','class','alignment','stat','power','weapon','destiny'].includes(next.type))?'Next bonus →':'Continue →'):'Finish →';
- $('stageNote').textContent=state.final?'Save your completed character or move to the tournament.':done?'Continue when you are ready.':'Spin the wheel to reveal your next result.';
+ $('wheelHub').disabled=state.rolling||state.final;
+ $('wheelHub').textContent=state.final?'DONE':done?'NEXT':'SPIN';$('wheelHub').setAttribute('aria-label',done?'Continue to next wheel':'Spin the current wheel');
+ $('stageNote').textContent=state.final?'Save your completed character or move to the tournament.':done?'Continue when you are ready.':'';
  const box=$('unlockNotice');const bonus=next&&(!['race','class','alignment','stat','power','weapon','destiny'].includes(next.type)||next.source||next.type==='subrace');
  box.hidden=!(done&&bonus&&!state.final);
  if(!box.hidden){const origin=(next.source||s.source||s.label).replace(/^Bonus [^—]+ — /,'');const title=['enchantment','grantEnchant'].includes(next.type)?'🔮 ENCHANTMENT UNLOCKED':next.type==='bonusPower'?'✨ BONUS POWER UNLOCKED':next.type==='bonusWeapon'?'⚔️ BONUS WEAPON UNLOCKED':next.type==='subrace'?'🌿 SUB-RACE UNLOCKED':next.type==='destinyRace'?'🦎 NEW RACE UNLOCKED':'🔗 CONDITIONAL ROLL UNLOCKED';
@@ -786,7 +799,7 @@ function renderChoice(s,done){
  choiceWrap.append(sel,btn);
 }
 function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasOwn(state.results,s.id))return;
- state.rolling=true;$('spin').disabled=true;$('wheelHub').disabled=true;$('advance').disabled=true;renderChoice(s,false);
+ state.rolling=true;$('wheelHub').disabled=true;renderChoice(s,false);
  const lucky=!s.manual&&!['grantWeapon','grantEnchant'].includes(s.type)&&buildCharacter().powers.includes('Luck');
  const segs=wheelSegments(s);
  function animateOnce(result,label,done){
@@ -821,18 +834,20 @@ function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasO
   });
  });
 }
-$('spin').addEventListener('click',spin);
-$('wheelHub').addEventListener('click',spin);
+function spinOrContinue(){
+ if(state.rolling||state.final)return;
+ const s=current();if(!s)return;
+ if(Object.hasOwn(state.results,s.id)){
+  if(state.index<state.steps.length-1){state.index++;skipAutomaticGrants();renderStep();renderPreview()}
+  else{state.final=true;renderStep();renderPreview()}
+ }else spin();
+}
+$('wheelHub').addEventListener('click',spinOrContinue);
 $('characterName').addEventListener('input',()=>{
  $('nameHint').textContent=$('characterName').value.trim()?'Name ready — finish the wheels to save.':'Enter a name before saving.';
  renderPreview();
 });
-$('advance').addEventListener('click',()=>{const s=current();if(!s||!Object.hasOwn(state.results,s.id)||state.rolling)return;
-
- if(state.index<state.steps.length-1){state.index++;skipAutomaticGrants();renderStep();renderPreview()}
- else{state.final=true;renderStep();renderPreview()}
-});
-$('newCharacter').addEventListener('click',()=>{if(state.rolling)return;viewedSaved=null;state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false,autoGrants:[]};$('characterName').value='';$('nameHint').textContent='Enter a name before saving.';renderStep();renderPreview()});
+$('newCharacter').addEventListener('click',()=>{if(state.rolling||!confirm('Start over? All unsaved character rolls will be lost.'))return;viewedSaved=null;state={steps:initialSteps(),index:0,results:{},rolling:false,bonusesQueued:false,final:false,autoGrants:[]};$('characterName').value='';$('nameHint').textContent='Enter a name before saving.';renderStep();renderPreview()});
 // Turn all explicitly listed traits into reproducible, numeric and qualitative sheet effects.
 function buildCharacter(){
  const r=state.results,mods=Object.fromEntries(STATS.map(k=>[k,0]));
@@ -1020,10 +1035,49 @@ function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.fina
 }
 
 // Saved character roster.
-const ROSTER_KEY='characterRoulette.saved.v3',SEASON_KEY='characterRoulette.season.v3';
+const ROSTER_KEY='characterRoulette.saved.v3',SEASON_KEY='characterRoulette.season.v3',SEASONS_KEY='wheelOfDestiny.seasons.v1';
 function uid(){return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,9)}
 function storeRoster(){try{localStorage.setItem(ROSTER_KEY,JSON.stringify(roster))}catch(e){alert('Storage is full or disabled. Export your roster for a backup.')}}
-function storeSeason(){try{if(season)localStorage.setItem(SEASON_KEY,JSON.stringify(season));else localStorage.removeItem(SEASON_KEY)}catch(e){}}
+function storeSeason(){
+ try{
+  if(season)localStorage.setItem(SEASON_KEY,JSON.stringify(season));
+  else localStorage.removeItem(SEASON_KEY);
+  localStorage.setItem(SEASONS_KEY,JSON.stringify(seasonHistory));
+ }catch(e){alert('Could not save tournament history. Export seasons for a backup.')}
+}
+function seasonNumber(){return Math.max(0,...seasonHistory.map(x=>Number(x.number)||0),Number(season?.number)||0)+1}
+function archiveSeason(){
+ if(!season)return;
+ seasonHistory.push(JSON.parse(JSON.stringify({...season,archived:new Date().toISOString()})));
+ seasonHistory.sort((a,b)=>(Number(a.number)||0)-(Number(b.number)||0));
+ season=null;storeSeason();renderTournament();
+}
+function renderHistory(){
+ const root=$('seasonHistory');if(!root)return;
+ root.innerHTML=seasonHistory.length?seasonHistory.slice().reverse().map(x=>{
+ const champ=x.roster?.find(c=>c.id===x.championId),matches=(x.rounds||[]).flat(),n=Number(x.number)||'?';
+ return `<details class="season-history-item"><summary><strong>Season ${safe(String(n))}</strong> · ${safe(champ?.name||'Unfinished')} · ${matches.filter(m=>m.status==='done').length} matches</summary>
+ <div class="history-content"><p><b>Created:</b> ${safe(new Date(x.created).toLocaleDateString())}</p><p><b>Champion:</b> ${safe(champ?.name||'Not crowned')}</p>
+ <h4>Line-up (${x.roster?.length||0})</h4>${(x.roster||[]).map(c=>`<details><summary>${safe(c.name)} · ${safe(c.race||'')} · ${safe(c.class||'')}</summary>${fighterCard(c,null,true)}</details>`).join('')}
+ <h4>Bracket and match results</h4>${(x.rounds||[]).map((round,i)=>`<div class="fixture-round"><b>Round ${i+1}</b>${round.map(m=>{
+ const a=x.roster.find(c=>c.id===m.a),b=x.roster.find(c=>c.id===m.b),w=x.roster.find(c=>c.id===m.winner);
+ const reward=m.result?.arenaRewards||{};
+ return `<div class="fixture"><span>${safe(a?.name||'?')} ${b?'vs '+safe(b.name):'(bye)'}</span><small>${safe(w?.name||'Pending')}${m.status==='bye'?' advances (bye)':m.status==='done'?' wins':''}${m.result?.arena?' · '+safe(m.result.arena):''}</small></div>${m.result?.arena?`<div class="history-rewards">${Object.entries(reward).map(([id,v])=>`<div>${safe(x.roster.find(c=>c.id===id)?.name||'?')}: ${safe(v)}</div>`).join('')}</div>`:''}`;
+ }).join('')}</div>`).join('')}</div></details>`;
+ }).join(''):'<p class="help">Completed and archived seasons will appear here with their full line-ups and brackets.</p>';
+}
+$('exportSeasons').addEventListener('click',()=>download(JSON.stringify({app:'Wheel of Destiny',type:'season-history',version:1,seasons:[...seasonHistory,...(season?[season]:[])]},null,2),'wheel-of-destiny-seasons.json'));
+$('importSeasons').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{const data=JSON.parse(await file.text()),items=Array.isArray(data)?data:data.seasons;
+  if(!Array.isArray(items))throw Error('Invalid archive');
+  const valid=items.filter(x=>x&&Array.isArray(x.roster)&&Array.isArray(x.rounds)&&x.format==='knockout');
+  const keys=new Set(seasonHistory.map(x=>x.id||x.created));
+  for(const x of valid){const k=x.id||x.created;if(!keys.has(k)&&k!==season?.id){seasonHistory.push(x);keys.add(k)}}
+  storeSeason();renderHistory();alert('Season history imported.');
+ }catch(err){alert('Could not import season history: '+err.message)}
+ e.target.value='';
+});
 function download(text,name,type='application/json'){const b=new Blob([text],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),500)}
 function normaliseCharacter(c){if(!c||typeof c!=='object')return null;
  if(c.stats&&c.race){const copy={...c};copy.id=String(copy.id||uid());copy.name=String(copy.name||'Unnamed character');copy.stats=Object.assign({},Object.fromEntries(STATS.map(k=>[k,4])),copy.stats);copy.attributes={...Object.fromEntries(STATS.map(k=>[k,copy.stats[k]]))};copy.alignment=copy.alignment||'—';copy.destinyInterventions=copy.destinyInterventions||[];
@@ -1083,11 +1137,19 @@ function leagueRounds(ids){const p=[...ids];if(p.length%2)p.push(null);const rou
 function knockoutRound(ids){const matches=[];for(let i=0;i<ids.length;i+=2){const a=ids[i],b=ids[i+1]||null;matches.push({a,b,status:b?'pending':'bye',winner:b?null:a,result:null})}return matches}
 function startSeason(){const selected=roster.filter(c=>picked.has(c.id));if(selected.length<2){alert('Select at least two saved characters first.');return}
  const ids=selected.map(c=>c.id),fmt='knockout';
- season={format:fmt,created:new Date().toISOString(),roster:JSON.parse(JSON.stringify(selected)),rounds:[knockoutRound(ids)],lastReport:null,championId:null,arenaRolls:{}};
+ if(season){
+  if(!confirm('Archive the current season and start a new one?'))return;
+  archiveSeason();
+ }
+ season={id:uid(),number:seasonNumber(),format:fmt,created:new Date().toISOString(),roster:JSON.parse(JSON.stringify(selected)),rounds:[knockoutRound(ids)],lastReport:null,championId:null,arenaRolls:{},arenaRewards:{}};
  storeSeason();renderTournament();
 }
 $('startSeason').addEventListener('click',startSeason);
-$('clearSeason').addEventListener('click',()=>{season=null;storeSeason();renderTournament()});
+$('clearSeason').addEventListener('click',()=>{
+ if(!season)return;
+ if(!confirm('Archive Season '+(season.number||'?')+'? It will remain in Season history, including all line-ups and results.'))return;
+ archiveSeason();
+});
 function fighter(id){return season?.roster.find(x=>x.id===id)||null}
 function normalStat(v){return typeof v==='number'&&Number.isFinite(v)?v:null}
 function count(arr){return Array.isArray(arr)?arr.length:0}
@@ -1386,36 +1448,41 @@ function advanceKnockout(){if(!season||season.format!=='knockout'||nextFixture()
  if(winners.length===1){season.championId=winners[0];return}
  if(winners.length>1)season.rounds.push(knockoutRound(winners));
 }
-function manualMatchPoints(c,opponent){
- const st=c.stats||{};
- const statTotal=['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'].reduce((n,k)=>n+(Number(st[k])||0),0);
- const powers=(c.powers||[]).length*3, weapons=(c.weapons||[]).filter(x=>x!=='No Weapon').length*2;
- const enchantments=(c.enchantments||[]).length*2;
- const weaknesses=counterWeakness(opponent,c).length*3;
- return {statTotal,powers,weapons,enchantments,weaknesses,total:statTotal+powers+weapons+enchantments-weaknesses};
+function arenaReward(f,arena,c){
+ season.arenaRewards=season.arenaRewards||{};
+ const key=arenaKey(f)+':'+arena+':'+c.id;
+ if(!season.arenaRewards[key]){
+  let value='';
+  if(arena==='Magic Forest')value='✨ Temporary power: '+choose(POWERS.filter(x=>x!=='No Power'));
+  else if(arena==='Armoury')value='⚔ Temporary weapon: '+choose(PLAIN_WEAPONS.filter(x=>x!=='No Weapon'));
+  else if(arena==='God Temple'){
+   const god=choose(SUBRACES.God);
+   value='🌟 God of '+god+': '+(SUB_TRAITS.God[god]||[]).join(', ');
+  }else if(arena==='Concert Venue')value='🎵 Available instrument: '+choose(['Lute','Drums','Flute','Violin','Trumpet','Harp','Piano','Guitar']);
+  season.arenaRewards[key]=value;
+  storeSeason();
+ }
+ return season.arenaRewards[key];
 }
+function arenaMatchRewards(f,arena,a,b){return {[a.id]:arenaReward(f,arena,a),[b.id]:arenaReward(f,arena,b)}}
 function chooseWinner(id){
  const f=nextFixture();if(!f||![f.m.a,f.m.b].includes(id))return;
- const a=fighter(f.m.a),b=fighter(f.m.b),pa=manualMatchPoints(a,b),pb=manualMatchPoints(b,a);
- const arena=getArena(f);
- const report={aId:a.id,bId:b.id,aScore:pa.total,bScore:pb.total,arena,
- rows:[{name:'Base stats',a:pa.statTotal,b:pb.statTotal},{name:'Powers',a:pa.powers,b:pb.powers},{name:'Weapons',a:pa.weapons,b:pb.weapons},{name:'Enchantments',a:pa.enchantments,b:pb.enchantments},{name:'Weakness penalties',a:-pa.weaknesses,b:-pb.weaknesses}],
- groups:[],notes:['Winner manually selected by tournament organiser.','Scores are guidance only; the selected winner advances.','Arena: '+arena+' — '+ARENAS[arena]],
- winner:id,draw:false,manual:true,created:new Date().toISOString()};
+ const a=fighter(f.m.a),b=fighter(f.m.b),arena=getArena(f);
+ const arenaRewards=arenaMatchRewards(f,arena,a,b);
+ const report={aId:a.id,bId:b.id,arena,arenaRewards,
+  notes:['Winner chosen manually. No automatic scoring or lethal effects.'],winner:id,draw:false,manual:true,created:new Date().toISOString()};
  f.m.result=report;f.m.winner=id;f.m.status='done';season.lastReport=report;
- // Manual outcomes do not automatically imply a kill or steal.
  advanceKnockout();storeSeason();renderTournament();
 }
-function fighterCard(c,opponent){
- const pts=manualMatchPoints(c,opponent);
- const list=(a)=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
+function fighterCard(c,opponent,history=false,arenaBonus=''){
+ const list=a=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
  return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help">${safe(c.race||'')} · ${safe(c.class||'')}</div>
- <div class="fighter-score">${pts.total} <small>suggested points</small></div>
+ ${arenaBonus?`<div class="arena-bonus"><strong>🏟 ARENA BENEFIT</strong><div>${safe(arenaBonus)}</div></div>`:''}
  <div class="fighter-stats">${['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'].map(k=>`<div><span>${safe(k)}</span><b>${safe(String(c.stats?.[k]??'—'))}</b></div>`).join('')}</div>
  <p><b>Powers:</b> ${list(c.powers)}</p><p><b>Weapons:</b> ${list(c.weapons)}</p>
  <p><b>Enchantments:</b> ${list(c.enchantments)}</p><p><b>Weaknesses:</b> ${list(c.weaknesses)}</p>
- <p class="help">Points = stats ${pts.statTotal} + powers ${pts.powers} + weapons ${pts.weapons} + enchantments ${pts.enchantments} − weaknesses ${pts.weaknesses}.</p>
- <button class="primary winner-pick" data-winner="${safe(c.id)}">🏆 Advance ${safe(c.name)}</button></div>`;
+ <p><b>Special:</b> ${list(c.special)}</p>
+ ${history?'':`<button class="primary winner-pick" data-winner="${safe(c.id)}">🏆 Advance ${safe(c.name)}</button>`}</div>`;
 }
 function standings(){if(!season)return [];
  const entries=season.roster.map(c=>({id:c.id,name:c.name,win:0,draw:0,loss:0,played:0,points:0,diff:0,total:STATS.reduce((n,k)=>n+(normalStat(c.stats[k])||0),0)}));
@@ -1426,13 +1493,19 @@ function standings(){if(!season)return [];
  return entries.sort((a,b)=>b.points-a.points||b.diff-a.diff||b.win-a.win||b.total-a.total||a.name.localeCompare(b.name));
 }
 function isSeasonDone(){return season&&(season.format==='knockout'?!!season.championId:!nextFixture())}
-function matchupReport(r){const a=fighter(r.aId),b=fighter(r.bId),winner=r.winner?fighter(r.winner):null;
- return `<details open><summary>Most recent matchup — ${safe(r.arena||'Unknown arena')}</summary><div class="match"><div class="versus"><div><strong>${safe(a?.name)}</strong><small>${r.aScore} matchup points</small></div><b>VS</b><div><strong>${safe(b?.name)}</strong><small>${r.bScore} matchup points</small></div></div><h3 style="text-align:center;color:var(--good);margin-top:13px">${winner?safe(winner.name)+' wins':'Draw'}</h3><div class="breakdown">${r.rows.map(x=>`<div><span>${safe(x.name)}</span><strong>${safe(x.a)} vs ${safe(x.b)} ${x.winner==='a'?'· '+safe(a.name):x.winner==='b'?'· '+safe(b.name):''}</strong></div>`).join('')}${r.groups.map(x=>`<div><span>${safe(x[0])}</span><strong>${x[1]} vs ${x[2]}</strong></div>`).join('')}${r.notes.map(x=>`<div><span>Special rule</span><strong>${safe(x)}</strong></div>`).join('')}</div>${r.combat?`<div class="combat-result"><h3>⚔ Combat simulation · ${r.combat.rounds} rounds</h3><div class="combat-hp"><div>${safe(a?.name)}: <b>${r.combat.hp[0]} / ${r.combat.maxHP[0]} HP</b></div><div>${safe(b?.name)}: <b>${r.combat.hp[1]} / ${r.combat.maxHP[1]} HP</b></div></div><details><summary>View attack-by-attack events (${r.combat.events.length})</summary><ol class="combat-log">${r.combat.events.map(t=>`<li>${safe(t)}</li>`).join('')}</ol></details></div>`:r.instant?'<p class="help">The Infinity Gauntlet ended the battle before combat began.</p>':''}</div></details>`;
+function matchupReport(r){
+ const a=fighter(r.aId),b=fighter(r.bId),winner=r.winner?fighter(r.winner):null;
+ return `<details><summary>Most recent matchup · ${safe(r.arena||'Arena')}</summary>
+ <div class="match"><p><b>${safe(a?.name)}</b> vs <b>${safe(b?.name)}</b></p>
+ <p class="champ">🏆 ${safe(winner?.name||'Winner')} advances</p>
+ <p><b>Arena:</b> ${safe(r.arena||'')}</p>
+ ${Object.entries(r.arenaRewards||{}).map(([id,reward])=>`<div class="arena-bonus"><b>${safe(fighter(id)?.name||'Fighter')} received:</b> ${safe(reward)}</div>`).join('')}
+ </div></details>`;
 }
-function renderTournament(){if(!season){$('seasonStatus').textContent='No season';$('seasonContent').innerHTML='<p class="empty">Select saved characters and create a tournament to generate matchups.</p>';return}
+function renderTournament(){renderHistory();if(!season){$('seasonStatus').textContent='No season';$('seasonContent').innerHTML='<p class="empty">Select saved characters and create a tournament to generate matchups.</p>';return}
  const done=isSeasonDone(),next=nextFixture(),total=season.rounds.flat().filter(x=>x.status!=='bye').length,played=season.rounds.flat().filter(x=>x.status==='done').length;
- $('seasonStatus').textContent=done?'Season complete':`${played} matches played`;
- let html=`<div class="help">${season.format==='league'?'Round-robin league':'Knockout bracket'} · ${season.roster.length} competitors · ${season.rounds.length} round(s)</div>`;
+ $('seasonStatus').textContent=done?'Season '+(season.number||'?')+' complete':`Season ${season.number||'?'} · ${played} matches`;
+ let html=`<div class="help">Season ${season.number||'?'} · Knockout bracket · ${season.roster.length} competitors · ${season.rounds.length} round(s)</div>`;
  if(season.format==='league'){
   const board=standings();html+=`<h3 style="margin-top:12px">League standings</h3><div style="overflow-x:auto"><table class="standings"><thead><tr><th>#</th><th>Competitor</th><th class="n">W</th><th class="n">D</th><th class="n">L</th><th class="n">Pts</th></tr></thead><tbody>${board.map((x,i)=>`<tr><td>${i+1}</td><td>${safe(x.name)}</td><td class="n">${x.win}</td><td class="n">${x.draw}</td><td class="n">${x.loss}</td><td class="n">${x.points}</td></tr>`).join('')}</tbody></table></div>`;
   if(done)season.championId=board[0]?.id||null;
@@ -1440,13 +1513,14 @@ function renderTournament(){if(!season){$('seasonStatus').textContent='No season
  if(next){const a=fighter(next.m.a),b=fighter(next.m.b);
   const arena=getArena(next),spaceChoice=[a,b].some(c=>(c?.special||[]).includes('Choice of Arena'));
   const dimensional=[a,b].some(c=>(c?.powers||[]).includes('Dimensional Travel'));
+  const arenaRewards=arenaMatchRewards(next,arena,a,b);
   const arenaPicker=`<div class="arena-box"><div class="eyebrow">🏟 Battle arena</div><div style="font-weight:800;font-size:17px;margin-top:4px">${safe(arena)}</div><div class="help">${safe(ARENAS[arena])}</div>${spaceChoice?`<label for="arenaChoice" class="help">God of Space can choose the arena</label><select id="arenaChoice">${Object.keys(ARENAS).map(x=>`<option value="${safe(x)}" ${x===arena?'selected':''}>${safe(x)}</option>`).join('')}</select>`:''}${dimensional?`<button class="arena-reroll" id="arenaReroll">↻ Dimensional Travel — reroll arena</button>`:''}</div>`;
-  html+=`<div class="match"><div class="eyebrow">Round ${next.i+1} · Your decision</div>${arenaPicker}<div class="manual-versus">${fighterCard(a,b)}<div class="manual-vs">VS</div>${fighterCard(b,a)}</div><p class="help center">These are suggested comparison points, not an automatic verdict. Arena effects and unusual abilities may justify a different outcome.</p></div>`;
+  html+=`<div class="match"><div class="eyebrow">Round ${next.i+1} · Matchup</div>${arenaPicker}<div class="manual-versus">${fighterCard(a,b,false,arenaRewards[a.id])}<div class="manual-vs">VS</div>${fighterCard(b,a,false,arenaRewards[b.id])}</div></div>`;
 
  }
  html+=`<details open><summary>${season.format==='league'?'All round-robin fixtures':'Tournament bracket'}</summary>`;
  season.rounds.forEach((round,i)=>{html+=`<div class="fixture-round"><div class="fixture-head">${season.format==='knockout'&&i===season.rounds.length-1&&!done?'Current bracket · ':''}Round ${i+1}</div>`;
- round.forEach(m=>{const a=fighter(m.a),b=m.b?fighter(m.b):null,rep=m.result;let status=m.status==='bye'?'Bye — advances':m.status==='pending'?'Awaiting battle':rep?.draw?'Draw':`${safe(fighter(m.winner)?.name)} wins (${rep?.aScore}–${rep?.bScore})`;
+ round.forEach(m=>{const a=fighter(m.a),b=m.b?fighter(m.b):null,rep=m.result;let status=m.status==='bye'?'Bye — advances':m.status==='pending'?'Awaiting battle':rep?.draw?'Draw':`${safe(fighter(m.winner)?.name)} wins`;
   html+=`<div class="fixture"><span>${safe(a?.name)} ${b?'vs '+safe(b.name):''}</span><small>${status}</small></div>`;
  });html+='</div>'});html+='</details>';
  if(done&&season.championId){const champ=fighter(season.championId);html+=`<div class="champ"><div style="font-size:38px">🏆</div><div class="eyebrow">Season champion</div><strong>${safe(champ?.name||'Champion')}</strong><span class="help">${safe(champ?.race)} · ${safe(champ?.class)}</span></div>`}
@@ -1464,8 +1538,8 @@ function renderLibrary(){const blocks=[
  ['Alignments',ALIGNMENTS.map(x=>`<strong>${safe(x)}</strong> — ${safe(ALIGN_DESC[x])}`)],
  ['Destiny’s Interventions',DESTINY_INTERVENTIONS.map(x=>`<strong>${safe(x)}</strong> — ${safe(DESTINY_DESC[x])}`)],
  ['Special arenas',Object.entries(ARENAS).map(([name,desc])=>`<strong>${safe(name)}</strong> — ${safe(desc)}`)],
- ['Tournament battle rules',['Super Strength, Super Speed, Super Genius and Regeneration set their respective effective attributes to 10. Native stat wheels only roll 1–9.','Up to eight rounds of attack exchanges; Strength, Power Level, equipment and active powers influence damage, while Durability and defensive powers reduce it.','Speed determines who attacks first. Regeneration heals during the fight. Arena abilities only last for that match.','Alignment affects whether a finishing blow is lethal; Spare the Dying and Reanimation only activate after a lethal defeat. Spare is once per season. Reanimation transforms the fighter in that season only.','A knockout or the remaining-health ratio determines the battle winner. If neither is decisive, matchup points, Destiny’s Favour and knockout tiebreakers decide.','Everyone starts each match at full health. Season-specific rewards and reanimations do not change your original saved characters.']],
- ['Weaknesses',['Disadvantage on contact: -2 matchup points and extra damage from an attacking power/weapon that matches the weakness.']],
+ ['Tournament rules',['Single-elimination bracket only. The organiser selects the winner of every matchup.','Fighter sheets show stats, powers, weapons, enchantments, weaknesses and special abilities, without automatic points.','Arena bonuses are rolled and shown for both fighters; they are temporary and are recorded with each match.','Every season preserves its line-up, bracket, match winners, arena assignments and champion. Archive seasons to review them later.','Export season history regularly to keep a backup.','Super Strength, Super Speed, Super Genius and Regeneration grant an effective 10 in their respective stats; natural stat wheels roll 1–9.']],
+ ['Weaknesses',['Weaknesses are listed on each fighter’s sheet. The organiser decides how much they matter to the matchup.']],
  ['Weapons & special rules',WEAPONS.map(w=>`<strong>${safe(w)}</strong>${w==='Power Ring'?' — Grants the powers of its rolled god while worn':w==='Infinity Gauntlet'?' — Roll the stone count, then distinct stones. With all six, 50% instant win on combat start':''}`).concat(STONES.map(s=>`<strong>${safe(s)} Stone</strong> — ${safe(STONE_DESC[s])}`))],
  ['Weapon enchantments',['No Enchantment — 75% chance on a standard weapon enchantment spin',...ENCHANTMENTS.map(e=>`<strong>${safe(e)}</strong> — ${safe(ENCHANT_DESC[e])}`)]],
  ['Powers',POWERS.map(p=>`<strong>${safe(p)}</strong> — ${safe(POWER_DESC[p])}`)]
@@ -1482,7 +1556,12 @@ function init(){try{
  const current=JSON.parse(localStorage.getItem(ROSTER_KEY)||'null');const old=JSON.parse(localStorage.getItem('characterRoulette.saved')||'[]');
  roster=(Array.isArray(current)?current:Array.isArray(old)?old:[]).map(normaliseCharacter).filter(Boolean);
  }catch(e){roster=[]}
+ try{
+  const archive=JSON.parse(localStorage.getItem(SEASONS_KEY)||'[]');
+  seasonHistory=Array.isArray(archive)?archive.filter(x=>x&&Array.isArray(x.roster)&&Array.isArray(x.rounds)):[];
+ }catch(e){seasonHistory=[]}
  try{const prior=JSON.parse(localStorage.getItem(SEASON_KEY)||'null');if(prior&&prior.format==='knockout'&&Array.isArray(prior.roster)&&Array.isArray(prior.rounds))season=prior}catch(e){season=null}
+ if(season&&!season.number)season.number=seasonNumber();
  renderStep();renderPreview();renderSaved();renderRosterPicker();renderTournament();renderLibrary();
 }
 init();
