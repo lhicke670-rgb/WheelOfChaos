@@ -97,7 +97,7 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 <div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button></div>
 <div class="group"><div class="panel-header"><h3>Saved roster (<span id="savedCount">0</span>)</h3><button id="exportRoster" class="subtle" style="font-size:11px;padding:6px 8px">Export all</button></div><div class="saved-list" id="savedList"></div><details><summary class="help">Import saved characters</summary><input id="importRoster" type="file" accept=".json,application/json"><p class="help">Imports characters from an earlier Character Roulette or Wheel of Destiny roster JSON file.</p></details></div></aside></div></section>
-<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Choose competitors and create a knockout bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Archive current season</button></div></div>
+<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Choose competitors and create a knockout bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Archive current season</button><button class="subtle" id="deleteCurrentSeason">Delete current season</button></div></div>
 <div class="panel"><div class="panel-header"><h2>Season history</h2><button id="exportSeasons" class="subtle">Export seasons</button></div><div id="seasonHistory" class="history-list"></div><details><summary>Import season archive</summary><input id="importSeasons" type="file" accept=".json,application/json"><p class="help">Import previously exported season histories. Existing seasons are retained.</p></details></div>
 <div class="panel"><div class="panel-header"><h2>Current tournament</h2><span class="tag" id="seasonStatus">No season</span></div><div id="seasonContent" class="empty">Save two or more characters, select them, and create a season to see your matchups.</div></div></div></section>
 <section id="libraryPage" hidden><div class="panel"><h2>Complete option library</h2><p class="help">Includes races and sub-races, classes, alignments, powers, destiny interventions, weapon enchantments, arenas and special rules.</p><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div></div></section></main>
@@ -116,6 +116,44 @@ const WHEEL_PALETTES={
  stat:['#f2cb74','#bd8837','#ffe4a1','#92631f','#e6b85b','#c99b4d'],
  destiny:['#f2a7c5','#bb6f9d','#f7c6dc','#934b78','#e48db7','#ac588c']};
 const COLORS=WHEEL_PALETTES.default;
+
+const STAT_WORDS={
+ 'Strength':['Chud','Weak','Feeble','Average','Strong','Powerful','Mighty','Titanic','Herculean','Superhuman'],
+ 'Speed':['Chud','Weak','Sluggish','Average','Quick','Swift','Rapid','Blinding','Lightning-Fast','Superhuman'],
+ 'Durability':['Chud','Weak','Fragile','Average','Sturdy','Tough','Resilient','Indestructible','Invulnerable','Superhuman'],
+ 'IQ':['Chud','Weak','Slow','Average','Clever','Intelligent','Brilliant','Genius','Omniscient','Superhuman'],
+ 'Power Level':['Chud','Weak','Minor','Average','Potent','Formidable','Overwhelming','Legendary','Omnipotent','Superhuman'],
+ 'Weapon Mastery':['Chud','Weak','Novice','Average','Skilled','Expert','Master','Grandmaster','Unrivalled','Superhuman']
+};
+function statDescription(stat,value){
+ const n=Number(value);
+ if(!Number.isFinite(n)||value==null||value==='')return String(value??'—');
+ if(n<1)return 'Below Chud ('+n+')';
+ const words=STAT_WORDS[stat]||STAT_WORDS.Strength;
+ return (words[Math.min(10,Math.floor(n))-1]||'Superhuman')+' ('+n+')';
+}
+const WHEEL_THEMES={
+ race:{h:176,s:55,l:45},subrace:{h:202,s:66,l:49},otherRace:{h:170,s:54,l:46},
+ class:{h:14,s:75,l:55},extraClass:{h:12,s:70,l:53},
+ alignment:{h:333,s:62,l:54},godDomain:{h:269,s:62,l:58},ringDomain:{h:265,s:64,l:56},
+ dragonType:{h:0,s:68,l:52},statChoice:{h:197,s:70,l:51},stat:{h:205,s:72,l:52},
+ power:{h:275,s:60,l:58},bonusPower:{h:285,s:64,l:58},
+ weapon:{h:120,s:53,l:46},bonusWeapon:{h:135,s:55,l:46},
+ enchantment:{h:184,s:65,l:49},destiny:{h:42,s:79,l:55},
+ weakness:{h:350,s:67,l:51},sidekickKind:{h:155,s:60,l:45},sidekickGift:{h:155,s:65,l:47},
+ destinyRace:{h:171,s:56,l:45},extraKind:{h:303,s:57,l:54},extraPick:{h:290,s:56,l:55},
+ stoneCount:{h:231,s:66,l:55},stone:{h:237,s:64,l:53}
+};
+function sliceColor(s,i,n){
+ const base=WHEEL_THEMES[s.type]||{h:210,s:65,l:52};
+ // All positions have a different HSL colour. Adjacent slices (including first/last)
+ // alternate light/dark, and hue progresses continuously rather than repeating a short palette.
+ const hue=(base.h+(i/n)*Math.min(95,n*4))%360;
+ const light=base.l+(i%2===0?10:-9)+(i%5)*.5;
+ return `hsl(${hue.toFixed(1)} ${base.s}% ${light.toFixed(1)}%)`;
+}
+function wheelLabel(s,value){return s.type==='stat'?statDescription(s.stat||'Strength',value):value}
+
 // Only the revised race roster is available. Angel, Demon and Dragonborn
 // retain their previous rules and sub-races as explicitly requested.
 const RACES=split(`Human
@@ -755,15 +793,17 @@ function shortenWheelLabel(name,max){const arr=Array.from(String(name));return a
 function displayWheel(s){
  const segs=wheelSegments(s),el=$('wheel');
  el.style.transition='none';el.style.transform='rotate(0deg)';rollingAngle=0;
- el.style.background='conic-gradient('+segs.map((v,i)=>(['No Power','No Weapon','No Enchantment'].includes(v.value)?'#050508':(WHEEL_PALETTES[(s.type||'').toLowerCase()]||WHEEL_PALETTES[(s.kind||'').toLowerCase()]||WHEEL_PALETTES.default)[i%(WHEEL_PALETTES[(s.type||'').toLowerCase()]||WHEEL_PALETTES[(s.kind||'').toLowerCase()]||WHEEL_PALETTES.default).length])+' '+v.start.toFixed(4)+'deg '+v.end.toFixed(4)+'deg').join(',')+')';
+ el.style.background='conic-gradient('+segs.map((v,i)=>
+  (['No Power','No Weapon','No Enchantment'].includes(v.value)?'#050508':sliceColor(s,i,segs.length))+
+  ' '+v.start.toFixed(4)+'deg '+v.end.toFixed(4)+'deg').join(',')+')';
  const n=segs.length, font=n>44?9:n>28?10:n>18?11:n>10?12:13;
  const maxChars=n>44?10:n>28?16:n>18?19:n>10?20:23;
  const x=n>44?350:n>28?330:318;
  const markup=segs.map(v=>{
   // Each label sits along its own radial slice, outside the hub and inside the rim.
   const flip=v.center>=180, rotation=v.center-90;
-  const label=shortenWheelLabel(v.value,maxChars);
-  return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="${['No Power','No Weapon','No Enchantment'].includes(v.value)?'#ffffff':'#21172e'}" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}><title>${safe(v.value)}</title>${safe(label)}</text></g>`;
+  const label=shortenWheelLabel(wheelLabel(s,v.value),maxChars);
+  return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="${['No Power','No Weapon','No Enchantment'].includes(v.value)?'#ffffff':'#21172e'}" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}><title>${safe(wheelLabel(s,v.value))}</title>${safe(label)}</text></g>`;
  }).join('');
  el.innerHTML=`<svg class="wheel-svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${markup}</svg>`;
 }
@@ -774,7 +814,7 @@ function renderStep(redraw=true){const s=current();if(!s)return;
  $('stepCount').textContent=`${state.index+1} / ${state.steps.length}`;
  $('progress').style.width=String(state.final?100:100*state.index/state.steps.length)+'%';
  $('resultLabel').textContent=done?'Result':s.source?'Unlocked by '+s.source:'Current wheel';
- $('featureText').textContent=state.final?'Character complete!':done?state.results[s.id]:s.label;
+ $('featureText').textContent=state.final?'Character complete!':done?wheelLabel(s,state.results[s.id]):s.label;
  $('nextStep').textContent=state.final?'Save your character and start a tournament.':done?(next?'Next wheel: '+next.label:'Final character sheet'):'Spin to discover your '+s.label.toLowerCase()+'.';
  $('wheelHub').disabled=state.rolling||state.final;
  $('wheelHub').textContent=state.final?'DONE':done?'NEXT':'SPIN';$('wheelHub').setAttribute('aria-label',done?'Continue to next wheel':'Spin the current wheel');
@@ -1020,7 +1060,7 @@ function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.fina
  $('identity').innerHTML=identity.map(([k,v])=>`<div class="result-row"><span>${safe(k)}</span><strong>${safe(v)}</strong></div>`).join('');
  $('stats').innerHTML=STATS.map(k=>{
   const sources=c.provenance?.stats?.[k]?.join('\n')||'Rolled stat / imported character';
-  return `<div class="stat origin" tabindex="0" aria-label="${safe(k)}: ${safe(sources)}" data-origin="${safe(sources)}"><small>${safe(k)} <span style="opacity:.7">ⓘ</span></small><strong>${safe(c.stats?.[k]??'—')}</strong></div>`;
+  return `<div class="stat origin" tabindex="0" aria-label="${safe(k)}: ${safe(sources)}" data-origin="${safe(sources)}"><small>${safe(k)} <span style="opacity:.7">ⓘ</span></small><strong>${safe(statDescription(k,c.stats?.[k]))}</strong></div>`;
  }).join('');
  const powerEntries=(c.provenance?.powers?.length?c.provenance.powers:(c.powers||[]).map(name=>({name,source:'Earlier version / imported character'}))).map(x=>({...x,source:x.source+(POWER_DESC[x.name]?'\nEffect: '+POWER_DESC[x.name]:'')}));
  const weaponEntries=c.weaponDetails?.length?c.weaponDetails.map(w=>({name:w.name,source:[w.source,...(w.enchantSources||[]),...(w.enchantments||[]).map(e=>ENCHANT_DESC[e]?'Effect · '+e+': '+ENCHANT_DESC[e]:'')].filter(Boolean).join('\n')})):(c.weapons||[]).map(name=>({name,source:'Earlier version / imported character'}));
@@ -1052,12 +1092,24 @@ function archiveSeason(){
  seasonHistory.sort((a,b)=>(Number(a.number)||0)-(Number(b.number)||0));
  season=null;storeSeason();renderTournament();
 }
+function deleteArchivedSeason(key){
+ const x=seasonHistory.find(y=>(y.id||y.created)===key);
+ if(!x)return;
+ if(!confirm('Permanently delete Season '+(x.number||'?')+' and its saved line-up, bracket, match history and champion? This cannot be undone.'))return;
+ seasonHistory=seasonHistory.filter(y=>(y.id||y.created)!==key);
+ storeSeason();renderHistory();
+}
+function deleteCurrentSeason(){
+ if(!season)return;
+ if(!confirm('Permanently delete current Season '+(season.number||'?')+' and its tournament progress? This cannot be undone.'))return;
+ season=null;storeSeason();renderTournament();
+}
 function renderHistory(){
  const root=$('seasonHistory');if(!root)return;
  root.innerHTML=seasonHistory.length?seasonHistory.slice().reverse().map(x=>{
  const champ=x.roster?.find(c=>c.id===x.championId),matches=(x.rounds||[]).flat(),n=Number(x.number)||'?';
  return `<details class="season-history-item"><summary><strong>Season ${safe(String(n))}</strong> · ${safe(champ?.name||'Unfinished')} · ${matches.filter(m=>m.status==='done').length} matches</summary>
- <div class="history-content"><p><b>Created:</b> ${safe(new Date(x.created).toLocaleDateString())}</p><p><b>Champion:</b> ${safe(champ?.name||'Not crowned')}</p>
+ <div class="history-content"><button class="delete-season" data-season="${safe(x.id||x.created)}" type="button">Delete Season ${safe(String(n))}</button><p><b>Created:</b> ${safe(new Date(x.created).toLocaleDateString())}</p><p><b>Champion:</b> ${safe(champ?.name||'Not crowned')}</p>
  <h4>Line-up (${x.roster?.length||0})</h4>${(x.roster||[]).map(c=>`<details><summary>${safe(c.name)} · ${safe(c.race||'')} · ${safe(c.class||'')}</summary>${fighterCard(c,null,true)}</details>`).join('')}
  <h4>Bracket and match results</h4>${(x.rounds||[]).map((round,i)=>`<div class="fixture-round"><b>Round ${i+1}</b>${round.map(m=>{
  const a=x.roster.find(c=>c.id===m.a),b=x.roster.find(c=>c.id===m.b),w=x.roster.find(c=>c.id===m.winner);
@@ -1065,6 +1117,7 @@ function renderHistory(){
  return `<div class="fixture"><span>${safe(a?.name||'?')} ${b?'vs '+safe(b.name):'(bye)'}</span><small>${safe(w?.name||'Pending')}${m.status==='bye'?' advances (bye)':m.status==='done'?' wins':''}${m.result?.arena?' · '+safe(m.result.arena):''}</small></div>${m.result?.arena?`<div class="history-rewards">${Object.entries(reward).map(([id,v])=>`<div>${safe(x.roster.find(c=>c.id===id)?.name||'?')}: ${safe(v)}</div>`).join('')}</div>`:''}`;
  }).join('')}</div>`).join('')}</div></details>`;
  }).join(''):'<p class="help">Completed and archived seasons will appear here with their full line-ups and brackets.</p>';
+ root.querySelectorAll('.delete-season').forEach(b=>b.addEventListener('click',()=>deleteArchivedSeason(b.dataset.season)));
 }
 $('exportSeasons').addEventListener('click',()=>download(JSON.stringify({app:'Wheel of Destiny',type:'season-history',version:1,seasons:[...seasonHistory,...(season?[season]:[])]},null,2),'wheel-of-destiny-seasons.json'));
 $('importSeasons').addEventListener('change',async e=>{
@@ -1145,6 +1198,7 @@ function startSeason(){const selected=roster.filter(c=>picked.has(c.id));if(sele
  storeSeason();renderTournament();
 }
 $('startSeason').addEventListener('click',startSeason);
+$('deleteCurrentSeason').addEventListener('click',deleteCurrentSeason);
 $('clearSeason').addEventListener('click',()=>{
  if(!season)return;
  if(!confirm('Archive Season '+(season.number||'?')+'? It will remain in Season history, including all line-ups and results.'))return;
@@ -1478,7 +1532,7 @@ function fighterCard(c,opponent,history=false,arenaBonus=''){
  const list=a=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
  return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help">${safe(c.race||'')} · ${safe(c.class||'')}</div>
  ${arenaBonus?`<div class="arena-bonus"><strong>🏟 ARENA BENEFIT</strong><div>${safe(arenaBonus)}</div></div>`:''}
- <div class="fighter-stats">${['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'].map(k=>`<div><span>${safe(k)}</span><b>${safe(String(c.stats?.[k]??'—'))}</b></div>`).join('')}</div>
+ <div class="fighter-stats">${['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'].map(k=>`<div><span>${safe(k)}</span><b>${safe(statDescription(k,c.stats?.[k]))}</b></div>`).join('')}</div>
  <p><b>Powers:</b> ${list(c.powers)}</p><p><b>Weapons:</b> ${list(c.weapons)}</p>
  <p><b>Enchantments:</b> ${list(c.enchantments)}</p><p><b>Weaknesses:</b> ${list(c.weaknesses)}</p>
  <p><b>Special:</b> ${list(c.special)}</p>
