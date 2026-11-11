@@ -34,6 +34,46 @@ header{max-width:1210px;margin:auto;padding:28px 20px 6px;display:flex;gap:12px;
 .library-block summary:hover{background:#6d5d9825}.library-block[open] summary{border-bottom:1px solid #403c58;margin-bottom:0}.library-items{padding:10px 14px 14px;max-height:65vh;overflow:auto}.library-items p{margin:5px 0}.rule-count{font-size:11px;font-weight:500;color:#b5a8ca;white-space:nowrap;margin-left:auto}
 @media(max-width:500px){.wheel-hub{min-width:62px;border-width:4px}.library-grid{grid-template-columns:1fr}}
 .automatic-grants{margin:8px auto 0;max-width:530px;text-align:left;background:#222b35;border:1px solid #638e86;border-radius:10px;padding:9px 12px;font-size:12px}.automatic-grants strong{color:#a6ebcf;display:block;margin-bottom:4px}.automatic-grants span{display:block;color:#d7e9e2;padding:2px 0}
+
+/* V11 · gilded fantasy interface */
+:root{--bg:#100f0d;--panel:#1e1a15;--panel2:#29231b;--line:#55452b;--text:#f8f0dd;--muted:#c4b496;--accent:#e6bb61;--gold:#ffd983;--good:#e9c779;color-scheme:dark}
+body{font-family:"Times New Roman",Times,serif;background:radial-gradient(ellipse at 18% 0%,#69502060,transparent 40%),radial-gradient(ellipse at 85% 35%,#573c1a44,transparent 45%),linear-gradient(155deg,#0e0d0b,#21180f 65%,#100f0d);background-attachment:fixed}
+button,input,select,textarea{font-family:"Times New Roman",Times,serif}
+header{padding-top:35px}h1{font-weight:800;letter-spacing:.4px;color:#fbe4aa;text-shadow:0 2px 20px #e0a83d30}
+.eyebrow,.group h3,.library-block h3{color:#f1cb76}
+.panel{background:linear-gradient(140deg,#30251bfa,#1b1815f5 60%,#241c16);border:1px solid #66502c;box-shadow:0 16px 42px #0007,inset 0 1px #ffe5a112;transition:transform .22s,box-shadow .22s}
+.panel:hover{box-shadow:0 20px 52px #0009,0 0 25px #d8a6480d}
+button{background:linear-gradient(145deg,#443626,#2d271e);border-color:#75603b;color:#f8edcf;transition:transform .16s,filter .16s,border-color .16s}
+button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradient(145deg,#65502b,#3e311e);border-color:#e2bd72}
+.primary{background:linear-gradient(125deg,#f6d886,#c18c31 55%,#e7b953);color:#24180a;text-shadow:none;border:1px solid #f7db8d}
+.primary:hover:not(:disabled){background:linear-gradient(125deg,#ffe6a3,#dca84c,#f1cc72)}
+.tab.active{background:linear-gradient(130deg,#84602c,#50391c);border-color:#e4bd6c}
+.progress-inner{background:linear-gradient(90deg,#8d621f,#ffd87e,#b27d28)}
+.tag,.pill,.equip-chip{background:#9d762229;border-color:#8e713f;color:#ffe2a1}
+.result-row,.stat,.saved-item,.checkbox-item,.library-block,.match,.fixture-head{background:#2a231c;border-color:#5a482d}
+.stat strong,.versus b,.fixture-head,details summary{color:#f5d68d}
+.wheel{border-color:#f2d38b;box-shadow:0 0 0 5px #a47d3233,0 0 34px #d5a54330,0 12px 40px #000b}
+.wheel:after{background:radial-gradient(circle at 35% 30%,#fff1bb,#d4a34e);border-color:#5a3a12}
+.pointer{border-top-color:#ffe5a3}
+.logo{background:linear-gradient(135deg,#f6df9c,#a87823)}
+.logo-wheel{border-color:#72501e}
+.origin::after{background:#261e15;border-color:#b9924e;color:#fff0c8;font-family:"Times New Roman",Times,serif}
+.champ{background:linear-gradient(120deg,#6b4b2044,#2a2116);border-color:#e5bd6c}
+.fighter-card{flex:1;min-width:0;border:1px solid #71542a;border-radius:15px;padding:15px;background:linear-gradient(155deg,#3a2b1c,#241e17)}
+.fighter-card h3{font-size:21px;color:#ffe2a1;margin-bottom:2px}
+.fighter-card p{font-size:13px;overflow-wrap:anywhere}
+.fighter-score{font-size:31px;color:#ffdb84;font-weight:800;margin:10px 0}
+.fighter-score small{font-size:12px;color:#cdbb96;font-weight:normal}
+.fighter-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-bottom:12px}
+.fighter-stats>div{display:flex;justify-content:space-between;gap:5px;border-bottom:1px solid #58442b;font-size:12px;padding:4px 0}
+.fighter-stats b{color:#ffe4a6}
+.manual-versus{display:flex;align-items:stretch;gap:10px;margin-top:14px}
+.manual-vs{display:grid;place-items:center;color:#f7d58a;font-weight:900;font-size:22px}
+.winner-pick{width:100%;margin-top:12px}
+@media(max-width:600px){.manual-versus{flex-direction:column}.manual-vs{padding:0}}
+@keyframes goldPulse{0%,100%{filter:drop-shadow(0 0 3px #ffd57b33)}50%{filter:drop-shadow(0 0 14px #ffd57b77)}}
+.wheel-area{animation:goldPulse 5s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.wheel-area{animation:none}button,.panel{transition:none}}
 </style></head><body>
 <header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><p class="subtitle">One spin at a time. One champion at the end.</p></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
@@ -45,7 +85,7 @@ header{max-width:1210px;margin:auto;padding:28px 20px 6px;display:flex;gap:12px;
 <div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button></div>
 <div class="group"><div class="panel-header"><h3>Saved roster (<span id="savedCount">0</span>)</h3><button id="exportRoster" class="subtle" style="font-size:11px;padding:6px 8px">Export all</button></div><div class="saved-list" id="savedList"></div><details><summary class="help">Import saved characters</summary><input id="importRoster" type="file" accept=".json,application/json"><p class="help">Imports characters from an earlier Character Roulette or Wheel of Destiny roster JSON file.</p></details></div></aside></div></section>
-<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Start a round-robin league or a single-elimination bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="fields"><label class="help" for="format">Season format</label><select id="format"><option value="league">Round robin — everyone fights everyone</option><option value="knockout">Knockout — tournament bracket</option></select></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Clear season</button></div><p class="notice">Each battle uses health, attacks, defence, powers, equipment and weaknesses. If an attack is lethal, Spare the Dying or Reanimation may intervene. Match reports explain what happened; saved original characters remain unchanged.</p></div>
+<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Create a single-elimination bracket, compare fighters, and decide each winner yourself.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Clear season</button></div><p class="notice">You decide who advances. Review each fighter’s stats, powers, equipment, weaknesses and optional matchup scores. Tournament results never change your original saved characters.</p></div>
 <div class="panel"><div class="panel-header"><h2>Season arena</h2><span class="tag" id="seasonStatus">No season</span></div><div id="seasonContent" class="empty">Save two or more characters, select them, and create a season to see your matchups.</div></div></div></section>
 <section id="libraryPage" hidden><div class="panel"><h2>Complete option library</h2><p class="help">Includes races and sub-races, classes, alignments, powers, destiny interventions, weapon enchantments, arenas and special rules.</p><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div></div></section></main>
 <footer>Saved locally in this browser. Export your roster to keep a backup or move it to another device.</footer>
@@ -55,7 +95,14 @@ const $=id=>document.getElementById(id), safe=v=>String(v??'').replace(/[&<>"']/
 const split=s=>s.split('\n').map(x=>x.trim()).filter(Boolean), choose=a=>a[Math.floor(Math.random()*a.length)];
 const STATS=['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'];
 const STAT_WEIGHTS=[1,2,3,5,4,3,2,1,1]; // 4 most likely; 8 and 9 equally likely.
-const COLORS=['#f4a7bf','#f7d18c','#b0e2c1','#95d1ec','#c1aeec','#f3aee1','#b5d6a4','#efb89f','#a8baf1','#d3bcff'];
+const WHEEL_PALETTES={
+ default:['#e6b75c','#c58b31','#ffe2a0','#a8732c','#f3ca77','#d99b46','#f9dba0','#b87b32'],
+ power:['#b49df5','#7762bc','#d0baff','#6552a3','#a487e4','#53428c'],
+ weapon:['#d7a66d','#a86d39','#f1c48a','#89532e','#d8b07c','#b87d4c'],
+ enchant:['#66c7b4','#298f82','#a1e5d6','#397b70','#73d0bf','#2d9c8c'],
+ stat:['#f2cb74','#bd8837','#ffe4a1','#92631f','#e6b85b','#c99b4d'],
+ destiny:['#f2a7c5','#bb6f9d','#f7c6dc','#934b78','#e48db7','#ac588c']};
+const COLORS=WHEEL_PALETTES.default;
 // Only the revised race roster is available. Angel, Demon and Dragonborn
 // retain their previous rules and sub-races as explicitly requested.
 const RACES=split(`Human
@@ -695,7 +742,7 @@ function shortenWheelLabel(name,max){const arr=Array.from(String(name));return a
 function displayWheel(s){
  const segs=wheelSegments(s),el=$('wheel');
  el.style.transition='none';el.style.transform='rotate(0deg)';rollingAngle=0;
- el.style.background='conic-gradient('+segs.map((v,i)=>(['No Power','No Weapon','No Enchantment'].includes(v.value)?'#050508':COLORS[i%COLORS.length])+' '+v.start.toFixed(4)+'deg '+v.end.toFixed(4)+'deg').join(',')+')';
+ el.style.background='conic-gradient('+segs.map((v,i)=>(['No Power','No Weapon','No Enchantment'].includes(v.value)?'#050508':(WHEEL_PALETTES[(s.type||'').toLowerCase()]||WHEEL_PALETTES[(s.kind||'').toLowerCase()]||WHEEL_PALETTES.default)[i%(WHEEL_PALETTES[(s.type||'').toLowerCase()]||WHEEL_PALETTES[(s.kind||'').toLowerCase()]||WHEEL_PALETTES.default).length])+' '+v.start.toFixed(4)+'deg '+v.end.toFixed(4)+'deg').join(',')+')';
  const n=segs.length, font=n>44?9:n>28?10:n>18?11:n>10?12:13;
  const maxChars=n>44?10:n>28?16:n>18?19:n>10?20:23;
  const x=n>44?350:n>28?330:318;
@@ -1035,8 +1082,8 @@ function leagueRounds(ids){const p=[...ids];if(p.length%2)p.push(null);const rou
 }
 function knockoutRound(ids){const matches=[];for(let i=0;i<ids.length;i+=2){const a=ids[i],b=ids[i+1]||null;matches.push({a,b,status:b?'pending':'bye',winner:b?null:a,result:null})}return matches}
 function startSeason(){const selected=roster.filter(c=>picked.has(c.id));if(selected.length<2){alert('Select at least two saved characters first.');return}
- const ids=selected.map(c=>c.id),fmt=$('format').value;
- season={format:fmt,created:new Date().toISOString(),roster:JSON.parse(JSON.stringify(selected)),rounds:fmt==='league'?leagueRounds(ids):[knockoutRound(ids)],lastReport:null,championId:null,arenaRolls:{}};
+ const ids=selected.map(c=>c.id),fmt='knockout';
+ season={format:fmt,created:new Date().toISOString(),roster:JSON.parse(JSON.stringify(selected)),rounds:[knockoutRound(ids)],lastReport:null,championId:null,arenaRolls:{}};
  storeSeason();renderTournament();
 }
 $('startSeason').addEventListener('click',startSeason);
@@ -1339,9 +1386,36 @@ function advanceKnockout(){if(!season||season.format!=='knockout'||nextFixture()
  if(winners.length===1){season.championId=winners[0];return}
  if(winners.length>1)season.rounds.push(knockoutRound(winners));
 }
-function playNext(){const f=nextFixture();if(!f)return;const a=fighter(f.m.a),b=fighter(f.m.b);if(!a||!b)return;
- const arena=getArena(f);const report=battle(a,b,season.format==='knockout',f.i,arena);f.m.result=report;f.m.winner=report.winner;f.m.status='done';season.lastReport=report;
- victoryRewards(report);advanceKnockout();storeSeason();renderTournament();
+function manualMatchPoints(c,opponent){
+ const st=c.stats||{};
+ const statTotal=['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'].reduce((n,k)=>n+(Number(st[k])||0),0);
+ const powers=(c.powers||[]).length*3, weapons=(c.weapons||[]).filter(x=>x!=='No Weapon').length*2;
+ const enchantments=(c.enchantments||[]).length*2;
+ const weaknesses=counterWeakness(opponent,c).length*3;
+ return {statTotal,powers,weapons,enchantments,weaknesses,total:statTotal+powers+weapons+enchantments-weaknesses};
+}
+function chooseWinner(id){
+ const f=nextFixture();if(!f||![f.m.a,f.m.b].includes(id))return;
+ const a=fighter(f.m.a),b=fighter(f.m.b),pa=manualMatchPoints(a,b),pb=manualMatchPoints(b,a);
+ const arena=getArena(f);
+ const report={aId:a.id,bId:b.id,aScore:pa.total,bScore:pb.total,arena,
+ rows:[{name:'Base stats',a:pa.statTotal,b:pb.statTotal},{name:'Powers',a:pa.powers,b:pb.powers},{name:'Weapons',a:pa.weapons,b:pb.weapons},{name:'Enchantments',a:pa.enchantments,b:pb.enchantments},{name:'Weakness penalties',a:-pa.weaknesses,b:-pb.weaknesses}],
+ groups:[],notes:['Winner manually selected by tournament organiser.','Scores are guidance only; the selected winner advances.','Arena: '+arena+' — '+ARENAS[arena]],
+ winner:id,draw:false,manual:true,created:new Date().toISOString()};
+ f.m.result=report;f.m.winner=id;f.m.status='done';season.lastReport=report;
+ // Manual outcomes do not automatically imply a kill or steal.
+ advanceKnockout();storeSeason();renderTournament();
+}
+function fighterCard(c,opponent){
+ const pts=manualMatchPoints(c,opponent);
+ const list=(a)=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
+ return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help">${safe(c.race||'')} · ${safe(c.class||'')}</div>
+ <div class="fighter-score">${pts.total} <small>suggested points</small></div>
+ <div class="fighter-stats">${['Strength','Speed','Durability','IQ','Power Level','Weapon Mastery'].map(k=>`<div><span>${safe(k)}</span><b>${safe(String(c.stats?.[k]??'—'))}</b></div>`).join('')}</div>
+ <p><b>Powers:</b> ${list(c.powers)}</p><p><b>Weapons:</b> ${list(c.weapons)}</p>
+ <p><b>Enchantments:</b> ${list(c.enchantments)}</p><p><b>Weaknesses:</b> ${list(c.weaknesses)}</p>
+ <p class="help">Points = stats ${pts.statTotal} + powers ${pts.powers} + weapons ${pts.weapons} + enchantments ${pts.enchantments} − weaknesses ${pts.weaknesses}.</p>
+ <button class="primary winner-pick" data-winner="${safe(c.id)}">🏆 Advance ${safe(c.name)}</button></div>`;
 }
 function standings(){if(!season)return [];
  const entries=season.roster.map(c=>({id:c.id,name:c.name,win:0,draw:0,loss:0,played:0,points:0,diff:0,total:STATS.reduce((n,k)=>n+(normalStat(c.stats[k])||0),0)}));
@@ -1367,7 +1441,8 @@ function renderTournament(){if(!season){$('seasonStatus').textContent='No season
   const arena=getArena(next),spaceChoice=[a,b].some(c=>(c?.special||[]).includes('Choice of Arena'));
   const dimensional=[a,b].some(c=>(c?.powers||[]).includes('Dimensional Travel'));
   const arenaPicker=`<div class="arena-box"><div class="eyebrow">🏟 Battle arena</div><div style="font-weight:800;font-size:17px;margin-top:4px">${safe(arena)}</div><div class="help">${safe(ARENAS[arena])}</div>${spaceChoice?`<label for="arenaChoice" class="help">God of Space can choose the arena</label><select id="arenaChoice">${Object.keys(ARENAS).map(x=>`<option value="${safe(x)}" ${x===arena?'selected':''}>${safe(x)}</option>`).join('')}</select>`:''}${dimensional?`<button class="arena-reroll" id="arenaReroll">↻ Dimensional Travel — reroll arena</button>`:''}</div>`;
-  html+=`<div class="match"><div class="eyebrow">Next head-to-head · Round ${next.i+1}</div><div class="versus" style="margin:12px 0"><div><strong>${safe(a?.name)}</strong><small>${safe(a?.race)}</small></div><b>VS</b><div><strong>${safe(b?.name)}</strong><small>${safe(b?.race)}</small></div></div>${arenaPicker}<button id="fightButton" class="primary" style="width:100%">⚔ Resolve this matchup</button></div>`;
+  html+=`<div class="match"><div class="eyebrow">Round ${next.i+1} · Your decision</div>${arenaPicker}<div class="manual-versus">${fighterCard(a,b)}<div class="manual-vs">VS</div>${fighterCard(b,a)}</div><p class="help center">These are suggested comparison points, not an automatic verdict. Arena effects and unusual abilities may justify a different outcome.</p></div>`;
+
  }
  html+=`<details open><summary>${season.format==='league'?'All round-robin fixtures':'Tournament bracket'}</summary>`;
  season.rounds.forEach((round,i)=>{html+=`<div class="fixture-round"><div class="fixture-head">${season.format==='knockout'&&i===season.rounds.length-1&&!done?'Current bracket · ':''}Round ${i+1}</div>`;
@@ -1377,7 +1452,7 @@ function renderTournament(){if(!season){$('seasonStatus').textContent='No season
  if(done&&season.championId){const champ=fighter(season.championId);html+=`<div class="champ"><div style="font-size:38px">🏆</div><div class="eyebrow">Season champion</div><strong>${safe(champ?.name||'Champion')}</strong><span class="help">${safe(champ?.race)} · ${safe(champ?.class)}</span></div>`}
  if(season.lastReport)html+=matchupReport(season.lastReport);
  $('seasonContent').innerHTML=html;
- const b=$('fightButton');if(b)b.addEventListener('click',playNext);
+ document.querySelectorAll('.winner-pick').forEach(b=>b.addEventListener('click',()=>chooseWinner(b.dataset.winner)));
  const select=$('arenaChoice');if(select)select.addEventListener('change',()=>setArena(next,select.value));
  const reroll=$('arenaReroll');if(reroll)reroll.addEventListener('click',()=>{let nextArena=choose(Object.keys(ARENAS).filter(x=>x!==getArena(next)));setArena(next,nextArena)});
  if(done)storeSeason();
@@ -1407,7 +1482,7 @@ function init(){try{
  const current=JSON.parse(localStorage.getItem(ROSTER_KEY)||'null');const old=JSON.parse(localStorage.getItem('characterRoulette.saved')||'[]');
  roster=(Array.isArray(current)?current:Array.isArray(old)?old:[]).map(normaliseCharacter).filter(Boolean);
  }catch(e){roster=[]}
- try{const prior=JSON.parse(localStorage.getItem(SEASON_KEY)||'null');if(prior&&Array.isArray(prior.roster)&&Array.isArray(prior.rounds))season=prior}catch(e){season=null}
+ try{const prior=JSON.parse(localStorage.getItem(SEASON_KEY)||'null');if(prior&&prior.format==='knockout'&&Array.isArray(prior.roster)&&Array.isArray(prior.rounds))season=prior}catch(e){season=null}
  renderStep();renderPreview();renderSaved();renderRosterPicker();renderTournament();renderLibrary();
 }
 init();
