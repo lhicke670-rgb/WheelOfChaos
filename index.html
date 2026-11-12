@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wheel of Destiny — Mythic Edition</title>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wheel of Destiny</title>
 <style>
 :root{color-scheme:dark;--bg:#10111b;--panel:#1b1d2d;--panel2:#25273b;--line:#3b3d57;--text:#f4f1ff;--muted:#adaac3;--accent:#b8a1ff;--gold:#f8da9b;--good:#90e0bd}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 55% -10%,#31244d,transparent 50%),#10111b;color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;color:var(--text);padding:10px 14px;border:1px solid var(--line);background:#303148;border-radius:11px;font-weight:700}button:hover:not(:disabled){background:#3c3b59;border-color:#9b86d9}button:disabled{opacity:.43;cursor:not-allowed}.primary{background:linear-gradient(130deg,#9b77e9,#6585df);border:0;color:#fff}.primary:hover:not(:disabled){filter:brightness(1.09)}.subtle{background:transparent}.danger{background:#4a2938;border-color:#7e4f60;color:#ffc6d1}input,select{background:#111420;color:#fff;border:1px solid #474b65;border-radius:10px;padding:10px 12px;max-width:100%}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(26px,4vw,38px);letter-spacing:-1px;margin:0;line-height:1.1}h2{font-size:19px;margin:0 0 12px}h3{font-size:14px;margin:0 0 9px}p{margin-bottom:12px}.muted,.help{color:var(--muted)}.help{font-size:12px}.eyebrow{color:#b9a5fb;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}
@@ -203,17 +203,27 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 .roster-drawer details{border-top:1px solid #57452e;padding-top:8px}
 @media(max-width:880px){.t-layout,.t-layout.has-season{grid-template-columns:minmax(0,1fr);grid-template-areas:"setup" "current" "hall" "archive"}.t-layout.has-season{grid-template-areas:"current" "setup" "hall" "archive"}}
 @media(max-width:550px){#currentTournamentPanel{padding:14px}.compact-library .library-search-row{flex-wrap:wrap}.compact-library #ruleSearch{min-width:220px}.t-layout .drawer-body{padding-top:9px}.t-layout .setup-drawer>summary,.t-layout .hall-drawer>summary,.t-layout .history-drawer>summary{font-size:14px}}
-</style></head><body>
-<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><div class="edition-subtitle">✦ MYTHIC EDITION <span>· Refined V2 · Separate from Classic V13</span></div></div></header>
+
+/* Main edition: tidy trait information, keep weaknesses as their own accessible drawer. */
+.weakness-drawer{margin-top:16px;background:linear-gradient(125deg,#3a271f,#241d18);border:1px solid #78523d;border-radius:11px;padding:10px 12px}
+.weakness-drawer summary{font-size:12px;text-transform:uppercase;letter-spacing:1.1px;color:#efbe9b;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.weakness-drawer[open] summary{margin-bottom:12px}
+.weakness-pill{background:#803b333b;border-color:#af7964;color:#ffcab0}
+.identity-value{display:inline-block;max-width:72%;cursor:help;text-decoration:underline dotted #c9a76c 1px;text-underline-offset:3px}
+.effects-help{display:inline-block;font-size:15px;padding:0 5px;cursor:help;color:#e9ca8d;text-transform:none;letter-spacing:normal;border:1px solid #94794b;border-radius:100%}
+.weakness-drawer .origin::after,.result-row .identity-value::after{z-index:90}
+@media(max-width:570px){.result-row .identity-value::after{left:auto;right:0;transform:none;max-width:min(270px,75vw)}.identity-value{max-width:66%}}
+.fighter-identity .origin{text-decoration:underline dotted #d5b676;text-underline-offset:2px}.fighter-identity .origin::after{font-weight:normal;text-transform:none;letter-spacing:normal}</style></head><body>
+<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
 <section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp"></div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
 <div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div class="rare-banner" id="rareBadge" hidden></div><div id="unlockNotice" class="unlock-notice" hidden></div><div id="autoGrants" class="automatic-grants" hidden></div></div>
 <div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div>
 <div class="controls"><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote">Spin each wheel and continue to the next step.</p></div>
 <aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name <strong>(required to save)</strong></label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
-<div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
+<div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment <span id="effectsHelp" class="origin effects-help" tabindex="0" role="note" aria-label="More character effects" data-origin="Hover to see character effects">ⓘ</span></h3><div class="result-rows" id="equipment"></div></div><details class="group weakness-drawer" id="weaknessDrawer" open><summary>⚠ Weaknesses <span class="tag" id="weaknessCount">0</span></summary><div class="pills" id="weaknesses"></div></details>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button><button id="exportCard" disabled>✧ Save character card</button></div>
-<details class="roster-drawer" id="savedRosterDrawer"><summary>📚 Saved roster <span class="tag"><span id="savedCount">0</span> characters</span></summary><div class="drawer-body"><div class="drawer-toolbar"><button id="exportRoster" class="subtle" type="button">Export all</button></div><input id="rosterSearch" aria-label="Search saved characters" class="roster-search" placeholder="Search your characters…"><div class="saved-list" id="savedList"></div><details><summary>Transfer characters</summary><button class="subtle" id="copyClassic" type="button" style="width:100%;margin-top:8px">Copy Classic Edition saves</button><p class="help">Copy data from your Classic Edition when both pages share storage, or import an exported roster file.</p><label class="help" for="importRoster">Import JSON roster</label><input id="importRoster" type="file" accept=".json,application/json"></details></div></details></aside></div></section>
+<details class="roster-drawer" id="savedRosterDrawer"><summary>📚 Saved roster <span class="tag"><span id="savedCount">0</span> characters</span></summary><div class="drawer-body"><div class="drawer-toolbar"><button id="exportRoster" class="subtle" type="button">Export all</button></div><input id="rosterSearch" aria-label="Search saved characters" class="roster-search" placeholder="Search your characters…"><div class="saved-list" id="savedList"></div><details><summary>Transfer characters</summary><button class="subtle" id="copyClassic" type="button" style="width:100%;margin-top:8px">Import earlier website saves</button><p class="help">Copy characters and seasons from older versions when they share storage, or import an exported JSON file.</p><label class="help" for="importRoster">Import JSON roster</label><input id="importRoster" type="file" accept=".json,application/json"></details></div></details></aside></div></section>
 <section id="tournamentsPage" hidden>
 <div class="t-layout" id="tournamentLayout">
  <div class="panel" id="currentTournamentPanel"><div class="panel-header"><h2>⚔ Current tournament</h2><span class="tag" id="seasonStatus">No season</span></div>
@@ -226,7 +236,7 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 </div>
 </section>
 <section id="libraryPage" hidden><div class="panel compact-library"><div class="panel-header"><div><h2>📖 Rules & lists</h2><p class="help library-desc">Search the rules or open a category.</p></div><span class="tag" id="rulesCount">All categories</span></div><div class="library-search-row"><input type="search" id="ruleSearch" placeholder="Search a power, race, enchantment, rule…" aria-label="Search rules and lists"><button id="clearRulesSearch" class="subtle" type="button">Clear</button></div><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div><p class="help" id="noRuleMatches" hidden>No matching rules. Try a different term.</p></div></section></main>
-<footer>Mythic Edition · An alternate edition of Wheel of Destiny. Saves are separate from the classic site. Export your roster and seasons to keep backups.</footer>
+<footer>Wheel of Destiny · Export your characters and season history regularly to keep backups.</footer>
 <script>
 'use strict';
 const $=id=>document.getElementById(id), safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -723,7 +733,7 @@ function skipAutomaticGrants(){
   if(state.index===state.steps.length-1){state.final=true;break;}
   state.index++;
  }
- if(notices.length){state.autoGrants=[...(state.autoGrants||[]),...notices].slice(-8);}
+ if(notices.length){state.autoGrants=notices.slice(-8);}
 }
 
 function raceFor(id){return state.results[id]}
@@ -1022,7 +1032,12 @@ function renderStep(redraw=true){const s=current();if(!s)return;
  if(!box.hidden){const origin=(next.source||s.source||s.label).replace(/^Bonus [^—]+ — /,'');const title=['enchantment','grantEnchant'].includes(next.type)?'🔮 ENCHANTMENT UNLOCKED':next.type==='bonusPower'?'✨ BONUS POWER UNLOCKED':next.type==='bonusWeapon'?'⚔️ BONUS WEAPON UNLOCKED':next.type==='subrace'?'🌿 SUB-RACE UNLOCKED':next.type==='destinyRace'?'🦎 NEW RACE UNLOCKED':'🔗 CONDITIONAL ROLL UNLOCKED';
   box.innerHTML='<div class="unlock-title">'+safe(title)+'</div><div class="unlock-detail">'+safe(next.label)+'</div><small>Triggered by: '+safe(s.label)+' → '+safe(state.results[s.id])+'</small>';
  }
- const auto=$('autoGrants');auto.hidden=!(state.autoGrants||[]).length; if(!auto.hidden)auto.innerHTML='<strong>Automatically received</strong><div>'+state.autoGrants.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div>';
+ const auto=$('autoGrants');
+ const notices=state.autoGrants||[];
+ auto.hidden=!notices.length;
+ auto.innerHTML=notices.length?'<strong>Automatically received</strong><div>'+notices.map(x=>'<span>'+safe(x)+'</span>').join('')+'</div>':'';
+ // A grant is displayed once, on the immediately following step. Never carry it into later wheels.
+ state.autoGrants=[];
  $('stepHeading').classList.toggle('bonus-step',!!s.source||!['race','class','alignment','stat','power','weapon','destiny','subrace'].includes(s.type));
 
  $('wheel').closest('.wheel-area').classList.toggle('mythic-rare',s.type==='stat'&&done&&Number(state.results[s.id])>=9);
@@ -1038,6 +1053,8 @@ function renderChoice(s,done){
  choiceWrap.append(sel,btn);
 }
 function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasOwn(state.results,s.id))return;
+ // Dismiss any grant notification as soon as the next wheel starts spinning.
+ $('autoGrants').hidden=true;$('autoGrants').innerHTML='';state.autoGrants=[];
  state.rolling=true;$('wheelHub').disabled=true;renderChoice(s,false);
  const lucky=!s.manual&&!['grantWeapon','grantEnchant'].includes(s.type)&&buildCharacter().powers.includes('Luck');
  const segs=wheelSegments(s);
@@ -1254,29 +1271,95 @@ function originTag(label,origin,extra=''){
  const tip=origin||'Source not recorded (imported character)';
  return `<span class="origin equip-chip ${extra}" tabindex="0" aria-label="${safe(label)} — ${safe(tip)}" data-origin="${safe(tip)}">${safe(label)}</span>`;
 }
+function traitExplanation(t){
+ const name=String(t||'');
+ const explanations={
+  'Soul Sucking Fangs':'Granted natural weapon: Soul Sucking Fangs. Exact additional combat effects have not yet been defined.',
+  'Blindsense':'Senses surroundings without relying on ordinary sight. Range and limits are not yet defined.',
+  'Precognition':'Awareness of events before they happen. Exact limitations are not yet defined.',
+  'Celestial Weapon':'Grants a celestial weapon.',
+  'Get Fucked':'NPC special effect; mechanics not yet defined.',
+  'Holy':'Holy alignment tag: may interact with demonic weaknesses.',
+  'Demonic':'Demonic alignment tag: may interact with holy weaknesses.',
+  'Each Retains Previous Level':'Higher Angel tiers retain previous tier abilities.',
+  'Each Level Retains Previous Levels Abilities':'Higher Demon tiers retain previous tier abilities.',
+  'Instrument Weapon':'Spin the Instrument wheel and obtain a named instrument.',
+  'An Animaloid Form':'Character has an animal-like form; other beast traits provide its stat and power rules.'
+ };
+ const described=POWER_DESC[name]||explanations[name];
+ if(described)return name+' — '+described;
+ if(/^\+\d+\s+Powers?$/i.test(name))return name+' — Guaranteed bonus Power wheel spin(s).';
+ if(/^\+\d+\s+Weapons?$/i.test(name))return name+' — Guaranteed bonus Weapon wheel spin(s).';
+ if(/^\+\d+\s+Pets?$/i.test(name))return name+' — Guaranteed Pet wheel spin(s).';
+ if(/^(Katana|Shuriken|Bow|Sword|Axe|Hammer) Weapon$/i.test(name))return name+' — Granted equipment, with an enchantment roll.';
+ return name;
+}
+function identifyRaces(c){
+ const value=String(c.race||'');
+ const matches=RACES.filter(x=>new RegExp('(^|[^A-Za-z])'+x+'($|[^A-Za-z])','i').test(value));
+ return [...new Set([...matches,...(c.extraRaces||[]).filter(x=>RACES.includes(x))])];
+}
+function identityTooltip(kind,c){
+ const items=[];
+ if(kind==='Race'){
+  const races=identifyRaces(c);
+  for(const race of races){
+   items.push(...(BASE_TRAITS[race]||[]).map(x=>race+': '+traitExplanation(x)));
+   if(race===c.race?.split(' ')[0]&&c.subrace&&SUB_TRAITS[race]?.[c.subrace]){
+    const subs=(race==='Angel'||race==='Demon')?(SUBRACES[race]||[]).slice(0,(SUBRACES[race]||[]).indexOf(c.subrace)+1):[c.subrace];
+    for(const sub of subs)items.push(...(SUB_TRAITS[race]?.[sub]||[]).map(x=>race+' ('+sub+'): '+traitExplanation(x)));
+   }
+  }
+  // Race-specific tags (e.g. Holy/Demonic), plus condition rules are available on hover.
+  items.push(...(c.tags||[]).map(x=>'Tag: '+x));
+ }else if(kind==='Class'){
+  const classes=CLASSES.filter(x=>x!=='Dual Class'&&new RegExp('(^|[^A-Za-z])'+x+'($|[^A-Za-z])','i').test(String(c.class||'')));
+  for(const klass of [...new Set([...classes,...(c.extraClasses||[])])])items.push(...(CLASS_TRAITS[klass]||[]).map(x=>klass+': '+traitExplanation(x)));
+ }else if(kind==='Alignment'){
+  if(ALIGN_DESC[c.alignment])items.push(ALIGN_DESC[c.alignment]);
+ }else if(kind==='Destiny’s Intervention'){
+  items.push(...(c.destinyInterventions||[]).map(x=>x+': '+(DESTINY_DESC[x]||'Effect recorded on character')));
+ }
+ if(kind==='Destiny’s Intervention'||kind==='Race')items.push(...(c.conditions||[]).map(x=>'Condition: '+x));
+ if(kind==='Destiny’s Intervention')items.push(...(c.special||[]).map(x=>'Special: '+x));
+ return items.join('\n')||'No additional traits or effects';
+}
+function supplementalEffects(c){
+ const lines=[...(c.special||[]).map(x=>'Special: '+x),...(c.conditions||[]).map(x=>'Condition: '+x),...(c.notes||[]).map(x=>'Note: '+x)];
+ if(c.sidekick)lines.push('Sidekick: '+c.sidekick.stat+' '+c.sidekick.value+' · '+c.sidekick.kind+' '+c.sidekick.name);
+ return [...new Set(lines)].join('\n')||'Hover over a race, class, power or weapon to read its effects.';
+}
 function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.final;
  $('sheetStatus').textContent=viewedSaved?'Saved character':rolled?'Complete':'Building';
  const identity=[['Race',c.race],['Class',c.class]];
  if(c.alignment&&c.alignment!=='—')identity.push(['Alignment',c.alignment]);
  if((c.destinyInterventions||[]).length)identity.push(['Destiny’s Intervention',c.destinyInterventions.join(' · ')]);
- $('identity').innerHTML=identity.map(([k,v])=>`<div class="result-row"><span>${safe(k)}</span><strong>${safe(v)}</strong></div>`).join('');
+ $('identity').innerHTML=identity.map(([k,v])=>{
+  const tip=identityTooltip(k,c);
+  return `<div class="result-row"><span>${safe(k)}</span><strong class="origin identity-value" tabindex="0" aria-label="${safe(k)}: ${safe(tip)}" data-origin="${safe(tip)}">${safe(v)}</strong></div>`;
+ }).join('');
  $('stats').innerHTML=STATS.map(k=>{
   const sources=c.provenance?.stats?.[k]?.join('\n')||'Rolled stat / imported character';
   return statTile(k,c.stats?.[k],sources);
  }).join('');
  const powerEntries=(c.provenance?.powers?.length?c.provenance.powers:(c.powers||[]).map(name=>({name,source:'Earlier version / imported character'}))).map(x=>({...x,source:x.source+(POWER_DESC[x.name]?'\nEffect: '+POWER_DESC[x.name]:'')}));
- const weaponEntries=c.weaponDetails?.length?c.weaponDetails.map(w=>({name:w.name,source:[w.source,...(w.enchantSources||[]),...(w.enchantments||[]).map(e=>ENCHANT_DESC[e]?'Effect · '+e+': '+ENCHANT_DESC[e]:'')].filter(Boolean).join('\n')})):(c.weapons||[]).map(name=>({name,source:'Earlier version / imported character'}));
+ const weaponEntries=c.weaponDetails?.length?c.weaponDetails.map(w=>({name:w.name,source:[w.source,...(w.enchantSources||[]),...(w.enchantments||[]).map(e=>ENCHANT_DESC[e]?'Effect · '+e+': '+ENCHANT_DESC[e]:''),...(c.notes||[]).filter(note=>w.name?.includes('Magic Ring')&&note.includes('Magic Ring'))].filter(Boolean).join('\n')})):(c.weapons||[]).map(name=>({name,source:'Earlier version / imported character'}));
  const petEntries=c.provenance?.pets?.length?c.provenance.pets:(c.pets||[]).map(name=>({name,source:'Earlier version / imported character'}));
  const rows=[['Powers',powerEntries],['Weapons',weaponEntries]];
  if((c.stones||[]).length)rows.push(['Infinity Stones',c.stones.map(name=>({name,source:'Infinity Gauntlet'}))]);
  if((c.pets||[]).length)rows.push(['Pets',petEntries]);
  $('equipment').innerHTML=rows.map(([k,items])=>`<div class="result-row"><span>${safe(k)}</span><div class="equipment-chips">${items.length?items.map(x=>originTag(x.name,x.source)).join(''):'<strong>—</strong>'}</div></div>`).join('');
- const chips=[...(c.sidekick?['Sidekick: '+c.sidekick.stat+' '+c.sidekick.value+' · '+c.sidekick.kind+' '+c.sidekick.name]:[]),...(c.alignment&&ALIGN_DESC[c.alignment]?[c.alignment+': '+ALIGN_DESC[c.alignment]]:[]),...(c.tags||[]),...(c.weaknesses||[]).map(x=>'Weak to '+x+' — disadvantage on contact'),...(c.conditions||[]),...(c.special||[]),...(c.notes||[])];
- $('traits').innerHTML=chips.length?chips.map(x=>`<span class="pill" title="${safe(x)}">${safe(x)}</span>`).join(''):'<span class="help">Traits appear as you complete spins.</span>';
+ $('effectsHelp').dataset.origin=supplementalEffects(c);
+ $('effectsHelp').setAttribute('aria-label','Additional effects: '+supplementalEffects(c));
+ $('weaknessCount').textContent=(c.weaknesses||[]).length;
+ $('weaknesses').innerHTML=(c.weaknesses||[]).length
+  ?c.weaknesses.map(x=>`<span class="origin pill weakness-pill" tabindex="0" data-origin="${safe('Weak to '+x+' — consider disadvantages when facing '+x+' attacks and environments')}">⚠ ${safe(x)}</span>`).join('')
+  :'<span class="help">No known weaknesses.</span>';
  $('save').disabled=!rolled||!!viewedSaved||!!state.savedId||!$('characterName').value.trim();$('save').textContent=state.savedId&&!viewedSaved?'Saved ✓':'Save character';$('exportChar').disabled=!rolled&&!viewedSaved;$('exportCard').disabled=!rolled&&!viewedSaved;
 }
 
 // Saved character roster.
+// Retain established storage keys so earlier saved characters and seasons remain accessible.
 const ROSTER_KEY='wheelOfDestiny.mythic.roster.v1',SEASON_KEY='wheelOfDestiny.mythic.activeSeason.v1',SEASONS_KEY='wheelOfDestiny.mythic.seasons.v1';
 function uid(){return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,9)}
 function storeRoster(){try{localStorage.setItem(ROSTER_KEY,JSON.stringify(roster))}catch(e){alert('Storage is full or disabled. Export your roster for a backup.')}}
@@ -1371,8 +1454,8 @@ $('copyClassic').addEventListener('click',()=>{
    seasonHistory.push(JSON.parse(JSON.stringify(old)));seasonSeen.add(key);archiveAdded++;
   }
   storeRoster();storeSeason();renderSaved();renderRosterPicker();renderTournament();
-  alert((added||archiveAdded)?`Copied ${added} character(s) and ${archiveAdded} season(s) into Mythic Edition. Classic saves were not modified.`:'No new Classic saves found here. If your original website uses different browser storage, use its JSON export and import it here.');
- }catch(err){alert('Could not read Classic saves: '+err.message)}
+  alert((added||archiveAdded)?`Copied ${added} character(s) and ${archiveAdded} season(s) into Wheel of Destiny. Earlier saves were not modified.`:'No new earlier-version saves found here. You can export their JSON and import it here.');
+ }catch(err){alert('Could not read earlier saves: '+err.message)}
 });
 $('save').addEventListener('click',()=>{
  if(!state.final||state.savedId||viewedSaved)return;
@@ -1398,7 +1481,7 @@ function characterCardSVG(c){
  </defs><rect width="900" height="1200" fill="url(#bg)"/><rect x="26" y="25" width="848" height="1150" rx="27" fill="none" stroke="url(#foil)" stroke-width="9"/>
  <path d="M76 115 L140 90 L760 90 L824 115" fill="none" stroke="${accent}" stroke-width="5"/>
  <text x="450" y="145" text-anchor="middle" letter-spacing="8" font-family="Georgia,serif" font-size="27" fill="#d9b77e">WHEEL OF DESTINY</text>
- <text x="450" y="176" text-anchor="middle" letter-spacing="4" font-family="Georgia,serif" font-size="16" fill="#a9987c">✧ MYTHIC EDITION ✧</text>
+ <text x="450" y="176" text-anchor="middle" letter-spacing="4" font-family="Georgia,serif" font-size="16" fill="#a9987c">✧ FORGED BY FATE ✧</text>
  <text x="450" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="48" fill="#fff0cf" font-weight="bold">${name}</text>
  <text x="450" y="289" text-anchor="middle" font-family="Georgia,serif" font-size="24" fill="#d9c4a4">${identity}</text>
  <line x1="100" y1="353" x2="800" y2="353" stroke="#8b7148" stroke-width="2"/>${bars}
@@ -1820,7 +1903,7 @@ function renderChampions(){
 }
 function fighterCard(c,opponent,history=false,arenaBonus=''){
  const list=a=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
- return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help">${safe(c.race||'')} · ${safe(c.class||'')}</div>
+ return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help fighter-identity"><span class="origin" tabindex="0" data-origin="${safe(identityTooltip('Race',c))}" aria-label="Race effects: ${safe(identityTooltip('Race',c))}">${safe(c.race||'')}</span> · <span class="origin" tabindex="0" data-origin="${safe(identityTooltip('Class',c))}" aria-label="Class effects: ${safe(identityTooltip('Class',c))}">${safe(c.class||'')}</span></div>
  ${arenaBonus?`<div class="arena-bonus"><strong>🏟 ARENA BENEFIT</strong><div>${safe(arenaBonus)}</div></div>`:''}
  <div class="fighter-stats">${STATS.map(k=>`<div class="fighter-stat-row" style="--stat-accent:${STAT_PALETTES[k].accent}"><span>${STAT_PALETTES[k].icon} ${safe(k)}</span><b>${safe(statDisplayValue(k,c.stats?.[k]))}</b></div>`).join('')}</div>
  <p><b>Powers:</b> ${list(c.powers)}</p><p><b>Weapons:</b> ${list(c.weapons)}</p>
