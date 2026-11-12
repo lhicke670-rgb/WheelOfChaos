@@ -142,8 +142,72 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 @media(prefers-reduced-motion:reduce){.wheel-area.mythic-rare:not(:has(.wheel-hub:disabled)){animation:none}.mythic-stat{transition:none}.stat-meter i{transition:none}}
 @media(max-width:650px){.edition-subtitle{letter-spacing:1px}.edition-subtitle span{display:block}.tape-rivals{gap:5px 10px}}
 @media(max-width:500px){.side .action-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.side .action-row #exportCard{grid-column:1/-1}}
+
+/* Mythic Edition refresh · deliberate hierarchy, less visual noise */
+.t-layout{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(270px,.85fr);gap:16px;align-items:start;grid-template-areas:"setup hall" "current current" "archive archive"}
+.t-layout.has-season{grid-template-areas:"current current" "setup hall" "archive archive"}
+#currentTournamentPanel{grid-area:current}
+#tournamentSetupPanel{grid-area:setup}
+#championsPanel{grid-area:hall}
+#historyPanel{grid-area:archive}
+#tournamentSetupPanel,#championsPanel,#historyPanel{padding:14px 17px}
+.t-layout>div{min-width:0}
+.t-layout .setup-drawer,.t-layout .hall-drawer,.t-layout .history-drawer{margin:0}
+.t-layout .setup-drawer>summary,.t-layout .hall-drawer>summary,.t-layout .history-drawer>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;color:#ffdf97;font-size:16px;font-weight:800;list-style:none;cursor:pointer}
+.t-layout .setup-drawer>summary::-webkit-details-marker,.t-layout .hall-drawer>summary::-webkit-details-marker,.t-layout .history-drawer>summary::-webkit-details-marker{display:none}
+.t-layout .setup-drawer>summary::after,.t-layout .hall-drawer>summary::after,.t-layout .history-drawer>summary::after{content:'⌄';color:#f7d58b;font-size:20px;font-weight:400;transition:transform .2s;flex:none}
+.t-layout details[open]>summary::after{transform:rotate(180deg)}
+.t-layout .drawer-body{padding-top:15px}
+.t-layout .drawer-toolbar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:12px}
+#tournamentSetupPanel .pick-list{max-height:315px;overflow:auto;scrollbar-color:#7f6740 #221e17}
+#tournamentSetupPanel .checkbox-item{background:#241e18;padding:8px 10px}
+#tournamentSetupPanel .fields{margin:15px 0 13px}
+#tournamentSetupPanel .fields label{min-width:100px}
+#tournamentSetupPanel .fields input{flex:0 0 80px}
+#currentTournamentPanel{padding:21px}
+#currentTournamentPanel .manual-versus{gap:14px}
+#currentTournamentPanel .fighter-card{padding:16px}
+#currentTournamentPanel .manual-vs{font-size:22px}
+#currentTournamentPanel .match{background:linear-gradient(145deg,#292117,#211c17);padding:17px}
+#currentTournamentPanel .bracket-drawer{margin-top:15px;border:1px solid #6f5834;border-radius:13px;padding:12px;background:#231d17}
+#currentTournamentPanel .bracket-drawer>summary{color:#edd292}
+#currentTournamentPanel .season-management{margin-top:17px;border-top:1px solid #604a2c;padding:12px 0 0}
+#currentTournamentPanel .season-management summary{color:#c9b89a;font-size:12px}
+#currentTournamentPanel .season-management .action-row{justify-content:flex-end}
+#currentTournamentPanel .season-management button{flex:0 1 auto}
+#currentTournamentPanel .season-management[hidden]{display:none}
+.t-layout .season-history-item{margin:6px 0;padding:11px 13px}
+#historyPanel .history-list{margin-top:3px}
+#historyPanel .archive-import{padding-top:10px;margin-top:14px;border-top:1px solid #594629}
+#historyPanel .history-content{padding:7px 4px 12px}
+.compact-library{max-width:900px;margin:auto}
+.compact-library .library-desc{margin:2px 0 0}
+.compact-library .library-search-row{display:flex;gap:9px;align-items:center;margin:18px 0 11px}
+.compact-library #ruleSearch{flex:1;width:100%;background:#211c17}
+.compact-library .library-controls{margin-bottom:12px}
+.compact-library .library-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+.compact-library .library-block{border:1px solid #5a482b;background:linear-gradient(120deg,#30271c,#211c18);border-radius:11px}
+.compact-library .library-block>summary{padding:11px 14px;font-size:14px;color:#f7dfaa}
+.compact-library .library-block[hidden],.compact-library .library-items p[hidden]{display:none}
+.compact-library .library-items{padding:4px 15px 15px;max-height:52vh;overflow:auto}
+.compact-library .library-items p{margin:0;border-bottom:1px solid #5b48272a;padding:8px 0;color:#d7c8aa;font-size:12px}
+.compact-library .library-items p:last-child{border-bottom:0}
+.compact-library .library-controls button{padding:6px 10px}
+.compact-library .rule-count{color:#cbb796}
+.roster-drawer{margin:17px 0 0;border-top:1px solid #584329;padding:12px 0 0}
+.roster-drawer>summary{list-style:none;display:flex;gap:8px;align-items:center;justify-content:space-between;color:#ebd39e;font-size:14px;font-weight:800;cursor:pointer}
+.roster-drawer>summary::-webkit-details-marker{display:none}
+.roster-drawer>summary::before{content:'▸';margin-right:4px;color:#f8d27d}
+.roster-drawer[open]>summary::before{content:'▾'}
+.roster-drawer>.drawer-body{padding-top:11px}
+.roster-drawer .drawer-toolbar{display:flex;justify-content:flex-end}
+.roster-drawer .drawer-toolbar button{font-size:11px;padding:6px 9px}
+.roster-drawer .saved-list{max-height:320px;overflow:auto}
+.roster-drawer details{border-top:1px solid #57452e;padding-top:8px}
+@media(max-width:880px){.t-layout,.t-layout.has-season{grid-template-columns:minmax(0,1fr);grid-template-areas:"setup" "current" "hall" "archive"}.t-layout.has-season{grid-template-areas:"current" "setup" "hall" "archive"}}
+@media(max-width:550px){#currentTournamentPanel{padding:14px}.compact-library .library-search-row{flex-wrap:wrap}.compact-library #ruleSearch{min-width:220px}.t-layout .drawer-body{padding-top:9px}.t-layout .setup-drawer>summary,.t-layout .hall-drawer>summary,.t-layout .history-drawer>summary{font-size:14px}}
 </style></head><body>
-<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><div class="edition-subtitle">✦ MYTHIC EDITION <span>· Experimental companion to V13</span></div></div></header>
+<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><div class="edition-subtitle">✦ MYTHIC EDITION <span>· Refined layout · Separate from Classic V13</span></div></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
 <section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp"></div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
 <div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div class="rare-banner" id="rareBadge" hidden></div><div id="unlockNotice" class="unlock-notice" hidden></div><div id="autoGrants" class="automatic-grants" hidden></div></div>
@@ -152,12 +216,19 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 <aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name <strong>(required to save)</strong></label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
 <div class="mythic-epithet" id="mythicEpithet" hidden></div><div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button><button id="exportCard" disabled>✧ Save character card</button></div>
-<div class="group"><div class="panel-header"><h3>Saved roster (<span id="savedCount">0</span>)</h3><button id="exportRoster" class="subtle" style="font-size:11px;padding:6px 8px">Export all</button></div><input id="rosterSearch" aria-label="Search saved characters" class="roster-search" placeholder="🔎 Search your characters…"><div class="saved-list" id="savedList"></div><button class="subtle" id="copyClassic" type="button" style="width:100%;margin-top:12px">↳ Copy Classic Edition saves</button><p class="help">Copies classic characters and past seasons into Mythic Edition without changing the originals. Works when both pages share browser storage; otherwise use JSON export/import.</p><details><summary class="help">Import saved characters</summary><input id="importRoster" type="file" accept=".json,application/json"><p class="help">Imports characters from an earlier Character Roulette or Wheel of Destiny roster JSON file.</p></details></div></aside></div></section>
-<section id="tournamentsPage" hidden><div class="t-layout"><div class="panel"><h2>Select competitors</h2><p class="help">Tick saved characters or randomise a roster. Choose competitors and create a knockout bracket.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><span class="help">Random roster size</span><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster">🎲 Randomise</button></div><div class="action-row"><button class="primary" id="startSeason">Create tournament</button><button class="subtle" id="clearSeason">Archive current season</button><button class="subtle" id="deleteCurrentSeason">Delete current season</button></div></div>
-<div class="panel mythic-hall"><div class="panel-header"><h2>♛ Hall of Champions</h2><span class="tag">Mythic Edition</span></div><div id="championsHall" class="champions-hall"></div></div>
-<div class="panel"><div class="panel-header"><h2>Season history</h2><button id="exportSeasons" class="subtle">Export seasons</button></div><div id="seasonHistory" class="history-list"></div><details><summary>Import season archive</summary><input id="importSeasons" type="file" accept=".json,application/json"><p class="help">Import previously exported season histories. Existing seasons are retained.</p></details></div>
-<div class="panel"><div class="panel-header"><h2>Current tournament</h2><span class="tag" id="seasonStatus">No season</span></div><div id="seasonContent" class="empty">Save two or more characters, select them, and create a season to see your matchups.</div></div></div></section>
-<section id="libraryPage" hidden><div class="panel"><h2>Complete option library</h2><p class="help">Includes races and sub-races, classes, alignments, powers, destiny interventions, weapon enchantments, arenas and special rules.</p><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div></div></section></main>
+<details class="roster-drawer" id="savedRosterDrawer"><summary>📚 Saved roster <span class="tag"><span id="savedCount">0</span> characters</span></summary><div class="drawer-body"><div class="drawer-toolbar"><button id="exportRoster" class="subtle" type="button">Export all</button></div><input id="rosterSearch" aria-label="Search saved characters" class="roster-search" placeholder="Search your characters…"><div class="saved-list" id="savedList"></div><details><summary>Transfer characters</summary><button class="subtle" id="copyClassic" type="button" style="width:100%;margin-top:8px">Copy Classic Edition saves</button><p class="help">Copy data from your Classic Edition when both pages share storage, or import an exported roster file.</p><label class="help" for="importRoster">Import JSON roster</label><input id="importRoster" type="file" accept=".json,application/json"></details></div></details></aside></div></section>
+<section id="tournamentsPage" hidden>
+<div class="t-layout" id="tournamentLayout">
+ <div class="panel" id="currentTournamentPanel"><div class="panel-header"><h2>⚔ Current tournament</h2><span class="tag" id="seasonStatus">No season</span></div>
+  <div id="seasonContent" class="empty">Create a bracket to see your matchups.</div>
+  <details class="season-management" id="seasonManage" hidden><summary>Manage current season</summary><div class="action-row"><button class="subtle" id="clearSeason" type="button">Archive season</button><button class="danger" id="deleteCurrentSeason" type="button">Delete season</button></div></details>
+ </div>
+ <div class="panel" id="tournamentSetupPanel"><details class="setup-drawer" id="setupDrawer" open><summary>🎲 Create a tournament</summary><div class="drawer-body"><p class="help">Choose saved characters or select a random line-up.</p><div id="rosterPicker" class="pick-list"></div><div class="fields"><label class="help" for="randomSize">Random line-up size</label><input id="randomSize" type="number" value="4" min="2" max="64"><button id="randomRoster" class="subtle">Randomise</button></div><button class="primary" id="startSeason" type="button" style="width:100%">Start knockout bracket</button></div></details></div>
+ <div class="panel mythic-hall" id="championsPanel"><details class="hall-drawer" id="hallDrawer"><summary>♛ Hall of Champions <span class="tag" id="championsCount">0 winners</span></summary><div id="championsHall" class="champions-hall drawer-body"></div></details></div>
+ <div class="panel" id="historyPanel"><details class="history-drawer" id="archiveDrawer"><summary>🗃 Past seasons <span class="tag" id="archivedCount">0 archived</span></summary><div class="drawer-body"><div class="drawer-toolbar"><button id="exportSeasons" class="subtle">Export season history</button></div><div id="seasonHistory" class="history-list"></div><details class="archive-import"><summary>Import season archive</summary><input id="importSeasons" type="file" accept=".json,application/json"><p class="help">Merge an exported archive without replacing existing seasons.</p></details></div></details></div>
+</div>
+</section>
+<section id="libraryPage" hidden><div class="panel compact-library"><div class="panel-header"><div><h2>📖 Rules & lists</h2><p class="help library-desc">Search the rules or open a category.</p></div><span class="tag" id="rulesCount">All categories</span></div><div class="library-search-row"><input type="search" id="ruleSearch" placeholder="Search a power, race, enchantment, rule…" aria-label="Search rules and lists"><button id="clearRulesSearch" class="subtle" type="button">Clear</button></div><div class="library-controls"><button id="expandRules" class="subtle">Expand all</button><button id="collapseRules" class="subtle">Collapse all</button></div><div id="libraryContents" class="library-grid"></div><p class="help" id="noRuleMatches" hidden>No matching rules. Try a different term.</p></div></section></main>
 <footer>Mythic Edition · An alternate edition of Wheel of Destiny. Saves are separate from the classic site. Export your roster and seasons to keep backups.</footer>
 <script>
 'use strict';
@@ -249,7 +320,11 @@ function sliceColor(s,i,n){
  if(s.type==='statChoice')return STAT_PALETTES[STATS[i%STATS.length]].accent;
  return `hsl(${hue.toFixed(1)} ${base.s}% ${light.toFixed(1)}%)`;
 }
-function wheelLabel(s,value){return s.type==='stat'&&!isNaN(Number(value))?statDescription(wheelStat(s)||'Strength',value):value}
+function wheelLabel(s,value){
+ if(s.type!=='stat'||!Number.isFinite(Number(value))||value==='')return value;
+ const stat=wheelStat(s)||'Strength';
+ return (STAT_WORDS[stat]||STAT_WORDS.Strength)[Math.max(0,Math.min(9,Math.floor(Number(value))-1))]||'Superhuman';
+}
 
 // Only the revised race roster is available. Angel, Demon and Dragonborn
 // retain their previous rules and sub-races as explicitly requested.
@@ -877,11 +952,13 @@ function onStepResult(s,value){
  const sameWheel=next&&JSON.stringify(wheelOptions(s))===JSON.stringify(wheelOptions(next))&&
    !next.manual&&!s.manual&&next.type===s.type;
  if(sameWheel){
+  const differentStat=s.type==='stat'&&wheelStat(s)!==wheelStat(next);
   state.index++;
-  renderStep(false);
-  $('resultLabel').textContent='↻ Another '+next.label+' — spin again';
-  $('nextStep').textContent='✓ Previous '+s.label+': '+value+' · Spin again on this wheel.';
-  $('stageNote').textContent='Spin again.';
+  // Powers/weapons can reuse a wheel; each attribute MUST rebuild its own distinct wheel.
+  renderStep(differentStat);
+  $('resultLabel').textContent=differentStat?'✦ '+next.label.toUpperCase()+' WHEEL':'↻ Another '+next.label+' — spin again';
+  $('nextStep').textContent='✓ '+s.label+': '+wheelLabel(s,value)+' · '+(differentStat?'Next: '+next.label:'Spin again');
+  $('stageNote').textContent=differentStat?'New stat wheel ready.':'Spin again.';
  }else renderStep(false);
 }
 
@@ -910,13 +987,14 @@ function displayWheel(s){
   // Each label sits along its own radial slice, outside the hub and inside the rim.
   const flip=v.center>=180, rotation=v.center-90;
   const label=shortenWheelLabel(wheelLabel(s,v.value),maxChars);
-  return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="${['No Power','No Weapon','No Enchantment'].includes(v.value)?'#ffffff':'#21172e'}" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}><title>${safe(wheelLabel(s,v.value))}</title>${safe(label)}</text></g>`;
+  return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="${['No Power','No Weapon','No Enchantment'].includes(v.value)?'#ffffff':'#21172e'}" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}>${safe(label)}</text></g>`;
  }).join('');
  el.innerHTML=`<svg class="wheel-svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${markup}</svg>`;
 }
 
 function renderStep(redraw=true){const s=current();if(!s)return;
  const done=Object.hasOwn(state.results,s.id),next=state.steps[state.index+1];
+ if(!done)$('rareBadge').hidden=true;
  $('stepHeading').textContent=state.final?'Completed character':s.label;
  $('stepCount').textContent=`${state.index+1} / ${state.steps.length}`;
  $('progress').style.width=String(state.final?100:100*state.index/state.steps.length)+'%';
@@ -924,7 +1002,8 @@ function renderStep(redraw=true){const s=current();if(!s)return;
  $('featureText').textContent=state.final?'Character complete!':done?wheelLabel(s,state.results[s.id]):s.label;
  $('nextStep').textContent=state.final?'Save your character and start a tournament.':done?(next?'Next wheel: '+next.label:'Final character sheet'):'Spin to discover your '+s.label.toLowerCase()+'.';
  $('wheelHub').disabled=state.rolling||state.final;
- $('wheelHub').textContent=state.final?'DONE':done?'NEXT':'SPIN';$('wheelHub').setAttribute('aria-label',done?'Continue to next wheel':'Spin the current wheel');
+ $('wheelHub').textContent=state.final?'DONE':done?(!next?'FINISH':'NEXT'):'SPIN';
+ $('wheelHub').setAttribute('aria-label',done?(!next?'Finish character':'Continue to next wheel'):'Spin the current wheel');
  $('stageNote').textContent=state.final?'Save your completed character or move to the tournament.':done?'Continue when you are ready.':'';
  const box=$('unlockNotice');const bonus=next&&(!['race','class','alignment','stat','power','weapon','destiny'].includes(next.type)||next.source||next.type==='subrace');
  box.hidden=!(done&&bonus&&!state.final);
@@ -942,7 +1021,7 @@ let choiceWrap=null;
 function renderChoice(s,done){
  if(!choiceWrap){choiceWrap=document.createElement('div');choiceWrap.id='choiceWrap';choiceWrap.className='fields';choiceWrap.style.justifyContent='center';$('wheel').closest('.wheel-area').after(choiceWrap)}
  choiceWrap.innerHTML='';if(!s.manual||done||state.rolling||state.final){choiceWrap.hidden=true;return}
- choiceWrap.hidden=false;const sel=document.createElement('select');sel.id='manualSelection';wheelOptions(s).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;sel.append(o)});
+ choiceWrap.hidden=false;const sel=document.createElement('select');sel.id='manualSelection';wheelOptions(s).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=wheelLabel(s,v);sel.append(o)});
  const btn=document.createElement('button');btn.textContent='Choose this option';btn.addEventListener('click',()=>{if(!state.rolling&&!Object.hasOwn(state.results,s.id))onStepResult(s,sel.value)});
  choiceWrap.append(sel,btn);
 }
@@ -960,9 +1039,9 @@ function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasO
   function frame(now){
    const progress=Math.min(1,(now-start)/duration),eased=1-Math.pow(1-progress,4);
    const angle=total*eased;rollingAngle=angle;$('wheel').style.transform=`rotate(${angle}deg)`;
-   $('featureText').textContent=pointerValue(segs,angle);
+   $('featureText').textContent=wheelLabel(s,pointerValue(segs,angle));
    if(progress<1){wheelFrame=requestAnimationFrame(frame);return}
-   wheelFrame=null;$('featureText').textContent=result;done();
+   wheelFrame=null;$('featureText').textContent=wheelLabel(s,result);done();
   }
   wheelFrame=requestAnimationFrame(frame);
  }
@@ -975,7 +1054,7 @@ function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasO
    if(!choiceWrap){choiceWrap=document.createElement('div');choiceWrap.id='choiceWrap';choiceWrap.className='fields';$('wheel').closest('.wheel-area').after(choiceWrap)}
    choiceWrap.hidden=false;choiceWrap.innerHTML='<span class="help" style="width:100%;text-align:center">Luck gives you both outcomes. Pick one:</span>';
    [first,second].forEach((result,i)=>{
-    const button=document.createElement('button');button.className=i?'primary':'';button.textContent=(i===0?'First: ':'Second: ')+result;
+    const button=document.createElement('button');button.className=i?'primary':'';button.textContent=(i===0?'First: ':'Second: ')+wheelLabel(s,result);
     button.addEventListener('click',()=>{if(!state.rolling)return;state.rolling=false;choiceWrap.hidden=true;onStepResult(s,result)});
     choiceWrap.append(button);
    });
@@ -1200,7 +1279,7 @@ function archiveSeason(){
  if(!season)return;
  seasonHistory.push(JSON.parse(JSON.stringify({...season,archived:new Date().toISOString()})));
  seasonHistory.sort((a,b)=>(Number(a.number)||0)-(Number(b.number)||0));
- season=null;storeSeason();renderTournament();
+ season=null;storeSeason();$('setupDrawer').open=true;renderTournament();
 }
 function deleteArchivedSeason(key){
  const x=seasonHistory.find(y=>(y.id||y.created)===key);
@@ -1212,10 +1291,11 @@ function deleteArchivedSeason(key){
 function deleteCurrentSeason(){
  if(!season)return;
  if(!confirm('Permanently delete current Season '+(season.number||'?')+' and its tournament progress? This cannot be undone.'))return;
- season=null;storeSeason();renderTournament();
+ season=null;storeSeason();$('setupDrawer').open=true;renderTournament();
 }
 function renderHistory(){
  const root=$('seasonHistory');if(!root)return;
+ $('archivedCount').textContent=seasonHistory.length+' archived';
  root.innerHTML=seasonHistory.length?seasonHistory.slice().reverse().map(x=>{
  const champ=x.roster?.find(c=>c.id===x.championId),matches=(x.rounds||[]).flat(),n=Number(x.number)||'?';
  return `<details class="season-history-item"><summary><strong>Season ${safe(String(n))}</strong> · ${safe(champ?.name||'Unfinished')} · ${matches.filter(m=>m.status==='done').length} matches</summary>
@@ -1359,7 +1439,7 @@ function startSeason(){const selected=roster.filter(c=>picked.has(c.id));if(sele
   archiveSeason();
  }
  season={id:uid(),number:seasonNumber(),format:fmt,created:new Date().toISOString(),roster:JSON.parse(JSON.stringify(selected)),rounds:[knockoutRound(ids)],lastReport:null,championId:null,arenaRolls:{},arenaRewards:{}};
- storeSeason();renderTournament();
+ storeSeason();$('setupDrawer').open=false;renderTournament();
 }
 $('startSeason').addEventListener('click',startSeason);
 $('deleteCurrentSeason').addEventListener('click',deleteCurrentSeason);
@@ -1705,6 +1785,8 @@ function taleOfTheTape(a,b){
  return `<div class="tape-intro">A visual comparison only — you still decide who advances. Powers and arena effects may change how these attributes matter.</div>${rows}`;
 }
 function renderChampions(){
+ const titles=[...seasonHistory,...(season?.championId?[season]:[])].filter(x=>x.championId);
+ $('championsCount').textContent=titles.length+' title'+(titles.length===1?'':'s');
  const root=$('championsHall');if(!root)return;
  const winners=[...seasonHistory,...(season?.championId?[season]:[])].filter(x=>x.championId);
  const map=new Map();
@@ -1744,7 +1826,7 @@ function matchupReport(r){
  ${Object.entries(r.arenaRewards||{}).map(([id,reward])=>`<div class="arena-bonus"><b>${safe(fighter(id)?.name||'Fighter')} received:</b> ${safe(reward)}</div>`).join('')}
  </div></details>`;
 }
-function renderTournament(){renderHistory();renderChampions();if(!season){$('seasonStatus').textContent='No season';$('seasonContent').innerHTML='<p class="empty">Select saved characters and create a tournament to generate matchups.</p>';return}
+function renderTournament(){renderHistory();renderChampions();$('tournamentLayout').classList.toggle('has-season',!!season);$('seasonManage').hidden=!season;if(!season){$('seasonStatus').textContent='No season';$('seasonContent').innerHTML='<p class="empty">Select saved characters and create a tournament to generate matchups.</p>';return}
  const done=isSeasonDone(),next=nextFixture(),total=season.rounds.flat().filter(x=>x.status!=='bye').length,played=season.rounds.flat().filter(x=>x.status==='done').length;
  $('seasonStatus').textContent=done?'Season '+(season.number||'?')+' complete':`Season ${season.number||'?'} · ${played} matches`;
  let html=`<div class="help">Season ${season.number||'?'} · Knockout bracket · ${season.roster.length} competitors · ${season.rounds.length} round(s)</div>`;
@@ -1761,7 +1843,7 @@ function renderTournament(){renderHistory();renderChampions();if(!season){$('sea
   html+=`<div class="match"><div class="eyebrow">Round ${next.i+1} · Matchup</div>${arenaPicker}<details class="compare-details"><summary>📊 Tale of the Tape · Compare attributes</summary>${taleOfTheTape(a,b)}</details><div class="manual-versus">${fighterCard(a,b,false,arenaRewards[a.id])}<div class="manual-vs">VS</div>${fighterCard(b,a,false,arenaRewards[b.id])}</div><label class="battle-note-label" for="matchNote">✍ Match Chronicle · Optional notes</label><textarea id="matchNote" class="battle-note" maxlength="1200" placeholder="How did the battle play out? Who countered whom? Why did this fighter win?">${safe(draft)}</textarea><p class="help">The story is saved with this match and appears in your season history.</p></div>`;
 
  }
- html+=`<details open><summary>${season.format==='league'?'All round-robin fixtures':'Tournament bracket'}</summary>`;
+ html+=`<details class="bracket-drawer"><summary>🏆 View tournament bracket</summary>`;
  season.rounds.forEach((round,i)=>{html+=`<div class="fixture-round"><div class="fixture-head">${season.format==='knockout'&&i===season.rounds.length-1&&!done?'Current bracket · ':''}Round ${i+1}</div>`;
  round.forEach(m=>{const a=fighter(m.a),b=m.b?fighter(m.b):null,rep=m.result;let status=m.status==='bye'?'Bye — advances':m.status==='pending'?'Awaiting battle':rep?.draw?'Draw':`${safe(fighter(m.winner)?.name)} wins`;
   html+=`<div class="fixture"><span>${safe(a?.name)} ${b?'vs '+safe(b.name):''}</span><small>${status}</small></div>`;
@@ -1791,8 +1873,33 @@ function renderLibrary(){const blocks=[
  ['Weapon enchantments',['No Enchantment — 75% chance on a standard weapon enchantment spin',...ENCHANTMENTS.map(e=>`<strong>${safe(e)}</strong> — ${safe(ENCHANT_DESC[e])}`)]],
  ['Powers',POWERS.map(p=>`<strong>${safe(p)}</strong> — ${safe(POWER_DESC[p])}`)]
  ];
- $('libraryContents').innerHTML=blocks.map(([name,entries])=>`<details class="library-block"><summary><span>${safe(name)}</span><span class="rule-count">${entries.length} entries</span></summary><div class="library-items">${entries.map(x=>`<p>${x}</p>`).join('')}</div></details>`).join('');
+ $('libraryContents').innerHTML=blocks.map(([name,entries])=>`<details class="library-block"><summary><span class="library-category">${safe(name)}</span><span class="rule-count">${entries.length} entries</span></summary><div class="library-items">${entries.map(x=>`<p>${x}</p>`).join('')}</div></details>`).join('');
+ filterLibrary();
 }
+let previousRuleQuery='';
+function filterLibrary(){
+ const query=$('ruleSearch').value.trim().toLocaleLowerCase();
+ let visible=0;
+ document.querySelectorAll('#libraryContents .library-block').forEach(block=>{
+  const summary=block.querySelector('summary');
+  const category=summary?.querySelector('.library-category')?.textContent?.toLocaleLowerCase()||'';
+  const catMatches=!!query&&category.includes(query);
+  let hasMatch=!query||catMatches;
+  block.querySelectorAll('.library-items p').forEach(p=>{
+   const match=!query||catMatches||p.textContent.toLocaleLowerCase().includes(query);
+   p.hidden=!match;
+   if(match)hasMatch=true;
+  });
+  block.hidden=!hasMatch;
+  if(hasMatch){visible++; if(query)block.open=true;else if(previousRuleQuery)block.open=false}
+  else block.open=false;
+ });
+ previousRuleQuery=query;
+ $('rulesCount').textContent=query?visible+' matching categor'+(visible===1?'y':'ies'):'All categories';
+ $('noRuleMatches').hidden=visible>0;
+}
+$('ruleSearch').addEventListener('input',filterLibrary);
+$('clearRulesSearch').addEventListener('click',()=>{$('ruleSearch').value='';filterLibrary();$('ruleSearch').focus()});
 $('expandRules').addEventListener('click',()=>document.querySelectorAll('#libraryContents details').forEach(d=>d.open=true));
 $('collapseRules').addEventListener('click',()=>document.querySelectorAll('#libraryContents details').forEach(d=>d.open=false));
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
@@ -1809,7 +1916,7 @@ function init(){try{
  }catch(e){seasonHistory=[]}
  try{const prior=JSON.parse(localStorage.getItem(SEASON_KEY)||'null');if(prior&&prior.format==='knockout'&&Array.isArray(prior.roster)&&Array.isArray(prior.rounds))season=prior}catch(e){season=null}
  if(season&&!season.number)season.number=seasonNumber();
- renderStep();renderPreview();renderSaved();renderRosterPicker();renderTournament();renderLibrary();
+ renderStep();renderPreview();renderSaved();renderRosterPicker();renderTournament();renderLibrary();$('setupDrawer').open=!season;
 }
 init();
 </script></body></html>
