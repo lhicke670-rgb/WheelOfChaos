@@ -100,10 +100,7 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 .mythic-stat strong{color:#f8f1df;font:700 18px/1.17 'Times New Roman',Georgia,serif}
 .stat-meter{width:100%;height:6px;border-radius:8px;background:#12151b;overflow:hidden;margin-top:10px;border:1px solid #ffffff17}
 .stat-meter i{height:100%;border-radius:7px;display:block;background:linear-gradient(90deg,color-mix(in srgb,var(--stat-accent) 55%,#111),var(--stat-accent));box-shadow:0 0 9px var(--stat-accent);transition:width .8s cubic-bezier(.2,.7,.2,1)}
-.mythic-epithet{--stat-accent:#e9bb61;background:linear-gradient(110deg,color-mix(in srgb,var(--stat-accent) 17%,#25211e),#241d16);border:1px solid color-mix(in srgb,var(--stat-accent) 65%,#65512e);border-radius:13px;padding:13px 15px;margin:14px 0 4px}
-.mythic-epithet span{font:700 10px 'Times New Roman',serif;letter-spacing:1.5px;color:#d2bf9e;display:block}
-.mythic-epithet strong{font:700 22px Georgia,serif;color:var(--stat-accent);display:block;margin:5px 0}
-.mythic-epithet small{color:#cdbb9c;font:12px Georgia,serif}
+
 .wheel-area{--wheel-glow:#dfb667}
 .wheel-area .wheel{box-shadow:0 0 0 5px color-mix(in srgb,var(--wheel-glow) 35%,transparent),0 0 40px color-mix(in srgb,var(--wheel-glow) 33%,transparent),0 14px 34px #000a!important;border-color:color-mix(in srgb,var(--wheel-glow) 54%,#fff3cc)!important}
 .wheel-area.mythic-rare:not(:has(.wheel-hub:disabled)){animation:legendaryAura 2.6s ease-in-out infinite}
@@ -121,7 +118,7 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 .tape-rivals b{color:var(--stat-accent)}
 .tape-track{height:8px;background:#171719;border-radius:8px;overflow:hidden}
 .tape-track i{display:block;height:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--stat-accent) 48%,#12141d),var(--stat-accent));border-radius:8px}
-.fighter-epithet{color:#e6c885;font-size:12px;margin:7px 0 12px;letter-spacing:.4px}
+
 .fighter-stat-row{border-left:3px solid var(--stat-accent);padding-left:6px!important;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .fighter-stat-row span{color:var(--stat-accent)}
 .fighter-stat-row b{text-align:right}
@@ -207,14 +204,14 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 @media(max-width:880px){.t-layout,.t-layout.has-season{grid-template-columns:minmax(0,1fr);grid-template-areas:"setup" "current" "hall" "archive"}.t-layout.has-season{grid-template-areas:"current" "setup" "hall" "archive"}}
 @media(max-width:550px){#currentTournamentPanel{padding:14px}.compact-library .library-search-row{flex-wrap:wrap}.compact-library #ruleSearch{min-width:220px}.t-layout .drawer-body{padding-top:9px}.t-layout .setup-drawer>summary,.t-layout .hall-drawer>summary,.t-layout .history-drawer>summary{font-size:14px}}
 </style></head><body>
-<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><div class="edition-subtitle">✦ MYTHIC EDITION <span>· Refined layout · Separate from Classic V13</span></div></div></header>
+<header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1><div class="edition-subtitle">✦ MYTHIC EDITION <span>· Refined V2 · Separate from Classic V13</span></div></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
 <section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp"></div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
 <div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div class="rare-banner" id="rareBadge" hidden></div><div id="unlockNotice" class="unlock-notice" hidden></div><div id="autoGrants" class="automatic-grants" hidden></div></div>
 <div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div>
 <div class="controls"><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote">Spin each wheel and continue to the next step.</p></div>
 <aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name <strong>(required to save)</strong></label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
-<div class="mythic-epithet" id="mythicEpithet" hidden></div><div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
+<div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment</h3><div class="result-rows" id="equipment"></div></div><div class="group"><h3>Traits & weaknesses</h3><div class="pills" id="traits"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button><button id="exportCard" disabled>✧ Save character card</button></div>
 <details class="roster-drawer" id="savedRosterDrawer"><summary>📚 Saved roster <span class="tag"><span id="savedCount">0</span> characters</span></summary><div class="drawer-body"><div class="drawer-toolbar"><button id="exportRoster" class="subtle" type="button">Export all</button></div><input id="rosterSearch" aria-label="Search saved characters" class="roster-search" placeholder="Search your characters…"><div class="saved-list" id="savedList"></div><details><summary>Transfer characters</summary><button class="subtle" id="copyClassic" type="button" style="width:100%;margin-top:8px">Copy Classic Edition saves</button><p class="help">Copy data from your Classic Edition when both pages share storage, or import an exported roster file.</p><label class="help" for="importRoster">Import JSON roster</label><input id="importRoster" type="file" accept=".json,application/json"></details></div></details></aside></div></section>
 <section id="tournamentsPage" hidden>
@@ -267,7 +264,7 @@ const WHEEL_THEMES={
  dragonType:{h:0,s:68,l:52},statChoice:{h:197,s:70,l:51},stat:{h:205,s:72,l:52},
  power:{h:275,s:60,l:58},bonusPower:{h:285,s:64,l:58},
  weapon:{h:120,s:53,l:46},bonusWeapon:{h:135,s:55,l:46},
- enchantment:{h:184,s:65,l:49},destiny:{h:42,s:79,l:55},
+ enchantment:{h:184,s:65,l:49},destiny:{h:42,s:79,l:55},petType:{h:110,s:65,l:47},instrumentType:{h:301,s:66,l:54},magicRingPower:{h:270,s:73,l:56},
  weakness:{h:350,s:67,l:51},sidekickKind:{h:155,s:60,l:45},sidekickGift:{h:155,s:65,l:47},
  destinyRace:{h:171,s:56,l:45},extraKind:{h:303,s:57,l:54},extraPick:{h:290,s:56,l:55},
  stoneCount:{h:231,s:66,l:55},stone:{h:237,s:64,l:53}
@@ -304,11 +301,6 @@ function statTile(k,v,sources='',compact=false){
 function leadingStat(c){
  const present=STATS.map(k=>({key:k,n:Number(c.stats?.[k])})).filter(x=>Number.isFinite(x.n));
  return present.length?present.sort((a,b)=>b.n-a.n)[0].key:'Strength';
-}
-function epithet(c){
- const k=leadingStat(c),t=STAT_PALETTES[k],n=Number(c.stats?.[k]);
- if(!Number.isFinite(n))return 'Fate Unwritten';
- return n>=10?'Ascendant · '+t.title:n>=9?'Legendary · '+t.title:t.title;
 }
 function hasRolledStats(){return state.steps.some(x=>x.type==='stat'&&Object.hasOwn(state.results,x.id))}
 function sliceColor(s,i,n){
@@ -534,10 +526,10 @@ Flyrokinesis
 Animalism
 Portals
 Reanimation`);
-const POWER_DESC=Object.fromEntries(split(`Super Strength|Effective Strength 10 (cannot be rolled naturally)
-Super Speed|Effective Speed 10 (cannot be rolled naturally)
-Super Genius|Effective IQ 10 (cannot be rolled naturally)
-Regeneration|Effective Durability 10 (cannot be rolled naturally); also heals during combat
+const POWER_DESC=Object.fromEntries(split(`Super Strength|+3 Strength
+Super Speed|+3 Speed
+Super Genius|+3 IQ
+Regeneration|+3 Durability; also heals during combat
 Hydrokinesis|Control over Water
 Pyrokinesis|Control over Fire
 Cryokinesis|Control over Ice
@@ -628,7 +620,7 @@ Hammer
 Mace
 Pencil
 Instrument
-Pet Animal
+Pet
 Scythe
 Pitchfork
 Musket
@@ -650,17 +642,17 @@ Dagger
 Rock
 Armour
 Sword
-Power Ring
+Magic Ring
 Infinity Gauntlet`);
 // Existing legendary equipment remains available alongside the newly supplied weapons.
-const SPECIAL_WEAPONS=['Power Ring','Infinity Gauntlet'];
+const SPECIAL_WEAPONS=['Magic Ring','Infinity Gauntlet'];
 // Enchantments are attached to weapons after the weapon step; they are never weapon-wheel choices.
 const PLAIN_WEAPONS=WEAPONS.filter(x=>x!=='No Weapon'&&!SPECIAL_WEAPONS.includes(x));
 const BONUS_WEAPONS=WEAPONS.filter(x=>x!=='No Weapon');
 const STONES=['Power','Space','Time','Reality','Soul','Mind'];
 const STONE_DESC={'Power':'+2 Strength','Space':'Teleportation','Time':'Chronomancy','Reality':'Every Kinesis','Soul':'Soul Sucker','Mind':'Mind Control'};
 const ALIGNMENTS=['Hero','Villain','Anti-Hero','Neutral'];
-const ALIGN_DESC={'Hero':'Less Likely to Kill Anyone','Villain':'More Likely to Kill Anyone','Anti-Hero':'Likely to Kill Villain','Neutral':'50/50'};
+const ALIGN_DESC={'Hero':'Less Likely to Kill Anyone','Villain':'More Likely to Kill Anyone','Anti-Hero':'Likely to Kill Villain','Neutral':''};
 const DESTINY_INTERVENTIONS=split(`Celestial Touch
 Chudify
 Curse of Samuel
@@ -686,16 +678,27 @@ const DESTINY_DESC={
  'Sidekick':'Spin a sidekick to help you battle, with one stat, and either a power or a weapon'
 };
 const ARENAS={
+ 'Colosseum':'Open combat pit. Each combatant receives a gladiator surge: +1 Strength and +1 Durability for the battle.',
+ 'Underwater Temple':'Flooded ruins. Each combatant gains Aquatic Affinity for the battle.',
+ 'Beachfront':'Coastal battleground. Each combatant gains a seaside burst of +1 Speed for the battle.',
  'Magic Forest':'Each combatant gains a random temporary power for the battle.',
+ 'The Moon':'Low gravity battlefield. Each combatant gains Flight and +1 Speed for the battle.',
+ 'Strip Mall':'Improvised urban battleground. Each combatant finds a random improvised weapon for the battle.',
+ 'Labyrinth':'Confusing maze. Each combatant gains +1 IQ and True Sight for the battle.',
+ 'Bullet Train':'Extreme momentum. Each combatant gains +2 Speed for the battle.',
+ 'Football Stadium':'Massive arena crowd. Each combatant gains +1 Strength and Intimidation for the battle.',
+ 'Concert Venue':'Instruments are available to both combatants for the battle.',
+ 'Volcano Base':'Molten lair. Each combatant gains Pyrokinesis for the battle.',
+ 'Training Room':'Controlled sparring zone. Each combatant gains +1 Power Level for the battle.',
  'Armoury':'Each combatant gains a random temporary weapon for the battle.',
- 'God Temple':'Each combatant gains the powers of a randomly chosen god for the battle.',
- 'Concert Venue':'Instruments are available to both combatants for the battle.'
+ 'Temple of the Gods':'Each combatant gains the powers of a randomly chosen god for the battle.'
 };
 const WEAKNESS_OPTIONS=['Fire','Ice','Light','Darkness','Electricity','Water','Mud','Holy','Demonic','Metal'];
 const EXTRA_CATEGORIES=['Power','Weapon','Stat','Race','Class','Alignment','Pet','Destiny Intervention','God Power','Beast Type'];
 const ENCHANT_CHANCE=0.25;
 const SECONDARY_RACES=RACES.filter(r=>r!=='Hybrid');
-const INSTRUMENTS=['Guitar','Violin','Drum','Flute','Lute','Trumpet','Harp','Keyboard'];
+const PETS=['Gerbil','Gorilla','Komodo Dragon','Horse','Eagle','Bull','Shark','Wolf','Bear','Tiger'];
+const INSTRUMENTS=['Electric Guitar','War Drums','Violin','Harp','Saxophone','Keytar','Bagpipes','Lute','Pan Flute','Trumpet'];
 // Step-by-step creation engine.
 const initialSteps=()=>[
  {id:'race',label:'Race',type:'race'},
@@ -735,6 +738,9 @@ function candidates(s){
  case 'extraClass':return CLASSES.filter(x=>x!=='Dual Class');
  case 'alignment':return ALIGNMENTS;
  case 'godDomain':case 'ringDomain':return SUBRACES.God;
+ case 'magicRingPower':return POWERS;
+ case 'petType':return PETS;
+ case 'instrumentType':return INSTRUMENTS;
  case 'dragonType':return SUBRACES.Dragonborn.filter(x=>x!=='True Dragon Form');
  case 'statChoice':return STATS;
  case 'stat':return Array.from({length:9},(_,i)=>String(i+1));
@@ -757,7 +763,7 @@ function candidates(s){
   if(kind==='Race')return SECONDARY_RACES;
   if(kind==='Class')return CLASSES.filter(x=>x!=='Dual Class');
   if(kind==='Alignment')return ALIGNMENTS;
-  if(kind==='Pet')return ['Pet'];
+  if(kind==='Pet')return PETS;
   if(kind==='Destiny Intervention')return DESTINY_INTERVENTIONS;
   if(kind==='God Power')return SUBRACES.God;
   if(kind==='Beast Type')return SUBRACES.Beast;
@@ -816,8 +822,8 @@ function addDestinyAfter(s,val,after){
  if(val==='Celestial Touch')after.push(step(s.id+'_god','✨ Celestial Touch — god power','godDomain',{source:'Destiny: Celestial Touch',destinyGod:true}));
  if(val==='Achilles “Blessing”')after.push(step(s.id+'_weakness','⚠ Achilles Blessing — weakness','weakness',{source:'Destiny: Achilles Blessing'}));
  if(val==='Bardic Inspiration'){
-  const id=s.id+'_instrument';state.results[id]='Instrument';
-  after.push(step(id,'🎻 Granted instrument','grantWeapon',{fixedWeapon:'Instrument',source:'Destiny: Bardic Inspiration'}),step(id+'_enchantment','Enchant Instrument','enchantment',{weaponId:id,source:'Destiny: Bardic Inspiration'}));
+  const id=s.id+'_instrument';
+  after.push(step(id,'🎻 Bardic Inspiration — instrument','instrumentType',{source:'Destiny: Bardic Inspiration'}),step(id+'_enchantment','Enchant the instrument','enchantment',{weaponId:id,source:'Destiny: Bardic Inspiration'}));
  }
  if(val==='Shape Change')after.push(step(s.id+'_race','🦎 Shape Change — new race','destinyRace',{source:'Destiny: Shape Change'}));
  if(val==='Sidekick')after.push(step(s.id+'_stat','🛡 Sidekick — stat','statChoice',{manual:true,sidekick:true}),step(s.id+'_value','🛡 Sidekick — stat value','stat',{sidekick:true}),step(s.id+'_kind','🛡 Sidekick — power or weapon?','sidekickKind'),step(s.id+'_gift','🛡 Sidekick — roll','sidekickGift',{kindId:s.id+'_kind'}));
@@ -842,7 +848,7 @@ function getTraits(){
  for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='Class'))if(r[s.id])add('Extra class: '+r[s.id],CLASS_TRAITS[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='God Power'))if(r[s.id])add('Extra god power: '+r[s.id],SUB_TRAITS.God[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='Beast Type'))if(r[s.id])add('Extra beast ability: '+r[s.id],SUB_TRAITS.Beast[r[s.id]]||[],s.id);
- for(const s of state.steps.filter(s=>s.type==='ringDomain'))if(r[s.id])add((s.source==='God Touched enchantment'?'God Touched enchantment':'Power Ring')+' ('+r[s.id]+' god)',SUB_TRAITS.God[r[s.id]]||[],s.id);
+ for(const s of state.steps.filter(s=>s.type==='ringDomain'&&s.source==='God Touched enchantment'))if(r[s.id])add('God Touched enchantment ('+r[s.id]+' god)',SUB_TRAITS.God[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='godDomain'&&s.destinyGod))if(r[s.id])add('Destiny: Celestial Touch ('+r[s.id]+')',SUB_TRAITS.God[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='destinyRace'))if(r[s.id])add('Destiny: Shape Change ('+r[s.id]+')',raceTokens(r[s.id],r[s.id+'_sub']),s.id);
  return raw;
@@ -863,8 +869,10 @@ function getBonusRequests(){
   // Trait-granted weapons are real equipment, never enchantment names on the weapon wheel.
   if(t==='Sams Weapon'){add('grantWeapon',trait,0,{fixedWeapon:"Sam's Mud"});continue}
   if(t==='Entertainer Weapon'){add('grantWeapon',trait,0,{fixedWeapon:'Entertainer Weapon'});continue}
-  if(t==='Weaponized Music'){add('grantWeapon',trait,0,{fixedWeapon:'Instrument'});continue}
-  const named=t.match(/^\+?(\d+)?\s*(Celestial|Frost Touch|Soul Sucker|Bow|Hammer|Axe|Sword|Katana|Shuriken|Instrument|Thundering|Infernal|Egg) Weapon$/i);
+  const petGrant=t.match(/^\+(\d+)\s+Pets?$/i);if(petGrant){for(let i=0;i<Number(petGrant[1]);i++)add('pet',trait,i);continue}
+  if(t==='Weaponized Music'){add('instrument',trait,0);continue}
+  if(t==='Instrument Weapon'){add('instrument',trait,0);continue}
+  const named=t.match(/^\+?(\d+)?\s*(Celestial|Frost Touch|Soul Sucker|Bow|Hammer|Axe|Sword|Katana|Shuriken|Thundering|Infernal|Egg) Weapon$/i);
   if(named){
    const n=Number(named[1]||1),name=named[2];
    for(let i=0;i<n;i++){
@@ -884,6 +892,8 @@ function queuedBonusSteps(){
   if(req.kind==='deferredEnchant'){state.pendingEnchantments.push(req);continue}
   const id='bonus_'+req.key.replace(/[^a-zA-Z0-9_-]/g,'_');
   if(req.kind==='power')added.push(step(id,'Bonus power — '+req.source,'bonusPower',{source:req.source}));
+  if(req.kind==='pet')added.push(step(id,'🐾 Pet — '+req.source,'petType',{source:req.source}));
+  if(req.kind==='instrument'){added.push(step(id,'🎵 Instrument — '+req.source,'instrumentType',{source:req.source}));added.push(step(id+'_enchantment','Enchant instrument','enchantment',{weaponId:id,source:req.source}));}
   if(req.kind==='chooseWheel')added.push(step(id+'_kind','God of Choice — choose a wheel','extraKind',{manual:true,source:req.source}),step(id,'God of Choice — additional spin','extraPick',{kindId:id+'_kind',source:req.source,godChoice:true}));
   if(req.kind==='weapon')added.push(step(id,'Bonus weapon — '+req.source,'bonusWeapon',{source:req.source,manual:!!req.manual,forcedEnchant:!!req.forcedEnchant,presetEnchant:req.presetEnchant||'',plainOnly:!!req.plainOnly}));
   if(req.kind==='grantWeapon'){
@@ -933,8 +943,10 @@ function onStepResult(s,value){
  if(s.type==='extraPick'&&state.results[s.kindId]==='Race'&&SUBRACES[value])after.push(step(s.id+'_sub','Additional '+value+' sub-race','subrace',{parent:value}));
  if(s.type==='extraPick'&&state.results[s.kindId]==='Stat'&&s.godChoice)after.push(step(s.id+'_rolled','New roll for '+value,'stat',{targetId:s.id}));
  if(['weapon','bonusWeapon'].includes(s.type)||s.type==='sidekickGift'&&state.results[s.kindId]==='Weapon'||(s.type==='extraPick'&&state.results[s.kindId]==='Weapon')){
+  if(value==='Pet')after.push(step(s.id+'_pet','🐾 Choose your pet','petType',{source:s.label,parentWeaponId:s.id}));
+  if(value==='Instrument')after.push(step(s.id+'_instrument','🎵 Choose your instrument','instrumentType',{source:s.label,parentWeaponId:s.id}));
   after.push(...weaponFollowups(s,value));
-  if(value==='Power Ring')after.push(step(s.id+'_ring','Power Ring — god domain','ringDomain',{weaponId:s.id}));
+  if(value==='Magic Ring')after.push(step(s.id+'_ringPower','💍 Magic Ring — granted power','magicRingPower',{weaponId:s.id,source:'Magic Ring'}));
   if(value==='Infinity Gauntlet')after.push(step(s.id+'_stoneCount','Infinity Gauntlet — stone count','stoneCount',{gauntlet:s.id}));
  }
  if(s.type==='enchantment'&&value==='God Touched')after.push(step(s.id+'_god','God Touched — divine domain','ringDomain',{weaponId:s.weaponId,source:'God Touched enchantment'}));
@@ -1115,10 +1127,10 @@ function buildCharacter(){
   if(t==='Intimidation x2'){addPower('Intimidation',source);addPower('Intimidation',source+' (second use)');return}
   if(t==='An Animaloid Form'){c.tags.push('Animaloid Form');return}
   if(t==='Get Fucked'||t==='Steal a Weapon upon Defeating Opponent'||t==='Choice of Arena'||t==='Random God Power each round'){c.special.push(t);return}
-  if(t==='+1 Pet'){addPet('Pet',source);return}
+  if(t==='+1 Pet'||t==='Instrument Weapon')return; // Their named results are added by their conditional wheels.
   if(t==='Weaponized Music'){addPower(t,source);return}
   // Weapon-granting traits are resolved by conditional grant / weapon steps instead.
-  if(t==='Sams Weapon'||t==='Entertainer Weapon'||t==='Soul Sucking Fangs'||/^\+?(\d+)?\s*(Celestial|Frost Touch|Soul Sucker|Bow|Hammer|Axe|Sword|Katana|Shuriken|Instrument|Thundering|Infernal|Egg) Weapon$/i.test(t))return;
+  if(t==='Sams Weapon'||t==='Entertainer Weapon'||t==='Soul Sucking Fangs'||/^\+?(\d+)?\s*(Celestial|Frost Touch|Soul Sucker|Bow|Hammer|Axe|Sword|Katana|Shuriken|Thundering|Infernal|Egg) Weapon$/i.test(t))return;
   if(POWERS.includes(t)||['Blindsense','Aqua Affinity','Precognition','Light Manipulation','Shadow Magic','Flaming Aura','Sonic Scream','Acid Spit','Optic Blasts','Metal Skin','Midas Touch','Soul Sucking','Teleportation'].includes(t)){addPower(t==='Aqua Affinity'?'Aquatic Affinity':t,source);return}
   c.notes.push(t+(source?' ('+source+')':''));
  }
@@ -1128,8 +1140,20 @@ function buildCharacter(){
   const source=s.source||s.label;
   if(['power','bonusPower'].includes(s.type))addPower(v,source);
   if(['weapon','bonusWeapon','grantWeapon'].includes(s.type)&&!(s.id||'').includes('_sidekick'))addWeapon(v,source,s.id);
+  if(s.type==='petType'){
+   addPet(v,source);
+   if(s.parentWeaponId){const weapon=addedWeaponById.get(s.parentWeaponId);if(weapon){weapon.base='Pet ('+v+')';weapon.name=weapon.base}}
+  }
+  if(s.type==='instrumentType'){
+   if(s.parentWeaponId){const weapon=addedWeaponById.get(s.parentWeaponId);if(weapon){weapon.base=v;weapon.name=v}}
+   else addWeapon(v,source,s.id);
+  }
+  if(s.type==='magicRingPower'){
+   addPower(v,'Magic Ring · '+source);
+   c.notes.push('Magic Ring grants '+v+' while worn');
+  }
   if(['enchantment','grantEnchant'].includes(s.type)&&!(s.weaponId||'').includes('_gift'))attachEnchant(v,source,s.weaponId||'');
-  if(s.type==='ringDomain'){if(s.source==='God Touched enchantment')c.notes.push('God Touched weapon grants God of '+v+' abilities while possessed');else addPower('Power Ring: '+v,source)}
+  if(s.type==='ringDomain'&&s.source==='God Touched enchantment')c.notes.push('God Touched weapon grants God of '+v+' abilities while possessed');
   if(s.type==='stone'){
    c.stones.push(v);const origin='Infinity Gauntlet: '+v+' Stone';
    if(v==='Power')addMod('Strength',2,origin);
@@ -1155,8 +1179,7 @@ function buildCharacter(){
   const n=Number(r[s.id]||0),stones=state.steps.filter(x=>x.type==='stone'&&x.gauntlet===s.gauntlet).map(x=>r[x.id]).filter(Boolean);
   if(n===6&&stones.length===6){c.instantWin50=true;c.special.push('All six Infinity Stones: 50% chance of instant victory at combat start')}
  }
- const powerModifiers={'Elasticity':{Durability:1},'Bulletproof':{Durability:1}};
- const superPowerStats={'Super Strength':'Strength','Super Speed':'Speed','Super Genius':'IQ','Regeneration':'Durability'};
+ const powerModifiers={'Super Strength':{Strength:3},'Super Speed':{Speed:3},'Super Genius':{IQ:3},'Regeneration':{Durability:3},'Elasticity':{Durability:1},'Bulletproof':{Durability:1}};
  provenance.powers.slice().forEach(p=>{
   const change=powerModifiers[p.name];if(change)Object.entries(change).forEach(([k,n])=>addMod(k,n,'Power: '+p.name+' ('+p.source+')'));
 
@@ -1212,7 +1235,7 @@ function buildCharacter(){
   if(effect==='Werebeast')c.special.push('Werebeast: 50% chance of temporary beast abilities each tournament round');
   if(effect==='Shape Change')c.notes.push('Original race: '+(r.race||'Unknown')+'; new race: '+c.race);
   if(effect==='Sidekick'){
-   const kind=r[id+'_kind'],name=r[id+'_gift'];const stat=r[id+'_stat'],value=Number(r[id+'_value']);
+   const kind=r[id+'_kind'],rawName=r[id+'_gift'];const name=rawName==='Pet'&&r[id+'_gift_pet']?'Pet ('+r[id+'_gift_pet']+')':rawName==='Instrument'&&r[id+'_gift_instrument']?r[id+'_gift_instrument']:rawName;const stat=r[id+'_stat'],value=Number(r[id+'_value']);
    c.sidekick={stat:stat||'Strength',value:Number.isFinite(value)?value:4,kind:kind||'Power',name:name||'Not yet rolled'};
    if(kind==='Weapon'&&name){const suffix=r[id+'_gift_chance_enchantment'];if(suffix)c.sidekick.name=suffix+' '+name}
 
@@ -1220,14 +1243,6 @@ function buildCharacter(){
   if(effect==='Celestial Touch')c.notes.push('Celestial Touch god domain: '+(r[id+'_god']||'—'));
  }
  for(const s of state.steps.filter(s=>(s.type==='destiny'||s.type==='extraPick'&&r[s.kindId]==='Destiny Intervention')&&r[s.id]))destiny(r[s.id],s.id);
- // Super powers establish an effective stat of exactly 10, above the native wheel's 1–9.
- // Apply after ordinary modifiers; a Destiny curse that removes the power also removes its 10.
- for(const [power,stat] of Object.entries(superPowerStats)){
-  if(c.powers.includes(power)){
-   c.stats[stat]=10;
-   provenance.stats[stat].push('Effective 10 · '+power+' (super power; overrides the ordinary rolled stat and modifiers)');
-  }
- }
  c.weapons=c.weaponDetails.map(w=>w.name);
  c.weaknesses=[...new Set(c.weaknesses)];c.tags=[...new Set(c.tags)];c.attributes={...c.stats};
  if(c.stones.length)c.notes.push('Infinity Stones: '+c.stones.join(', '));
@@ -1241,8 +1256,6 @@ function originTag(label,origin,extra=''){
 }
 function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.final;
  $('sheetStatus').textContent=viewedSaved?'Saved character':rolled?'Complete':'Building';
- const epi=$('mythicEpithet');epi.hidden=!(viewedSaved||hasRolledStats());
- if(!epi.hidden){const k=leadingStat(c),t=STAT_PALETTES[k];epi.style.setProperty('--stat-accent',t.accent);epi.innerHTML=`<span>✦ MYTHIC EPITHET · VISUAL ONLY</span><strong>${safe(epithet(c))}</strong><small>${t.icon} ${safe(k)} is the defining attribute</small>`;}
  const identity=[['Race',c.race],['Class',c.class]];
  if(c.alignment&&c.alignment!=='—')identity.push(['Alignment',c.alignment]);
  if((c.destinyInterventions||[]).length)identity.push(['Destiny’s Intervention',c.destinyInterventions.join(' · ')]);
@@ -1388,7 +1401,6 @@ function characterCardSVG(c){
  <text x="450" y="176" text-anchor="middle" letter-spacing="4" font-family="Georgia,serif" font-size="16" fill="#a9987c">✧ MYTHIC EDITION ✧</text>
  <text x="450" y="252" text-anchor="middle" font-family="Georgia,serif" font-size="48" fill="#fff0cf" font-weight="bold">${name}</text>
  <text x="450" y="289" text-anchor="middle" font-family="Georgia,serif" font-size="24" fill="#d9c4a4">${identity}</text>
- <text x="450" y="330" text-anchor="middle" font-family="Georgia,serif" font-size="25" fill="${accent}">${safe(epithet(c))}</text>
  <line x1="100" y1="353" x2="800" y2="353" stroke="#8b7148" stroke-width="2"/>${bars}
  <line x1="100" y1="758" x2="800" y2="758" stroke="#8b7148" stroke-width="2"/>
  <text x="116" y="809" fill="#e9c985" font-family="Georgia,serif" font-size="28">POWERS</text><text x="532" y="809" fill="#e9c985" font-family="Georgia,serif" font-size="28">WEAPONS</text>
@@ -1507,11 +1519,8 @@ function temporaryTrait(copy,trait){
 }
 function temporaryPower(copy,power){
  copy.powers.push(power);
- const mods={'Super Strength':['Strength',2],'Super Speed':['Speed',2],'Super Genius':['IQ',2],'Regeneration':['Durability',2],'Elasticity':['Durability',1],'Bulletproof':['Durability',1]};
- if(['Super Strength','Super Speed','Super Genius','Regeneration'].includes(power)){
-   const stat={'Super Strength':'Strength','Super Speed':'Speed','Super Genius':'IQ','Regeneration':'Durability'}[power];
-   copy.stats[stat]=10;
-  }else if(mods[power]&&typeof copy.stats[mods[power][0]]==='number')copy.stats[mods[power][0]]+=mods[power][1];
+ const mods={'Super Strength':['Strength',3],'Super Speed':['Speed',3],'Super Genius':['IQ',3],'Regeneration':['Durability',3],'Elasticity':['Durability',1],'Bulletproof':['Durability',1]};
+ if(mods[power]&&typeof copy.stats[mods[power][0]]==='number')copy.stats[mods[power][0]]+=mods[power][1];
 }
 function roundBeast(character,roundNumber,mode){
  season.roundBeasts=season.roundBeasts||{};const key=character.id+':'+roundNumber+':'+mode;
@@ -1533,8 +1542,8 @@ function applyArenaToCombatants(a,b,arena,notes){
  const aa=copy(a),bb=copy(b);
  notes.push('Arena: '+arena+' — '+ARENAS[arena]);
  for(const c of [aa,bb]){
-  // Power Rings and God Touched enchantments grant their rolled deity's effects while worn.
-  const ringDomains=(c.powers||[]).filter(p=>p.startsWith('Power Ring: ')).map(p=>p.slice('Power Ring: '.length));
+  // God Touched enchantments grant their rolled deity's effects while worn.
+  const ringDomains=[];
   const notesText=(c.notes||[]).join(' | ');
   if((c.enchantments||[]).includes('God Touched')){
    const named=notesText.match(/God Touched weapon grants God of ([A-Za-z ]+) abilities/);
@@ -1546,7 +1555,7 @@ function applyArenaToCombatants(a,b,arena,notes){
   }
   if(arena==='Magic Forest'){const p=choose(POWERS);temporaryPower(c,p);notes.push(c.name+' found temporary '+p+'.')}
   if(arena==='Armoury'){const w=choose(PLAIN_WEAPONS);c.weapons.push(w);notes.push(c.name+' equipped temporary '+w+'.')}
-  if(arena==='God Temple'){const g=choose(SUBRACES.God);(SUB_TRAITS.God[g]||[]).forEach(t=>temporaryTrait(c,t));notes.push(c.name+' received God of '+g+' powers temporarily.')}
+  if(arena==='Temple of the Gods'){const g=choose(SUBRACES.God);(SUB_TRAITS.God[g]||[]).forEach(t=>temporaryTrait(c,t));notes.push(c.name+' received God of '+g+' powers temporarily.')}
   if(arena==='Concert Venue'){const instrument=choose(INSTRUMENTS);c.weapons.push(instrument+' (Instrument)');notes.push(c.name+' found a '+instrument+' to play or use in combat.')}
  }
  return [aa,bb];
@@ -1561,7 +1570,7 @@ function simulateDuel(a,b,arena){
  const N=(c,k)=>Math.max(0,normalStat(c.stats?.[k])||0);
  const isRanged=c=>(c.weapons||[]).some(w=>/Bow|Sling|Shuriken|Musket|Pistol|Machine Gun|Sniper|Water Gun|Snowball|Laser|Cannon/i.test(w));
  const magicPowers=['Hydrokinesis','Pyrokinesis','Cryokinesis','Terrakinesis','Electrokinesis','Florakinesis','Mudkinesis','Photokinesis','Aerokinesis','Technomancy','Necromancy','Magnetism','Telekinesis','Umbrakinesis','Lumokinesis','Laser Eyes','Flyrokinesis','Portals','Chronomancy','Energy Conservation','Sonic Scream','Optic Blasts','Flaming Aura','Shadow Magic','Light Manipulation','Acid Spit'];
- const hasMagic=c=>(c.powers||[]).some(p=>magicPowers.includes(p)||p.startsWith('Power Ring:'));
+ const hasMagic=c=>(c.powers||[]).some(p=>magicPowers.includes(p));
  const tag=(c,t)=>attackTags(c).has(t);
  const maxHP=c=>12+2*N(c,'Durability');
  const hp=[maxHP(a),maxHP(b)],mx=[...hp],fighters=[a,b];
@@ -1619,7 +1628,7 @@ function simulateDuel(a,b,arena){
   if(arena==='Concert Venue'&&((att.weapons||[]).some(w=>/Instrument|Guitar|Piano|Drum|Violin|Flute|Saxophone/i.test(w))||att.class==='Bard'))raw+=2;
   if(arena==='Magic Forest'&&has(att,'Florakinesis'))raw+=2;
   if(arena==='Armoury'&&weapon)raw++;
-  if(arena==='God Temple'&&(att.race||'').includes('God'))raw++;
+  if(arena==='Temple of the Gods'&&(att.race||'').includes('God'))raw++;
   const counter=powerCounter(att,def);raw+=counter.bonus;
   let armor=Math.floor(N(def,'Durability')/4);
   if(has(def,'Metal Skin'))armor++;
@@ -1751,12 +1760,23 @@ function arenaReward(f,arena,c){
  const key=arenaKey(f)+':'+arena+':'+c.id;
  if(!season.arenaRewards[key]){
   let value='';
-  if(arena==='Magic Forest')value='✨ Temporary power: '+choose(POWERS.filter(x=>x!=='No Power'));
+  if(arena==='Colosseum')value='🏛 Gladiator surge: +1 Strength, +1 Durability';
+  else if(arena==='Underwater Temple')value='🌊 Temple blessing: Aquatic Affinity';
+  else if(arena==='Beachfront')value='🏖 Coastal burst: +1 Speed';
+  else if(arena==='Magic Forest')value='✨ Temporary power: '+choose(POWERS.filter(x=>x!=='No Power'));
+  else if(arena==='The Moon')value='🌕 Low-gravity boon: Flight, +1 Speed';
+  else if(arena==='Strip Mall')value='🛍 Improvised weapon: '+choose(['Chair','Stick','Pencil','Lasso','Chains','Water Gun','Snowball','Rock']);
+  else if(arena==='Labyrinth')value='🌀 Maze insight: +1 IQ, True Sight';
+  else if(arena==='Bullet Train')value='🚄 Momentum rush: +2 Speed';
+  else if(arena==='Football Stadium')value='🏟 Crowd roar: +1 Strength, Intimidation';
+  else if(arena==='Concert Venue')value='🎵 Available instrument: '+choose(INSTRUMENTS);
+  else if(arena==='Volcano Base')value='🌋 Volcanic blessing: Pyrokinesis';
+  else if(arena==='Training Room')value='🥋 Training bonus: +1 Power Level';
   else if(arena==='Armoury')value='⚔ Temporary weapon: '+choose(PLAIN_WEAPONS.filter(x=>x!=='No Weapon'));
-  else if(arena==='God Temple'){
+  else if(arena==='Temple of the Gods'){
    const god=choose(SUBRACES.God);
    value='🌟 God of '+god+': '+(SUB_TRAITS.God[god]||[]).join(', ');
-  }else if(arena==='Concert Venue')value='🎵 Available instrument: '+choose(['Lute','Drums','Flute','Violin','Trumpet','Harp','Piano','Guitar']);
+  }else value='No arena bonus';
   season.arenaRewards[key]=value;
   storeSeason();
  }
@@ -1800,11 +1820,11 @@ function renderChampions(){
 }
 function fighterCard(c,opponent,history=false,arenaBonus=''){
  const list=a=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
- return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help">${safe(c.race||'')} · ${safe(c.class||'')}</div><div class="fighter-epithet">✦ ${safe(epithet(c))}</div>
+ return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help">${safe(c.race||'')} · ${safe(c.class||'')}</div>
  ${arenaBonus?`<div class="arena-bonus"><strong>🏟 ARENA BENEFIT</strong><div>${safe(arenaBonus)}</div></div>`:''}
  <div class="fighter-stats">${STATS.map(k=>`<div class="fighter-stat-row" style="--stat-accent:${STAT_PALETTES[k].accent}"><span>${STAT_PALETTES[k].icon} ${safe(k)}</span><b>${safe(statDisplayValue(k,c.stats?.[k]))}</b></div>`).join('')}</div>
  <p><b>Powers:</b> ${list(c.powers)}</p><p><b>Weapons:</b> ${list(c.weapons)}</p>
- <p><b>Enchantments:</b> ${list(c.enchantments)}</p><p><b>Weaknesses:</b> ${list(c.weaknesses)}</p>
+ <p><b>Enchantments:</b> ${list(c.enchantments)}</p><p><b>Pets:</b> ${list(c.pets)}</p><p><b>Weaknesses:</b> ${list(c.weaknesses)}</p>
  <p><b>Special:</b> ${list(c.special)}</p>
  ${history?'':`<button class="primary winner-pick" data-winner="${safe(c.id)}">🏆 Advance ${safe(c.name)}</button>`}</div>`;
 }
@@ -1864,12 +1884,14 @@ function renderLibrary(){const blocks=[
  ['Races & sub-races',RACES.map(r=>`<strong>${safe(r)}</strong>${SUBRACES[r]?' — '+safe(SUBRACES[r].join(', ')):''}${BASE_TRAITS[r]?' · '+safe(BASE_TRAITS[r].join('; ')):''}`)],
  ['Sub-race bonuses',Object.entries(SUB_TRAITS).flatMap(([r,subs])=>Object.entries(subs).map(([sub,traits])=>`<strong>${safe(r)}: ${safe(sub)}</strong> — ${safe(traits.join('; '))}`))],
  ['Classes',CLASSES.map(c=>`<strong>${safe(c)}</strong>${CLASS_TRAITS[c]?' — '+safe(CLASS_TRAITS[c].join('; ')):''}`)],
- ['Alignments',ALIGNMENTS.map(x=>`<strong>${safe(x)}</strong> — ${safe(ALIGN_DESC[x])}`)],
+ ['Alignments',ALIGNMENTS.map(x=>`<strong>${safe(x)}</strong>${ALIGN_DESC[x]?' — '+safe(ALIGN_DESC[x]):''}`)],
  ['Destiny’s Interventions',DESTINY_INTERVENTIONS.map(x=>`<strong>${safe(x)}</strong> — ${safe(DESTINY_DESC[x])}`)],
  ['Special arenas',Object.entries(ARENAS).map(([name,desc])=>`<strong>${safe(name)}</strong> — ${safe(desc)}`)],
- ['Tournament rules',['Single-elimination bracket only. The organiser selects the winner of every matchup.','Fighter sheets show stats, powers, weapons, enchantments, weaknesses and special abilities, without automatic points.','Arena bonuses are rolled and shown for both fighters; they are temporary and are recorded with each match.','Every season preserves its line-up, bracket, match winners, arena assignments and champion. Archive seasons to review them later.','Export season history regularly to keep a backup.','Super Strength, Super Speed, Super Genius and Regeneration grant an effective 10 in their respective stats; natural stat wheels roll 1–9.']],
+ ['Tournament rules',['Single-elimination bracket only. The organiser selects the winner of every matchup.','Fighter sheets show stats, powers, weapons, enchantments, weaknesses and special abilities, without automatic points.','Arena bonuses are rolled and shown for both fighters; they are temporary and are recorded with each match.','Every season preserves its line-up, bracket, match winners, arena assignments and champion. Archive seasons to review them later.','Export season history regularly to keep a backup.','Super Strength, Super Speed, Super Genius and Regeneration add +3 to their respective stats; natural stat wheels still roll 1–9.']],
  ['Weaknesses',['Weaknesses are listed on each fighter’s sheet. The organiser decides how much they matter to the matchup.']],
- ['Weapons & special rules',WEAPONS.map(w=>`<strong>${safe(w)}</strong>${w==='Power Ring'?' — Grants the powers of its rolled god while worn':w==='Infinity Gauntlet'?' — Roll the stone count, then distinct stones. With all six, 50% instant win on combat start':''}`).concat(STONES.map(s=>`<strong>${safe(s)} Stone</strong> — ${safe(STONE_DESC[s])}`))],
+ ['Weapons & special rules',WEAPONS.map(w=>`<strong>${safe(w)}</strong>${w==='Magic Ring'?' — Grants one randomly rolled power while worn':w==='Infinity Gauntlet'?' — Collect 1-6 of the Stones. With all six, you have a 50% chance to instantly win on combat start.':''}`).concat(STONES.map(s=>`<strong>${safe(s)} Stone</strong> — ${safe(STONE_DESC[s])}`))],
+  ['Pets',PETS.map(x=>`<strong>${safe(x)}</strong> — Pet wheel result`)],
+  ['Instruments',INSTRUMENTS.map(x=>`<strong>${safe(x)}</strong> — Instrument wheel result`)],
  ['Weapon enchantments',['No Enchantment — 75% chance on a standard weapon enchantment spin',...ENCHANTMENTS.map(e=>`<strong>${safe(e)}</strong> — ${safe(ENCHANT_DESC[e])}`)]],
  ['Powers',POWERS.map(p=>`<strong>${safe(p)}</strong> — ${safe(POWER_DESC[p])}`)]
  ];
