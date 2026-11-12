@@ -240,7 +240,7 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 <div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div><button type="button" id="toggleWheelSound" class="subtle" aria-pressed="true" style="margin:8px auto;display:block">🔊 Wheel sound: On</button>
 <div class="controls"><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote"></p></div>
 <aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name</label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
-<div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment <span id="effectsHelp" class="origin effects-help" tabindex="0" role="note" aria-label="More character effects" data-origin="Hover to see character effects">ⓘ</span></h3><div class="result-rows" id="equipment"></div></div><details class="group weakness-drawer" id="weaknessDrawer" open><summary>⚠ Weaknesses <span class="tag" id="weaknessCount">0</span></summary><div class="pills" id="weaknesses"></div></details>
+<div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment <span id="effectsHelp" class="origin effects-help" tabindex="0" role="note" aria-label="More character effects" data-origin="Hover to see character effects">ⓘ</span></h3><div class="result-rows" id="equipment"></div></div>
 <div class="action-row"><button class="primary" id="save" disabled>Save character</button><button id="exportChar" disabled>Export JSON</button><button id="exportCard" disabled>✧ Save character card</button></div>
 <details class="roster-drawer" id="savedRosterDrawer"><summary>📚 Saved roster <span class="tag"><span id="savedCount">0</span> characters</span></summary><div class="drawer-body"><div class="drawer-toolbar"><button id="exportRoster" class="subtle" type="button">Export all</button></div><input id="rosterSearch" aria-label="Search saved characters" class="roster-search" placeholder="Search your characters…"><div class="saved-list" id="savedList"></div><details><summary>Transfer characters</summary><button class="subtle" id="copyClassic" type="button" style="width:100%;margin-top:8px">Import earlier website saves</button><label class="help" for="importRoster">Import JSON roster</label><input id="importRoster" type="file" accept=".json,application/json"></details></div></details></aside></div></section>
 <section id="tournamentsPage" hidden>
@@ -1101,6 +1101,23 @@ function wheelTick(speed=1){
   osc.start(now);osc.stop(now+.05);
  }catch(e){/* Sound unavailable: wheel still works normally. */}
 }
+function wheelChime(){
+ if(!wheelSoundEnabled)return;
+ try{
+  if(!wheelAudio)wheelAudio=new (window.AudioContext||window.webkitAudioContext)();
+  if(wheelAudio.state==='suspended')wheelAudio.resume();
+  const now=wheelAudio.currentTime;
+  [880,1174.66,1567.98].forEach((hz,i)=>{
+   const osc=wheelAudio.createOscillator(),gain=wheelAudio.createGain(),at=now+i*.075;
+   osc.type='sine';osc.frequency.value=hz;
+   gain.gain.setValueAtTime(.0001,at);
+   gain.gain.exponentialRampToValueAtTime(.11,at+.012);
+   gain.gain.exponentialRampToValueAtTime(.0001,at+.38);
+   osc.connect(gain);gain.connect(wheelAudio.destination);
+   osc.start(at);osc.stop(at+.4);
+  });
+ }catch(e){}
+}
 function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasOwn(state.results,s.id))return;
  // Dismiss any grant notification as soon as the next wheel starts spinning.
  $('autoGrants').hidden=true;$('autoGrants').innerHTML='';state.autoGrants=[];
@@ -1121,7 +1138,7 @@ function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasO
    if(tick!==lastWheelTick){lastWheelTick=tick;wheelTick(Math.max(.2,1-progress));}
    $('featureText').textContent=wheelLabel(s,pointerValue(segs,angle));
    if(progress<1){wheelFrame=requestAnimationFrame(frame);return}
-   wheelFrame=null;$('featureText').textContent=wheelLabel(s,result);done();
+   wheelFrame=null;$('featureText').textContent=wheelLabel(s,result);wheelChime();done();
   }
   wheelFrame=requestAnimationFrame(frame);
  }
@@ -1145,6 +1162,7 @@ function spinOrContinue(){
  if(state.rolling||state.final)return;
  const s=current();if(!s)return;
  if(Object.hasOwn(state.results,s.id)){
+  wheelChime();
   if(state.index<state.steps.length-1){state.index++;skipAutomaticGrants();renderStep();renderPreview()}
   else{state.final=true;renderStep();renderPreview()}
  }else spin();
@@ -1422,13 +1440,14 @@ function renderPreview(){const c=viewedSaved||buildCharacter(),rolled=state.fina
  const rows=[['Powers',powerEntries],['Weapons',weaponEntries]];
  if((c.stones||[]).length)rows.push(['Infinity Stones',c.stones.map(name=>({name,source:'Infinity Gauntlet'}))]);
  if((c.pets||[]).length)rows.push(['Pets',petEntries]);
+ if(c.sidekick){
+  const sk=c.sidekick;
+  rows.push(['Sidekick',[{name:sk.kind+' · '+sk.name,source:'Sidekick\n'+sk.stat+': '+statDisplayValue(sk.stat,sk.value)+'\n'+sk.kind+': '+sk.name}]]);
+ }
+ if((c.weaknesses||[]).length)rows.push(['Weaknesses',c.weaknesses.map(name=>({name:'⚠ '+name,source:'Weak to '+name+' — consider disadvantages when facing '+name+' attacks and environments'}))]);
  $('equipment').innerHTML=rows.map(([k,items])=>`<div class="result-row"><span>${safe(k)}</span><div class="equipment-chips">${items.length?items.map(x=>originTag(x.name,x.source)).join(''):'<strong>—</strong>'}</div></div>`).join('');
  $('effectsHelp').dataset.origin=supplementalEffects(c);
  $('effectsHelp').setAttribute('aria-label','Additional effects: '+supplementalEffects(c));
- $('weaknessCount').textContent=(c.weaknesses||[]).length;
- $('weaknesses').innerHTML=(c.weaknesses||[]).length
-  ?c.weaknesses.map(x=>`<span class="origin pill weakness-pill" tabindex="0" data-origin="${safe('Weak to '+x+' — consider disadvantages when facing '+x+' attacks and environments')}">⚠ ${safe(x)}</span>`).join('')
-  :'<span class="help">No known weaknesses.</span>';
  $('save').disabled=!rolled||!!viewedSaved||!!state.savedId||!$('characterName').value.trim();$('save').textContent=state.savedId&&!viewedSaved?'Saved ✓':'Save character';$('exportChar').disabled=!rolled&&!viewedSaved;$('exportCard').disabled=!rolled&&!viewedSaved;
 }
 
