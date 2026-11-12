@@ -237,7 +237,7 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
 <section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp"></div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
 <div class="headline" aria-live="polite"><div class="eyebrow" id="resultLabel">Current wheel</div><h2 id="featureText">Race</h2><div class="next" id="nextStep">Spin to begin.</div><div class="rare-banner" id="rareBadge" hidden></div><div id="unlockNotice" class="unlock-notice" hidden></div><div id="autoGrants" class="automatic-grants" hidden></div></div>
-<div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div>
+<div class="wheel-area"><div class="pointer"></div><div class="wheel" id="wheel" aria-label="Spinning selection wheel"></div><button type="button" class="wheel-hub" id="wheelHub" aria-label="Spin the current wheel" title="Spin wheel">SPIN</button></div><button type="button" id="toggleWheelSound" class="subtle" aria-pressed="true" style="margin:8px auto;display:block">🔊 Wheel sound: On</button>
 <div class="controls"><button class="subtle" id="newCharacter">Start over</button></div><p class="help center" id="stageNote">Spin each wheel and continue to the next step.</p></div>
 <aside class="panel side"><div class="panel-header"><h2>Character sheet</h2><span class="tag" id="sheetStatus">Building</span></div><label class="help" for="characterName">Character name <strong>(required to save)</strong></label><input id="characterName" class="name-input" maxlength="50" required autocomplete="off" placeholder="Enter a name to save"><div id="nameHint" class="help" role="status">Enter a name before saving.</div>
 <div class="group"><h3>Identity</h3><div class="result-rows" id="identity"></div></div><div class="group"><h3>Attributes</h3><div class="stats" id="stats"></div></div><div class="group"><h3>Abilities & equipment <span id="effectsHelp" class="origin effects-help" tabindex="0" role="note" aria-label="More character effects" data-origin="Hover to see character effects">ⓘ</span></h3><div class="result-rows" id="equipment"></div></div><details class="group weakness-drawer" id="weaknessDrawer" open><summary>⚠ Weaknesses <span class="tag" id="weaknessCount">0</span></summary><div class="pills" id="weaknesses"></div></details>
@@ -1038,7 +1038,7 @@ function displayWheel(s){
  const x=n>44?350:n>28?330:318;
  const markup=segs.map(v=>{
   // Each label sits along its own radial slice, outside the hub and inside the rim.
-  const flip=v.center>=180, rotation=v.center-90;
+  const flip=v.center<180, rotation=v.center-90;
   const label=shortenWheelLabel(wheelLabel(s,v.value),maxChars);
   return `<g transform="rotate(${rotation.toFixed(3)} 200 200)"><text x="${x}" y="${200+font*.34}" font-size="${font}" text-anchor="middle" font-weight="800" fill="${['No Power','No Weapon','No Enchantment'].includes(v.value)?'#ffffff':'#21172e'}" stroke="#ffffff" stroke-opacity=".22" stroke-width=".5" paint-order="stroke" ${flip?`transform="rotate(180 ${x} 200)"`:''}>${safe(label)}</text></g>`;
  }).join('');
@@ -1083,6 +1083,24 @@ function renderChoice(s,done){
  const btn=document.createElement('button');btn.textContent='Choose this option';btn.addEventListener('click',()=>{if(!state.rolling&&!Object.hasOwn(state.results,s.id))onStepResult(s,sel.value)});
  choiceWrap.append(sel,btn);
 }
+// Lightweight synthesized wheel ticks. No external audio file or network required.
+let wheelAudio=null,wheelSoundEnabled=true,lastWheelTick=-1;
+function wheelTick(speed=1){
+ if(!wheelSoundEnabled)return;
+ try{
+  if(!wheelAudio)wheelAudio=new (window.AudioContext||window.webkitAudioContext)();
+  if(wheelAudio.state==='suspended')wheelAudio.resume();
+  const now=wheelAudio.currentTime,osc=wheelAudio.createOscillator(),gain=wheelAudio.createGain();
+  osc.type='triangle';
+  osc.frequency.setValueAtTime(560+speed*260,now);
+  osc.frequency.exponentialRampToValueAtTime(220+speed*80,now+.035);
+  gain.gain.setValueAtTime(.0001,now);
+  gain.gain.exponentialRampToValueAtTime(.065,now+.003);
+  gain.gain.exponentialRampToValueAtTime(.0001,now+.048);
+  osc.connect(gain);gain.connect(wheelAudio.destination);
+  osc.start(now);osc.stop(now+.05);
+ }catch(e){/* Sound unavailable: wheel still works normally. */}
+}
 function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasOwn(state.results,s.id))return;
  // Dismiss any grant notification as soon as the next wheel starts spinning.
  $('autoGrants').hidden=true;$('autoGrants').innerHTML='';state.autoGrants=[];
@@ -1095,10 +1113,12 @@ function spin(){const s=current();if(!s||state.rolling||state.final||Object.hasO
   $('nextStep').textContent='';
   $('wheel').style.transform='rotate(0deg)';
   const total=360*(4+Math.floor(Math.random()*3))+destination;
-  const duration=2800,start=performance.now();
+  const duration=2800,start=performance.now();lastWheelTick=-1;
   function frame(now){
    const progress=Math.min(1,(now-start)/duration),eased=1-Math.pow(1-progress,4);
    const angle=total*eased;rollingAngle=angle;$('wheel').style.transform=`rotate(${angle}deg)`;
+   const tick=Math.floor((angle+90)/Math.max(.001,360/segs.length));
+   if(tick!==lastWheelTick){lastWheelTick=tick;wheelTick(Math.max(.2,1-progress));}
    $('featureText').textContent=wheelLabel(s,pointerValue(segs,angle));
    if(progress<1){wheelFrame=requestAnimationFrame(frame);return}
    wheelFrame=null;$('featureText').textContent=wheelLabel(s,result);done();
@@ -1130,6 +1150,11 @@ function spinOrContinue(){
  }else spin();
 }
 $('wheelHub').addEventListener('click',spinOrContinue);
+$('toggleWheelSound').addEventListener('click',()=>{
+ wheelSoundEnabled=!wheelSoundEnabled;
+ $('toggleWheelSound').textContent=wheelSoundEnabled?'🔊 Wheel sound: On':'🔇 Wheel sound: Off';
+ $('toggleWheelSound').setAttribute('aria-pressed',String(wheelSoundEnabled));
+});
 $('characterName').addEventListener('input',()=>{
  $('nameHint').textContent=$('characterName').value.trim()?'Name ready — finish the wheels to save.':'Enter a name before saving.';
  renderPreview();
@@ -1271,7 +1296,13 @@ function buildCharacter(){
  function destiny(effect,id){
   c.destinyInterventions.push(effect);
   if(effect==='Chudify'){const top=numericKeys().sort((a,b)=>c.stats[b]-c.stats[a]||STATS.indexOf(a)-STATS.indexOf(b))[0];if(top){c.stats[top]='Chud';mark(top,'Chudify (best stat)')}}
-  if(effect==='Personal Reversal')numericKeys().forEach(k=>{c.stats[k]=opposite(c.stats[k]);mark(k,'Personal Reversal')});
+  if(effect==='Personal Reversal'){
+   numericKeys().forEach(k=>{c.stats[k]=opposite(c.stats[k]);mark(k,'Personal Reversal')});
+   const alignmentReverse={'Hero':'Villain','Villain':'Hero','Anti-Hero':'Neutral','Neutral':'Anti-Hero'};
+   const before=c.alignment;
+   c.alignment=alignmentReverse[before]||before;
+   c.notes.push('Personal Reversal changed alignment: '+before+' → '+c.alignment);
+  }
   if(effect==='Curse of Samuel'){
    if(c.powers.length){for(const pw of provenance.powers){for(const [k,n] of Object.entries(powerModifiers[pw.name]||{})){if(typeof c.stats[k]==='number')c.stats[k]-=n;mark(k,'Curse of Samuel removed '+pw.name)}}c.powers=['Mudkinesis'];provenance.powers=[{name:'Mudkinesis',source:'Destiny: Curse of Samuel'}]}
    c.weaponDetails.forEach(w=>{if(w.enchantments.length){w.enchantments=['Muddy'];w.enchantSources=['Muddy · Destiny: Curse of Samuel'];w.name='Muddy '+w.base}});
