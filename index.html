@@ -213,7 +213,26 @@ button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradien
 .effects-help{display:inline-block;font-size:15px;padding:0 5px;cursor:help;color:#e9ca8d;text-transform:none;letter-spacing:normal;border:1px solid #94794b;border-radius:100%}
 .weakness-drawer .origin::after,.result-row .identity-value::after{z-index:90}
 @media(max-width:570px){.result-row .identity-value::after{left:auto;right:0;transform:none;max-width:min(270px,75vw)}.identity-value{max-width:66%}}
-.fighter-identity .origin{text-decoration:underline dotted #d5b676;text-underline-offset:2px}.fighter-identity .origin::after{font-weight:normal;text-transform:none;letter-spacing:normal}</style></head><body>
+.fighter-identity .origin{text-decoration:underline dotted #d5b676;text-underline-offset:2px}.fighter-identity .origin::after{font-weight:normal;text-transform:none;letter-spacing:normal}
+/* V5: 9 is the natural maximum. Beyond 9 becomes a visually distinct Limitless tier. */
+.limitless-stat{position:relative;overflow:visible;isolation:isolate;--limitless-glow:#ffe29a;
+ border:1px solid #ffe8a1!important;
+ background:linear-gradient(118deg,#3a264f,#4d3a25 48%,#183b49)!important;
+ box-shadow:inset 0 0 0 1px #fff4bd82,0 0 15px #eab8ff66,0 0 26px #84e8ff30!important;
+ animation:limitlessAura 3.5s ease-in-out infinite}
+.limitless-stat strong{color:#fff0bb!important;text-shadow:0 0 13px #eecbff90;font-weight:900}
+.limitless-stat .stat-symbol,.limitless-stat .stat-name{color:#ffecbb!important}
+.limitless-badge{margin-left:auto;white-space:nowrap;letter-spacing:1px;font:800 9px/1 'Times New Roman',serif;padding:5px 7px;border-radius:12px;
+ color:#281628;background:linear-gradient(105deg,#e8a9f0,#ffe3a0,#8becff);box-shadow:0 0 11px #ffdca6a0}
+.limitless-stat .stat-meter,.tape-track.limitless-meter{border:1px solid #ffe3ab8f;height:8px;box-shadow:0 0 8px #ffd1fc77,0 0 13px #9ae6ff55;overflow:visible}
+.limitless-stat .stat-meter i,.tape-track.limitless-meter i{background:linear-gradient(90deg,#e7a2ff,#fff4a4,#95e8ff,#f4a9ef,#ffe7a6)!important;
+ background-size:280% 100%!important;box-shadow:0 0 12px #ffe9ac,0 0 24px #c69bff;animation:limitlessShimmer 3s linear infinite}
+.limitless-fighter{border-left:3px solid #ffe2ab!important;background:linear-gradient(90deg,#eed0ff18,#8fdff11a)!important;box-shadow:inset 0 0 16px #dcb4ff2b}
+.limitless-fighter b{color:#ffe8ae!important;text-shadow:0 0 10px #eac6ff}
+@keyframes limitlessShimmer{to{background-position:280% 0}}
+@keyframes limitlessAura{50%{box-shadow:inset 0 0 0 1px #fff4bdc9,0 0 23px #eab8ffa8,0 0 38px #84e8ff65}}
+@media(prefers-reduced-motion:reduce){.limitless-stat,.limitless-stat .stat-meter i,.tape-track.limitless-meter i{animation:none!important}}
+</style></head><body>
 <header><div class="logo" aria-label="Colourful Wheel of Destiny icon"><div class="logo-wheel"></div><div class="logo-center"></div><div class="logo-arrow"></div></div><div><h1>Wheel of Destiny</h1></div></header>
 <main><nav class="tabs" aria-label="Sections"><button class="tab active" data-page="creator">🎡 Character creator</button><button class="tab" data-page="tournaments">🏆 Tournaments</button><button class="tab" data-page="library">📖 Rules & lists</button></nav>
 <section id="creatorPage"><div class="layout"><div class="panel"><div class="panel-header"><div><h2 id="stepHeading">Ready to begin</h2><div class="help" id="stepHelp"></div></div><span class="tag" id="stepCount">Step 1</span></div><div class="progress"><span class="progress-inner" id="progress"></span></div>
@@ -254,7 +273,7 @@ const COLORS=WHEEL_PALETTES.default;
 
 const STAT_WORDS={
  'Strength':['Chud','Weak','Feeble','Average','Strong','Powerful','Mighty','Titanic','Herculean','Superhuman'],
- 'Speed':['Chud','Weak','Sluggish','Average','Quick','Swift','Rapid','Blinding','Lightning-Fast','Superhuman'],
+ 'Speed':['Chud','Weak','Sluggish','Average','Quick','Swift','Rapid','Blinding','Omnipresent','Limitless'],
  'Durability':['Chud','Weak','Fragile','Average','Sturdy','Tough','Resilient','Indestructible','Invulnerable','Superhuman'],
  'IQ':['Chud','Weak','Slow','Average','Clever','Intelligent','Brilliant','Genius','Omniscient','Superhuman'],
  'Power Level':['Chud','Weak','Minor','Average','Potent','Formidable','Overwhelming','Legendary','Omnipotent','Superhuman'],
@@ -264,8 +283,9 @@ function statDescription(stat,value){
  const n=Number(value);
  if(!Number.isFinite(n)||value==null||value==='')return String(value??'—');
  if(n<1)return 'Below Chud ('+n+')';
+ if(n>9)return 'Limitless ('+n+')';
  const words=STAT_WORDS[stat]||STAT_WORDS.Strength;
- return (words[Math.min(10,Math.floor(n))-1]||'Superhuman')+' ('+n+')';
+ return (words[Math.min(9,Math.floor(n))-1]||'Chud')+' ('+n+')';
 }
 const WHEEL_THEMES={
  race:{h:176,s:55,l:45},subrace:{h:202,s:66,l:49},otherRace:{h:170,s:54,l:46},
@@ -302,11 +322,13 @@ function statDisplayValue(k,v){
 }
 function statTile(k,v,sources='',compact=false){
  const t=STAT_PALETTES[k],raw=Number(v),valid=v!==undefined&&v!==null&&v!==''&&Number.isFinite(raw);
- const percent=valid?Math.round(Math.max(0,Math.min(10,raw))/10*100):0;
+ const limitless=valid&&raw>9;
+ const percent=valid?Math.round(Math.max(0,Math.min(9,raw))/9*100):0;
  const label=statDisplayValue(k,v);
- const inner=`<div class="mythic-stat-head"><span class="stat-symbol">${t.icon}</span><span class="stat-name">${safe(k)}</span></div><strong>${safe(label)}</strong><div class="stat-meter" aria-hidden="true"><i style="width:${percent}%"></i></div>`;
- return compact?`<div class="compare-stat" style="--stat-accent:${t.accent}">${inner}</div>`:
- `<div class="stat origin mythic-stat" style="--stat-accent:${t.accent}" tabindex="0" aria-label="${safe(k)}: ${safe(sources)}" data-origin="${safe(sources)}">${inner}</div>`;
+ const tooltip=(sources||'Rolled stat')+(limitless?'\n✦ LIMITLESS — beyond the natural maximum of 9.':'\nNatural stat wheel maximum: 9.');
+ const inner=`<div class="mythic-stat-head"><span class="stat-symbol">${t.icon}</span><span class="stat-name">${safe(k)}</span>${limitless?'<span class="limitless-badge">✦ LIMITLESS</span>':''}</div><strong>${safe(label)}</strong><div class="stat-meter" role="meter" aria-label="${safe(k)} normal scale" aria-valuemin="0" aria-valuemax="9" aria-valuenow="${valid?Math.max(0,Math.min(9,raw)):0}"><i style="width:${percent}%"></i></div>`;
+ return compact?`<div class="compare-stat ${limitless?'limitless-stat':''}" style="--stat-accent:${t.accent}" aria-label="${safe(k)}: ${safe(tooltip)}">${inner}</div>`:
+ `<div class="stat origin mythic-stat ${limitless?'limitless-stat':''}" style="--stat-accent:${t.accent}" tabindex="0" aria-label="${safe(k)}: ${safe(tooltip)}" data-origin="${safe(tooltip)}">${inner}</div>`;
 }
 function leadingStat(c){
  const present=STATS.map(k=>({key:k,n:Number(c.stats?.[k])})).filter(x=>Number.isFinite(x.n));
@@ -847,20 +869,29 @@ function raceTokens(r,sub){let out=[...(BASE_TRAITS[r]||[])];const dic=SUB_TRAIT
 }
 function getTraits(){
  const r=state.results,raw=[];
- function add(source,traits,origin){traits.forEach((t,i)=>raw.push({source,text:t,key:origin+':'+i}))}
- if(r.race&&!state.steps.some(s=>s.type==='destinyRace'&&r[s.id]))add('Race: '+r.race+(r.subrace?' ('+r.subrace+')':''),raceTokens(r.race,r.subrace),'race');
- for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='Race'))if(r[s.id])add('Bonus race: '+secondaryName(s.id),raceTokens(r[s.id],r[s.id+'_sub']),s.id);
- for(const id of ['hybrid1','hybrid2'])if(r[id]&&!state.steps.some(s=>s.type==='destinyRace'&&r[s.id]))add('Race: '+secondaryName(id),raceTokens(r[id],r[id+'_sub']),id);
-
-
- for(const dragonStep of state.steps.filter(s=>s.type==='dragonType'&&r[s.id]))add('Dragon type: '+r[dragonStep.id],SUB_TRAITS.Dragonborn[r[dragonStep.id]]||[],dragonStep.id);
+ function add(source,traits,origin,category='other'){
+  traits.forEach((t,i)=>raw.push({source,text:t,key:origin+':'+i,category}));
+ }
+ // Separate base-race benefits from sub-race benefits, including cumulative angel/demon tiers.
+ function addRacial(prefix,race,sub,origin){
+  add(prefix+': '+race+' [base race]',BASE_TRAITS[race]||[],origin+':base','race');
+  const dic=SUB_TRAITS[race]||{};
+  if(sub&&dic[sub]){
+   const tiers=(race==='Demon'||race==='Angel')?(SUBRACES[race]||[]).slice(0,(SUBRACES[race]||[]).indexOf(sub)+1):[sub];
+   for(const tier of tiers)add(prefix+': '+race+' → '+tier+' [sub-race]',dic[tier]||[],origin+':sub:'+tier,'race');
+  }
+ }
+ if(r.race&&!state.steps.some(s=>s.type==='destinyRace'&&r[s.id]))addRacial('Race',r.race,r.subrace,'race');
+ for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='Race'))if(r[s.id])addRacial('Bonus race',r[s.id],r[s.id+'_sub'],s.id);
+ for(const id of ['hybrid1','hybrid2'])if(r[id]&&!state.steps.some(s=>s.type==='destinyRace'&&r[s.id]))addRacial('Race',r[id],r[id+'_sub'],id);
+ for(const dragonStep of state.steps.filter(s=>s.type==='dragonType'&&r[s.id]))add('Race: Dragonborn → '+r[dragonStep.id]+' [extra dragon type]',SUB_TRAITS.Dragonborn[r[dragonStep.id]]||[],dragonStep.id,'race');
  for(const id of ['class','class1','class2'])if(r[id])add('Class: '+r[id],CLASS_TRAITS[r[id]]||[],id);
  for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='Class'))if(r[s.id])add('Extra class: '+r[s.id],CLASS_TRAITS[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='God Power'))if(r[s.id])add('Extra god power: '+r[s.id],SUB_TRAITS.God[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='extraPick'&&r[s.kindId]==='Beast Type'))if(r[s.id])add('Extra beast ability: '+r[s.id],SUB_TRAITS.Beast[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='ringDomain'&&s.source==='God Touched enchantment'))if(r[s.id])add('God Touched enchantment ('+r[s.id]+' god)',SUB_TRAITS.God[r[s.id]]||[],s.id);
  for(const s of state.steps.filter(s=>s.type==='godDomain'&&s.destinyGod))if(r[s.id])add('Destiny: Celestial Touch ('+r[s.id]+')',SUB_TRAITS.God[r[s.id]]||[],s.id);
- for(const s of state.steps.filter(s=>s.type==='destinyRace'))if(r[s.id])add('Destiny: Shape Change ('+r[s.id]+')',raceTokens(r[s.id],r[s.id+'_sub']),s.id);
+ for(const s of state.steps.filter(s=>s.type==='destinyRace'))if(r[s.id])addRacial('Destiny: Shape Change',r[s.id],r[s.id+'_sub'],s.id);
  return raw;
 }
 function getBonusRequests(){
@@ -1107,7 +1138,7 @@ $('newCharacter').addEventListener('click',()=>{if(state.rolling||!confirm('Star
 // Turn all explicitly listed traits into reproducible, numeric and qualitative sheet effects.
 function buildCharacter(){
  const r=state.results,mods=Object.fromEntries(STATS.map(k=>[k,0]));
- const provenance={stats:Object.fromEntries(STATS.map(k=>[k,[]])),powers:[],weapons:[],pets:[]};
+ const provenance={stats:Object.fromEntries(STATS.map(k=>[k,[]])),powers:[],weapons:[],pets:[],raceTraits:getTraits().filter(t=>t.category==='race').map(t=>({source:t.source,trait:t.text}))};
  const c={id:'',name:$('characterName').value.trim()||'Unnamed character',created:new Date().toISOString(),race:raceDisplay(),subrace:r.subrace||'',extraRaces:[],class:classDisplay(),alignment:r.alignment||'—',destinyInterventions:[],extraClasses:[r.class1,r.class2].filter(Boolean),stats:{},powers:[],weapons:[],weaponDetails:[],enchantments:[],weaknesses:[],conditions:[],tags:[],notes:[],pets:[],sidekick:null,stones:[],instantWin50:false,special:[],baseRolls:{},completed:state.final,provenance};
  for(const id of ['hybrid1','hybrid2'])if(r[id]&&!state.steps.some(s=>s.type==='destinyRace'&&r[s.id]))c.extraRaces.push(secondaryName(id));
  const raceChanged=state.steps.some(x=>x.type==='destinyRace'&&r[x.id]);
@@ -1302,15 +1333,27 @@ function identifyRaces(c){
 function identityTooltip(kind,c){
  const items=[];
  if(kind==='Race'){
-  const races=identifyRaces(c);
-  for(const race of races){
-   items.push(...(BASE_TRAITS[race]||[]).map(x=>race+': '+traitExplanation(x)));
-   if(race===c.race?.split(' ')[0]&&c.subrace&&SUB_TRAITS[race]?.[c.subrace]){
-    const subs=(race==='Angel'||race==='Demon')?(SUBRACES[race]||[]).slice(0,(SUBRACES[race]||[]).indexOf(c.subrace)+1):[c.subrace];
-    for(const sub of subs)items.push(...(SUB_TRAITS[race]?.[sub]||[]).map(x=>race+' ('+sub+'): '+traitExplanation(x)));
+  const recorded=c.provenance?.raceTraits;
+  if(Array.isArray(recorded)&&recorded.length){
+   for(const trait of recorded){
+    const source=trait.source.replace(/^Race: /,'').replace(/^Bonus race: /,'Bonus race · ').replace(/^Destiny: Shape Change: /,'Shape Change · ').replace(/ \[base race\]$/,' · BASE RACE').replace(/ \[sub-race\]$/,' · SUB-RACE').replace(/ \[extra dragon type\]$/,' · EXTRA DRAGON TYPE');
+    items.push(source+': '+traitExplanation(trait.trait));
+   }
+  }else{
+   // Older saved characters do not have explicit origin metadata; infer known sub-race names.
+   const races=identifyRaces(c);
+   for(const race of races){
+    items.push(...(BASE_TRAITS[race]||[]).map(x=>race+' · BASE RACE: '+traitExplanation(x)));
+    const expression=new RegExp(race+'\\s*\\(([^)]*)\\)','i');
+    const match=String(c.race||'').match(expression);
+    const selected=(race===String(c.race||'').split(/[ (—]/)[0]&&c.subrace)||match?.[1]||'';
+    const chosen=(SUBRACES[race]||[]).find(sub=>selected===sub||selected.startsWith(sub+' '));
+    if(chosen){
+     const subs=(race==='Angel'||race==='Demon')?(SUBRACES[race]||[]).slice(0,(SUBRACES[race]||[]).indexOf(chosen)+1):[chosen];
+     for(const sub of subs)items.push(...(SUB_TRAITS[race]?.[sub]||[]).map(x=>race+' → '+sub+' · SUB-RACE: '+traitExplanation(x)));
+    }
    }
   }
-  // Race-specific tags (e.g. Holy/Demonic), plus condition rules are available on hover.
   items.push(...(c.tags||[]).map(x=>'Tag: '+x));
  }else if(kind==='Class'){
   const classes=CLASSES.filter(x=>x!=='Dual Class'&&new RegExp('(^|[^A-Za-z])'+x+'($|[^A-Za-z])','i').test(String(c.class||'')));
@@ -1472,12 +1515,15 @@ function characterCardSVG(c){
  const weapons=(c.weapons||[]).slice(0,4).map((v,i)=>`<text x="532" y="${857+i*51}" font-size="25" fill="#f3e3c8">• ${safe(String(v).slice(0,32))}</text>`).join('');
  const bars=STATS.map((k,i)=>{
   const y=388+i*65,raw=Number(c.stats?.[k]),v=Number.isFinite(raw)?raw:0;
-  const tone=STAT_PALETTES[k].accent;
-  return `<text x="116" y="${y}" fill="#e8dec8" font-size="27">${safe(k)}</text><text x="780" y="${y}" fill="${tone}" text-anchor="end" font-size="27" font-weight="bold">${safe(statDisplayValue(k,c.stats?.[k]))}</text><rect x="116" y="${y+9}" width="664" height="12" rx="6" fill="#342f34"/><rect x="116" y="${y+9}" width="${Math.max(0,Math.min(10,v))*66.4}" height="12" rx="6" fill="${tone}"/>`;
+  const limitless=Number.isFinite(raw)&&raw>9;
+  const tone=limitless?'#fff3aa':STAT_PALETTES[k].accent;
+  return `<text x="116" y="${y}" fill="#e8dec8" font-size="27">${safe(k)}</text><text x="780" y="${y}" fill="${tone}" text-anchor="end" font-size="27" font-weight="bold">${safe(statDisplayValue(k,c.stats?.[k]))}</text><rect x="116" y="${y+9}" width="664" height="12" rx="6" fill="#342f34"/><rect x="116" y="${y+9}" width="${Math.max(0,Math.min(9,v))/9*664}" height="12" rx="6" fill="${limitless?'url(#limitlessFoil)':tone}" ${limitless?'filter="url(#limitlessGlow)"':''}/>`;
  }).join('');
  return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200"><defs>
  <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#121318"/><stop offset="1" stop-color="#322419"/></linearGradient>
  <linearGradient id="foil"><stop stop-color="#ffebad"/><stop offset=".45" stop-color="#af7b2b"/><stop offset="1" stop-color="#ffe2a1"/></linearGradient>
+ <linearGradient id="limitlessFoil"><stop stop-color="#e893ff"/><stop offset=".35" stop-color="#fff0a1"/><stop offset=".7" stop-color="#9df7ff"/><stop offset="1" stop-color="#f5a5ef"/></linearGradient>
+ <filter id="limitlessGlow" x="-30%" y="-300%" width="160%" height="700%"><feGaussianBlur stdDeviation="3" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
  </defs><rect width="900" height="1200" fill="url(#bg)"/><rect x="26" y="25" width="848" height="1150" rx="27" fill="none" stroke="url(#foil)" stroke-width="9"/>
  <path d="M76 115 L140 90 L760 90 L824 115" fill="none" stroke="${accent}" stroke-width="5"/>
  <text x="450" y="145" text-anchor="middle" letter-spacing="8" font-family="Georgia,serif" font-size="27" fill="#d9b77e">WHEEL OF DESTINY</text>
@@ -1881,9 +1927,9 @@ function taleOfTheTape(a,b){
  let rows='';
  for(const k of STATS){
   const an=Number(a.stats?.[k]),bn=Number(b.stats?.[k]),av=Number.isFinite(an)?an:0,bv=Number.isFinite(bn)?bn:0;
-  const aWidth=Math.max(0,Math.min(100,av*10)),bWidth=Math.max(0,Math.min(100,bv*10));
+  const aWidth=Math.max(0,Math.min(100,av/9*100)),bWidth=Math.max(0,Math.min(100,bv/9*100));
   const leader=av>bv?a.name:bv>av?b.name:'Tied';
-  rows+=`<div class="tape-row" style="--stat-accent:${STAT_PALETTES[k].accent}"><div class="tape-title"><b>${STAT_PALETTES[k].icon} ${safe(k)}</b><small>${safe(leader)}${av===bv?'':' leads'}</small></div><div class="tape-rivals"><div><span>${safe(a.name)}</span><b>${safe(statDisplayValue(k,av))}</b></div><div class="tape-track"><i style="width:${aWidth}%"></i></div><div><span>${safe(b.name)}</span><b>${safe(statDisplayValue(k,bv))}</b></div><div class="tape-track"><i style="width:${bWidth}%"></i></div></div></div>`;
+  rows+=`<div class="tape-row" style="--stat-accent:${STAT_PALETTES[k].accent}"><div class="tape-title"><b>${STAT_PALETTES[k].icon} ${safe(k)}</b><small>${safe(leader)}${av===bv?'':' leads'}</small></div><div class="tape-rivals"><div><span>${safe(a.name)}</span><b>${safe(statDisplayValue(k,av))}</b></div><div class="tape-track ${av>9?'limitless-meter':''}"><i style="width:${aWidth}%"></i></div><div><span>${safe(b.name)}</span><b>${safe(statDisplayValue(k,bv))}</b></div><div class="tape-track ${bv>9?'limitless-meter':''}"><i style="width:${bWidth}%"></i></div></div></div>`;
  }
  return `<div class="tape-intro">A visual comparison only — you still decide who advances. Powers and arena effects may change how these attributes matter.</div>${rows}`;
 }
@@ -1905,7 +1951,7 @@ function fighterCard(c,opponent,history=false,arenaBonus=''){
  const list=a=>a?.length?a.map(x=>safe(typeof x==='string'?x:JSON.stringify(x))).join(' · '):'None';
  return `<div class="fighter-card"><h3>${safe(c.name)}</h3><div class="help fighter-identity"><span class="origin" tabindex="0" data-origin="${safe(identityTooltip('Race',c))}" aria-label="Race effects: ${safe(identityTooltip('Race',c))}">${safe(c.race||'')}</span> · <span class="origin" tabindex="0" data-origin="${safe(identityTooltip('Class',c))}" aria-label="Class effects: ${safe(identityTooltip('Class',c))}">${safe(c.class||'')}</span></div>
  ${arenaBonus?`<div class="arena-bonus"><strong>🏟 ARENA BENEFIT</strong><div>${safe(arenaBonus)}</div></div>`:''}
- <div class="fighter-stats">${STATS.map(k=>`<div class="fighter-stat-row" style="--stat-accent:${STAT_PALETTES[k].accent}"><span>${STAT_PALETTES[k].icon} ${safe(k)}</span><b>${safe(statDisplayValue(k,c.stats?.[k]))}</b></div>`).join('')}</div>
+ <div class="fighter-stats">${STATS.map(k=>`<div class="fighter-stat-row ${Number(c.stats?.[k])>9?'limitless-fighter':''}" style="--stat-accent:${STAT_PALETTES[k].accent}"><span>${STAT_PALETTES[k].icon} ${safe(k)}</span><b>${safe(statDisplayValue(k,c.stats?.[k]))}</b></div>`).join('')}</div>
  <p><b>Powers:</b> ${list(c.powers)}</p><p><b>Weapons:</b> ${list(c.weapons)}</p>
  <p><b>Enchantments:</b> ${list(c.enchantments)}</p><p><b>Pets:</b> ${list(c.pets)}</p><p><b>Weaknesses:</b> ${list(c.weaknesses)}</p>
  <p><b>Special:</b> ${list(c.special)}</p>
